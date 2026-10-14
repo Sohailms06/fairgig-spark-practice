@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -15,15 +15,38 @@ import {
   Layers,
   Sparkles,
   ChevronRight,
-  UserCheck,
+  X,
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
 
-export function AppSidebar() {
+interface AppSidebarProps {
+  isMobileOpen?: boolean;
+  onMobileClose?: () => void;
+}
+
+export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarProps) {
   const pathname = usePathname();
   const { user, logout, switchDemoUser } = useAuth();
 
   const role = user?.role || 'worker';
+
+  // Close mobile drawer on route change
+  useEffect(() => {
+    if (onMobileClose && isMobileOpen) {
+      onMobileClose();
+    }
+  }, [pathname]);
+
+  // Handle escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMobileOpen && onMobileClose) {
+        onMobileClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isMobileOpen, onMobileClose]);
 
   const workerNav = [
     { label: 'Overview', href: '/dashboard', icon: BarChart3 },
@@ -50,31 +73,44 @@ export function AppSidebar() {
 
   const navItems = role === 'advocate' ? advocateNav : role === 'verifier' ? verifierNav : workerNav;
 
-  return (
-    <aside className="w-64 border-r border-[#E7E5E4] bg-white flex flex-col h-screen sticky top-0 z-30 select-none">
+  const sidebarContent = (
+    <div className="flex flex-col h-full bg-white select-none">
       {/* Brand Header */}
-      <div className="h-16 px-6 flex items-center gap-3 border-b border-[#E7E5E4]">
-        <div className="w-8 h-8 rounded-lg bg-[#1E3A2F] flex items-center justify-center text-white font-bold text-sm">
-          FG
-        </div>
-        <div>
-          <div className="font-semibold text-sm tracking-tight text-[#1C1917]">FairGig Platform</div>
-          <div className="text-[11px] font-medium text-[#78716C] uppercase tracking-wider">
-            {role === 'advocate' ? 'Advocate Portal' : role === 'verifier' ? 'Verifier Audit' : 'Worker Workspace'}
+      <div className="h-16 px-6 flex items-center justify-between border-b border-[#E7E5E4]">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-[#1E3A2F] flex items-center justify-center text-white font-bold text-sm shadow-xs">
+            FG
+          </div>
+          <div>
+            <div className="font-semibold text-sm tracking-tight text-[#1C1917]">FairGig Platform</div>
+            <div className="text-[11px] font-medium text-[#78716C] uppercase tracking-wider">
+              {role === 'advocate' ? 'Advocate Portal' : role === 'verifier' ? 'Verifier Audit' : 'Worker Workspace'}
+            </div>
           </div>
         </div>
+
+        {/* Close Button on Mobile */}
+        {onMobileClose && (
+          <button
+            onClick={onMobileClose}
+            className="lg:hidden p-1.5 text-[#78716C] hover:text-[#1C1917] rounded-md focus-ring"
+            aria-label="Close navigation menu"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
       </div>
 
       {/* Role Switcher for Hackathon Judges */}
       <div className="p-3 bg-[#FAFAF8] border-b border-[#E7E5E4]">
         <div className="text-[10px] font-semibold text-[#78716C] uppercase tracking-wider px-2 mb-1.5 flex items-center justify-between">
           <span>Judge Quick-Switch</span>
-          <span className="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded font-mono">1-Click</span>
+          <span className="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-mono font-medium">1-Click</span>
         </div>
         <div className="grid grid-cols-3 gap-1">
           <button
             onClick={() => switchDemoUser('worker')}
-            className={`px-2 py-1 text-xs rounded font-medium transition ${
+            className={`btn-press px-2 py-1.5 text-xs rounded-md font-medium transition cursor-pointer ${
               role === 'worker'
                 ? 'bg-[#1E3A2F] text-white shadow-xs'
                 : 'bg-white border border-[#E7E5E4] text-[#44403C] hover:bg-stone-50'
@@ -84,7 +120,7 @@ export function AppSidebar() {
           </button>
           <button
             onClick={() => switchDemoUser('advocate')}
-            className={`px-2 py-1 text-xs rounded font-medium transition ${
+            className={`btn-press px-2 py-1.5 text-xs rounded-md font-medium transition cursor-pointer ${
               role === 'advocate'
                 ? 'bg-[#1E3A2F] text-white shadow-xs'
                 : 'bg-white border border-[#E7E5E4] text-[#44403C] hover:bg-stone-50'
@@ -94,7 +130,7 @@ export function AppSidebar() {
           </button>
           <button
             onClick={() => switchDemoUser('verifier')}
-            className={`px-2 py-1 text-xs rounded font-medium transition ${
+            className={`btn-press px-2 py-1.5 text-xs rounded-md font-medium transition cursor-pointer ${
               role === 'verifier'
                 ? 'bg-[#1E3A2F] text-white shadow-xs'
                 : 'bg-white border border-[#E7E5E4] text-[#44403C] hover:bg-stone-50'
@@ -106,7 +142,7 @@ export function AppSidebar() {
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto" aria-label="Main Navigation">
         <div className="text-[11px] font-semibold text-[#78716C] uppercase tracking-wider px-3 mb-2">Navigation</div>
         {navItems.map((item) => {
           const isActive = pathname === item.href;
@@ -122,10 +158,10 @@ export function AppSidebar() {
               }`}
             >
               <div className="flex items-center gap-3">
-                <Icon className={`w-4 h-4 ${isActive ? 'text-[#1E3A2F]' : 'text-[#78716C]'}`} />
-                <span>{item.label}</span>
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#1E3A2F]' : 'text-[#78716C]'}`} />
+                <span className="truncate">{item.label}</span>
               </div>
-              {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#1E3A2F]" />}
+              {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#1E3A2F] shrink-0" />}
             </Link>
           );
         })}
@@ -145,13 +181,43 @@ export function AppSidebar() {
           </div>
           <button
             onClick={logout}
-            title="Sign out"
-            className="p-1.5 text-[#78716C] hover:text-[#1C1917] hover:bg-stone-100 rounded-md transition"
+            aria-label="Sign out"
+            className="p-1.5 text-[#78716C] hover:text-[#1C1917] hover:bg-stone-100 rounded-md transition focus-ring cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
           </button>
         </div>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Persistent Sidebar */}
+      <aside className="hidden lg:flex w-64 border-r border-[#E7E5E4] bg-white flex-col h-screen sticky top-0 z-30 shrink-0">
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile Slide-Over Drawer with Accessible Backdrop */}
+      {isMobileOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden flex">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/30 backdrop-blur-xs transition-opacity"
+            onClick={onMobileClose}
+            aria-hidden="true"
+          />
+          {/* Drawer Panel */}
+          <aside
+            className="relative w-72 max-w-[80vw] bg-white h-full shadow-2xl flex flex-col z-10 animate-modal-enter"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile Navigation Drawer"
+          >
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+    </>
   );
 }

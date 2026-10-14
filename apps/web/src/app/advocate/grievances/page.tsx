@@ -39,8 +39,7 @@ export default function AdvocateGrievancesPage() {
     },
   ]);
 
-  const [tagInput, setTagInput] = useState('');
-  const [selectedClusterId, setSelectedClusterId] = useState<string | null>(null);
+  const [notification, setNotification] = useState<string | null>(null);
 
   const handleEscalate = (clusterId: string) => {
     setClusters((prev) =>
@@ -48,7 +47,8 @@ export default function AdvocateGrievancesPage() {
         c.id === clusterId ? { ...c, status: 'escalated' } : c
       )
     );
-    alert('Petition escalated to Directorate of Labor Welfare under FairGig cluster verification!');
+    setNotification('Petition escalated to Directorate of Labor Welfare under FairGig cluster verification!');
+    setTimeout(() => setNotification(null), 4000);
   };
 
   const handleResolve = (clusterId: string) => {
@@ -57,7 +57,8 @@ export default function AdvocateGrievancesPage() {
         c.id === clusterId ? { ...c, status: 'resolved' } : c
       )
     );
-    alert('Cluster marked as resolved with platform payout reimbursement notes.');
+    setNotification('Cluster marked as resolved with platform payout reimbursement notes.');
+    setTimeout(() => setNotification(null), 4000);
   };
 
   return (
@@ -65,6 +66,13 @@ export default function AdvocateGrievancesPage() {
       title="Collective Grievance Action Hub"
       subtitle="Aggregate systemic platform issues, organize petitions, and escalate joint actions to labor standards regulators"
     >
+      {notification && (
+        <div className="mb-4 p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 flex items-center gap-2 animate-modal-enter shadow-2xs">
+          <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" aria-hidden="true" />
+          <span>{notification}</span>
+        </div>
+      )}
+
       <div className="space-y-6">
         {clusters.map((cluster) => (
           <div key={cluster.id} className="card-subtle p-6">
@@ -86,7 +94,7 @@ export default function AdvocateGrievancesPage() {
                   PKR {cluster.estimatedLoss.toLocaleString()}
                 </div>
                 <div className="text-xs font-bold text-amber-700 flex items-center justify-end gap-1">
-                  <Flame className="w-3.5 h-3.5" />
+                  <Flame className="w-3.5 h-3.5 text-amber-600" aria-hidden="true" />
                   <span>{cluster.affectedCount} Workers Joint Claim</span>
                 </div>
               </div>
@@ -105,7 +113,7 @@ export default function AdvocateGrievancesPage() {
             </div>
 
             {/* Target Regulatory Body */}
-            <div className="p-3 bg-[#FAFAF8] rounded-lg border border-[#E7E5E4] text-xs flex items-center justify-between mb-4">
+            <div className="p-3 bg-[#FAFAF8] rounded-xl border border-[#E7E5E4] text-xs flex flex-wrap items-center justify-between gap-2 mb-4">
               <span className="text-[#78716C]">Designated Enforcement Authority:</span>
               <span className="font-semibold text-[#1C1917]">{cluster.targetRepresentative}</span>
             </div>
@@ -129,16 +137,16 @@ export default function AdvocateGrievancesPage() {
                   <>
                     <button
                       onClick={() => handleEscalate(cluster.id)}
-                      className="px-3 py-1.5 bg-purple-700 text-white rounded-lg text-xs font-semibold hover:bg-purple-800 transition flex items-center gap-1.5"
+                      className="btn-press focus-ring px-3.5 py-1.5 bg-purple-700 text-white rounded-lg text-xs font-semibold hover:bg-purple-800 transition flex items-center gap-1.5 cursor-pointer shadow-xs"
                     >
-                      <Send className="w-3 h-3" />
+                      <Send className="w-3 h-3" aria-hidden="true" />
                       <span>Escalate to Directorate</span>
                     </button>
                     <button
                       onClick={() => handleResolve(cluster.id)}
-                      className="px-3 py-1.5 bg-[#1E3A2F] text-white rounded-lg text-xs font-semibold hover:bg-[#234737] transition flex items-center gap-1.5"
+                      className="btn-press focus-ring px-3.5 py-1.5 bg-[#1E3A2F] text-white rounded-lg text-xs font-semibold hover:bg-[#234737] transition flex items-center gap-1.5 cursor-pointer shadow-xs"
                     >
-                      <CheckCircle2 className="w-3 h-3" />
+                      <CheckCircle2 className="w-3 h-3" aria-hidden="true" />
                       <span>Mark Resolved</span>
                     </button>
                   </>

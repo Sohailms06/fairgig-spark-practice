@@ -11,12 +11,16 @@ import {
   ArrowRight,
   ShieldCheck,
   X,
+  Loader2,
 } from 'lucide-react';
 import { AppShell } from '@/components/layout/app-shell';
 import { apiClient } from '@/lib/api-client';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function WorkerGrievancesPage() {
   const [grievances, setGrievances] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
 
   // Form State
@@ -32,12 +36,26 @@ export default function WorkerGrievancesPage() {
     loadGrievances();
   }, []);
 
+  // Keyboard shortcut listener for ESC to close modals
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsSubmitModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   async function loadGrievances() {
+    setLoading(true);
     try {
       const data = await apiClient.getGrievances();
       setGrievances(data);
     } catch (err) {
       console.error('Failed to load grievances:', err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -69,7 +87,7 @@ export default function WorkerGrievancesPage() {
       title="Disputes & Grievance Ledger"
       subtitle="File payout discrepancies, track collective clustering, and monitor advocate escalation"
     >
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div>
           <span className="text-xs text-[#78716C]">
             Logged disputes are analyzed by the collective clustering engine to build joint advocate petitions.
@@ -78,84 +96,119 @@ export default function WorkerGrievancesPage() {
 
         <button
           onClick={() => setIsSubmitModalOpen(true)}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1E3A2F] text-white text-xs font-semibold rounded-lg hover:bg-[#234737] transition shadow-xs"
+          className="btn-press focus-ring inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1E3A2F] text-white text-xs font-semibold rounded-lg hover:bg-[#234737] shadow-xs cursor-pointer"
         >
-          <PlusCircle className="w-3.5 h-3.5" />
+          <PlusCircle className="w-3.5 h-3.5" aria-hidden="true" />
           <span>File New Grievance</span>
         </button>
       </div>
 
       {/* Grievance List */}
-      <div className="space-y-4">
-        {grievances.map((g) => (
-          <div key={g.id} className="card-subtle p-5">
-            <div className="flex flex-wrap items-start justify-between gap-3 mb-2">
-              <div className="flex items-center gap-2">
-                <span
-                  className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                    g.priority === 'urgent'
-                      ? 'bg-red-100 text-red-800'
-                      : g.priority === 'high'
-                      ? 'bg-amber-100 text-amber-800'
-                      : 'bg-stone-100 text-stone-700'
-                  }`}
-                >
-                  {g.priority} priority
-                </span>
-                <span className="text-xs text-[#78716C] capitalize font-medium">Platform: {g.platform}</span>
-                <span className="text-[#E7E5E4]">&bull;</span>
-                <span className="text-xs text-[#78716C] font-mono">{new Date(g.createdAt).toLocaleDateString()}</span>
+      {loading ? (
+        <div className="space-y-4">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="card-subtle p-5 space-y-3">
+              <div className="flex justify-between">
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-4 w-20 rounded-full" />
               </div>
-
-              {/* Status Indicator */}
-              <div className="flex items-center gap-1.5 text-xs font-semibold">
-                <span
-                  className={`px-2.5 py-0.5 rounded-full capitalize text-[10px] ${
-                    g.status === 'resolved'
-                      ? 'bg-emerald-100 text-emerald-800'
-                      : g.status === 'escalated'
-                      ? 'bg-purple-100 text-purple-800'
-                      : g.status === 'clustered'
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-amber-100 text-amber-800'
-                  }`}
-                >
-                  {g.status.replace(/_/g, ' ')}
-                </span>
+              <Skeleton className="h-5 w-3/4" />
+              <Skeleton className="h-12 w-full" />
+              <div className="flex justify-between pt-2 border-t border-[#F0EFEA]">
+                <Skeleton className="h-3 w-40" />
+                <Skeleton className="h-3 w-28" />
               </div>
             </div>
-
-            <h3 className="text-sm font-bold text-[#1C1917] mb-1">{g.title}</h3>
-            <p className="text-xs text-[#44403C] leading-relaxed mb-3">{g.description}</p>
-
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#F0EFEA] text-xs">
-              <div className="flex items-center gap-3">
-                <span className="text-[#78716C]">
-                  Claimed Underpayment: <strong className="text-[#1C1917]">PKR {g.claimedLossAmount}</strong>
-                </span>
-                <span className="text-[#78716C]">Category: <strong className="capitalize">{g.category.replace(/_/g, ' ')}</strong></span>
-              </div>
-
-              {g.clusterId && (
-                <div className="flex items-center gap-1.5 text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
-                  <Layers className="w-3.5 h-3.5" />
-                  <span>Linked to Collective Action Cluster</span>
+          ))}
+        </div>
+      ) : grievances.length === 0 ? (
+        <EmptyState
+          icon={FileText}
+          title="No Active Grievances"
+          description="If you notice arbitrary platform commission clawbacks, unfair account deactivations, or withheld tips, file a grievance here for collective action."
+          action={{
+            label: "File First Grievance",
+            onClick: () => setIsSubmitModalOpen(true)
+          }}
+        />
+      ) : (
+        <div className="space-y-4">
+          {grievances.map((g) => (
+            <div key={g.id} className="card-subtle p-5">
+              <div className="flex flex-wrap items-start justify-between gap-3 mb-2">
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                      g.priority === 'urgent'
+                        ? 'bg-red-100 text-red-800'
+                        : g.priority === 'high'
+                        ? 'bg-amber-100 text-amber-800'
+                        : 'bg-stone-100 text-stone-700'
+                    }`}
+                  >
+                    {g.priority} priority
+                  </span>
+                  <span className="text-xs text-[#78716C] capitalize font-medium">Platform: {g.platform}</span>
+                  <span className="text-[#E7E5E4]">&bull;</span>
+                  <span className="text-xs text-[#78716C] font-mono">{new Date(g.createdAt).toLocaleDateString()}</span>
                 </div>
-              )}
+
+                {/* Status Indicator */}
+                <div className="flex items-center gap-1.5 text-xs font-semibold">
+                  <span
+                    className={`px-2.5 py-0.5 rounded-full capitalize text-[10px] ${
+                      g.status === 'resolved'
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : g.status === 'escalated'
+                        ? 'bg-purple-100 text-purple-800'
+                        : g.status === 'clustered'
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-amber-100 text-amber-800'
+                    }`}
+                  >
+                    {g.status.replace(/_/g, ' ')}
+                  </span>
+                </div>
+              </div>
+
+              <h3 className="text-sm font-bold text-[#1C1917] mb-1">{g.title}</h3>
+              <p className="text-xs text-[#44403C] leading-relaxed mb-3">{g.description}</p>
+
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#F0EFEA] text-xs">
+                <div className="flex items-center gap-3">
+                  <span className="text-[#78716C]">
+                    Claimed Underpayment: <strong className="text-[#1C1917]">PKR {g.claimedLossAmount}</strong>
+                  </span>
+                  <span className="text-[#78716C]">Category: <strong className="capitalize">{g.category.replace(/_/g, ' ')}</strong></span>
+                </div>
+
+                {g.clusterId && (
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                    <Layers className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span>Linked to Collective Action Cluster</span>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* File Grievance Modal */}
       {isSubmitModalOpen && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl border border-[#E7E5E4] max-w-lg w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-150">
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-modal-enter"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="grievance-modal-title"
+        >
+          <div className="bg-white rounded-xl border border-[#E7E5E4] max-w-lg w-full p-6 shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-[#E7E5E4] mb-4">
-              <h2 className="text-base font-bold text-[#1C1917]">Submit Worker Grievance</h2>
+              <h2 id="grievance-modal-title" className="text-base font-bold text-[#1C1917]">Submit Worker Grievance</h2>
               <button
                 onClick={() => setIsSubmitModalOpen(false)}
-                className="p-1 text-[#78716C] hover:text-[#1C1917] rounded-md transition"
+                className="p-1.5 text-[#78716C] hover:text-[#1C1917] rounded-md transition focus-ring"
+                aria-label="Close dialog"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -170,7 +223,7 @@ export default function WorkerGrievancesPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. Unexplained 25% surge fee deduction on October 8 shift"
-                  className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                  className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                 />
               </div>
 
@@ -180,7 +233,7 @@ export default function WorkerGrievancesPage() {
                   <select
                     value={platform}
                     onChange={(e) => setPlatform(e.target.value)}
-                    className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                    className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                   >
                     <option value="careem">Careem Pakistan</option>
                     <option value="indrive">inDrive Pakistan</option>
@@ -195,7 +248,7 @@ export default function WorkerGrievancesPage() {
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                    className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                   >
                     <option value="unexplained_deduction">Unexplained Deduction</option>
                     <option value="fare_underpayment">Fare Underpayment</option>
@@ -215,7 +268,7 @@ export default function WorkerGrievancesPage() {
                     required
                     value={claimedLoss}
                     onChange={(e) => setClaimedLoss(e.target.value)}
-                    className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                    className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                   />
                 </div>
 
@@ -224,7 +277,7 @@ export default function WorkerGrievancesPage() {
                   <select
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
-                    className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                    className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                   >
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
@@ -241,29 +294,31 @@ export default function WorkerGrievancesPage() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Provide shift dates, trip IDs, and details of unexplained platform deductions..."
-                  className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                  className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                 />
               </div>
 
               <div className="p-3 bg-[#F2F7F4] border border-[#C5D9CE] rounded-lg text-[11px] text-[#234737] flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" aria-hidden="true" />
                 <span>Your identity is protected. When published to community solidarity feeds, worker names are masked as <strong>ANON-XXXX</strong>.</span>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-2">
+              <div className="flex items-center justify-end gap-2.5 pt-2">
                 <button
                   type="button"
                   onClick={() => setIsSubmitModalOpen(false)}
-                  className="px-3 py-1.5 border border-[#E7E5E4] text-xs font-semibold rounded-lg hover:bg-stone-50"
+                  className="btn-press focus-ring px-3.5 py-1.5 border border-[#E7E5E4] text-xs font-semibold rounded-lg hover:bg-stone-50 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-1.5 bg-[#1E3A2F] text-white text-xs font-semibold rounded-lg hover:bg-[#234737] disabled:opacity-50"
+                  aria-busy={isSubmitting}
+                  className="btn-press focus-ring inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#1E3A2F] text-white text-xs font-semibold rounded-lg hover:bg-[#234737] disabled:opacity-50 cursor-pointer shadow-xs"
                 >
-                  {isSubmitting ? 'Filing...' : 'Submit Grievance'}
+                  {isSubmitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                  <span>{isSubmitting ? 'Filing Grievance...' : 'Submit Grievance'}</span>
                 </button>
               </div>
             </form>

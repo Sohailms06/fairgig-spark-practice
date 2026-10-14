@@ -12,12 +12,16 @@ import {
   Check,
   X,
   FileSpreadsheet,
+  Loader2,
 } from 'lucide-react';
 import { AppShell } from '@/components/layout/app-shell';
 import { apiClient } from '@/lib/api-client';
+import { TableSkeleton } from '@/components/ui/skeleton';
+import { EmptyState } from '@/components/ui/empty-state';
 
 export default function EarningsPage() {
   const [shifts, setShifts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [platformFilter, setPlatformFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -43,16 +47,31 @@ export default function EarningsPage() {
     loadShifts();
   }, []);
 
+  // Keyboard shortcut listener for ESC to close modals
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsAddModalOpen(false);
+        setIsCsvModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   async function loadShifts() {
+    setLoading(true);
     try {
       const data = await apiClient.getShifts();
       setShifts(data);
     } catch (err) {
       console.error('Failed to load shifts:', err);
+    } finally {
+      setLoading(false);
     }
   }
 
-  const calculatedNet = Math.max(0, (Number(grossAmount) || 0) - (Number(deductions) || 0));
+  const calculatedNet = Math.max(0, (Number(grossAmount) || 0) - (Number(deductions) || 0) + (Number(tipsAmount) || 0));
 
   const handleAddShift = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,12 +143,13 @@ export default function EarningsPage() {
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div className="flex flex-wrap items-center gap-3">
           {/* Platform Filter */}
-          <div className="flex items-center gap-1.5 text-xs text-[#78716C] bg-white border border-[#E7E5E4] px-2.5 py-1.5 rounded-lg shadow-xs">
-            <Filter className="w-3.5 h-3.5 text-[#78716C]" />
+          <div className="flex items-center gap-2 text-xs text-[#78716C] bg-white border border-[#E7E5E4] px-3 py-1.5 rounded-lg shadow-2xs">
+            <Filter className="w-3.5 h-3.5 text-[#78716C]" aria-hidden="true" />
             <select
               value={platformFilter}
               onChange={(e) => setPlatformFilter(e.target.value)}
               className="bg-transparent text-[#1C1917] font-medium focus:outline-none cursor-pointer"
+              aria-label="Filter shifts by platform"
             >
               <option value="all">All Platforms</option>
               <option value="indrive">inDrive</option>
@@ -141,11 +161,12 @@ export default function EarningsPage() {
           </div>
 
           {/* Status Filter */}
-          <div className="flex items-center gap-1.5 text-xs text-[#78716C] bg-white border border-[#E7E5E4] px-2.5 py-1.5 rounded-lg shadow-xs">
+          <div className="flex items-center gap-2 text-xs text-[#78716C] bg-white border border-[#E7E5E4] px-3 py-1.5 rounded-lg shadow-2xs">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="bg-transparent text-[#1C1917] font-medium focus:outline-none cursor-pointer"
+              aria-label="Filter shifts by audit status"
             >
               <option value="all">All Verification Statuses</option>
               <option value="verified">Verified</option>
@@ -158,93 +179,106 @@ export default function EarningsPage() {
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => setIsCsvModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E7E5E4] text-[#44403C] text-xs font-semibold rounded-lg hover:bg-stone-50 transition shadow-xs"
+            className="btn-press focus-ring inline-flex items-center gap-1.5 px-3.5 py-2 bg-white border border-[#E7E5E4] text-[#44403C] text-xs font-semibold rounded-lg hover:bg-stone-50 shadow-xs cursor-pointer"
           >
-            <UploadCloud className="w-3.5 h-3.5 text-[#78716C]" />
+            <UploadCloud className="w-3.5 h-3.5 text-[#78716C]" aria-hidden="true" />
             <span>CSV Statement Import</span>
           </button>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1E3A2F] text-white text-xs font-semibold rounded-lg hover:bg-[#234737] transition shadow-xs"
+            className="btn-press focus-ring inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1E3A2F] text-white text-xs font-semibold rounded-lg hover:bg-[#234737] shadow-xs cursor-pointer"
           >
-            <PlusCircle className="w-3.5 h-3.5" />
+            <PlusCircle className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Log Single Shift</span>
           </button>
         </div>
       </div>
 
       {/* Shifts Table */}
-      <div className="card-subtle overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead>
-              <tr className="bg-[#FAFAF8] border-b border-[#E7E5E4] text-[#78716C] uppercase tracking-wider text-[10px]">
-                <th className="py-3 px-4">Shift Date</th>
-                <th className="py-3 px-4">Platform</th>
-                <th className="py-3 px-4 text-right">Hours</th>
-                <th className="py-3 px-4 text-right">Trips</th>
-                <th className="py-3 px-4 text-right">Gross (PKR)</th>
-                <th className="py-3 px-4 text-right">Deductions</th>
-                <th className="py-3 px-4 text-right">Tips</th>
-                <th className="py-3 px-4 text-right font-bold">Net (PKR)</th>
-                <th className="py-3 px-4 text-right">Rate</th>
-                <th className="py-3 px-4 text-center">Audit Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#F0EFEA]">
-              {filteredShifts.length === 0 ? (
-                <tr>
-                  <td colSpan={10} className="py-12 text-center text-[#78716C]">
-                    No shift records found matching selected filter criteria.
-                  </td>
+      {loading ? (
+        <TableSkeleton rows={6} cols={6} />
+      ) : (
+        <div className="card-subtle overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead>
+                <tr className="bg-[#FAFAF8] border-b border-[#E7E5E4] text-[#78716C] uppercase tracking-wider text-[10px]">
+                  <th className="py-3 px-4 font-semibold">Shift Date</th>
+                  <th className="py-3 px-4 font-semibold">Platform</th>
+                  <th className="py-3 px-4 text-right font-semibold">Hours</th>
+                  <th className="py-3 px-4 text-right font-semibold">Trips</th>
+                  <th className="py-3 px-4 text-right font-semibold">Gross (PKR)</th>
+                  <th className="py-3 px-4 text-right font-semibold">Deductions</th>
+                  <th className="py-3 px-4 text-right font-semibold">Tips</th>
+                  <th className="py-3 px-4 text-right font-bold">Net (PKR)</th>
+                  <th className="py-3 px-4 text-right font-semibold">Rate</th>
+                  <th className="py-3 px-4 text-center font-semibold">Audit Status</th>
                 </tr>
-              ) : (
-                filteredShifts.map((shift) => {
-                  const rate = shift.hoursWorked > 0 ? (shift.netAmount / shift.hoursWorked).toFixed(1) : '0';
-                  return (
-                    <tr key={shift.id} className="hover:bg-[#FAFAF8] transition">
-                      <td className="py-3 px-4 font-semibold text-[#1C1917]">{shift.shiftDate}</td>
-                      <td className="py-3 px-4 capitalize font-medium text-[#44403C]">{shift.platform}</td>
-                      <td className="py-3 px-4 text-right text-[#44403C]">{shift.hoursWorked} hrs</td>
-                      <td className="py-3 px-4 text-right text-[#78716C]">{shift.tripsCount || 1}</td>
-                      <td className="py-3 px-4 text-right text-[#44403C]">PKR {shift.grossAmount.toLocaleString()}</td>
-                      <td className="py-3 px-4 text-right text-red-600">-PKR {shift.deductions.toLocaleString()}</td>
-                      <td className="py-3 px-4 text-right text-emerald-700">+PKR {shift.tipsAmount || 0}</td>
-                      <td className="py-3 px-4 text-right font-bold text-[#1C1917]">
-                        PKR {shift.netAmount.toLocaleString()}
-                      </td>
-                      <td className="py-3 px-4 text-right text-[#78716C]">PKR {rate}/hr</td>
-                      <td className="py-3 px-4 text-center">
-                        <span
-                          className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold capitalize ${
-                            shift.verificationStatus === 'verified'
-                              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                              : shift.verificationStatus === 'discrepancy'
-                              ? 'bg-red-50 text-red-800 border border-red-200'
-                              : 'bg-amber-50 text-amber-800 border border-amber-200'
-                          }`}
-                        >
-                          {shift.verificationStatus}
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-[#F0EFEA]">
+                {filteredShifts.length === 0 ? (
+                  <tr>
+                    <td colSpan={10} className="py-12 text-center text-[#78716C]">
+                      <div className="max-w-xs mx-auto text-center space-y-2">
+                        <p className="font-semibold text-[#1C1917]">No Matching Shifts Found</p>
+                        <p className="text-[11px] text-[#78716C]">Try clearing the platform or verification filters to see all recorded shifts.</p>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  filteredShifts.map((shift) => {
+                    const rate = shift.hoursWorked > 0 ? (shift.netAmount / shift.hoursWorked).toFixed(1) : '0';
+                    return (
+                      <tr key={shift.id} className="hover:bg-[#FAFAF8] transition-colors">
+                        <td className="py-3.5 px-4 font-semibold text-[#1C1917]">{shift.shiftDate}</td>
+                        <td className="py-3.5 px-4 capitalize font-medium text-[#44403C]">{shift.platform}</td>
+                        <td className="py-3.5 px-4 text-right text-[#44403C]">{shift.hoursWorked} hrs</td>
+                        <td className="py-3.5 px-4 text-right text-[#78716C]">{shift.tripsCount || 1}</td>
+                        <td className="py-3.5 px-4 text-right text-[#44403C]">PKR {shift.grossAmount.toLocaleString()}</td>
+                        <td className="py-3.5 px-4 text-right text-red-600">-PKR {shift.deductions.toLocaleString()}</td>
+                        <td className="py-3.5 px-4 text-right text-emerald-700">+PKR {shift.tipsAmount || 0}</td>
+                        <td className="py-3.5 px-4 text-right font-bold text-[#1C1917]">
+                          PKR {shift.netAmount.toLocaleString()}
+                        </td>
+                        <td className="py-3.5 px-4 text-right text-[#78716C]">PKR {rate}/hr</td>
+                        <td className="py-3.5 px-4 text-center">
+                          <span
+                            className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold capitalize ${
+                              shift.verificationStatus === 'verified'
+                                ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                                : shift.verificationStatus === 'discrepancy'
+                                ? 'bg-red-50 text-red-800 border border-red-200'
+                                : 'bg-amber-50 text-amber-800 border border-amber-200'
+                            }`}
+                          >
+                            {shift.verificationStatus}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Manual Shift Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl border border-[#E7E5E4] max-w-md w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-150">
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-modal-enter"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="manual-shift-title"
+        >
+          <div className="bg-white rounded-xl border border-[#E7E5E4] max-w-md w-full p-6 shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-[#E7E5E4] mb-4">
-              <h2 className="text-base font-bold text-[#1C1917]">Log Daily Gig Shift</h2>
+              <h2 id="manual-shift-title" className="text-base font-bold text-[#1C1917]">Log Daily Gig Shift</h2>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1 text-[#78716C] hover:text-[#1C1917] rounded-md transition"
+                className="p-1.5 text-[#78716C] hover:text-[#1C1917] rounded-md transition focus-ring"
+                aria-label="Close dialog"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -257,7 +291,7 @@ export default function EarningsPage() {
                   <select
                     value={platform}
                     onChange={(e) => setPlatform(e.target.value)}
-                    className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                    className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                   >
                     <option value="indrive">inDrive</option>
                     <option value="bykea">Bykea</option>
@@ -275,7 +309,7 @@ export default function EarningsPage() {
                     required
                     value={shiftDate}
                     onChange={(e) => setShiftDate(e.target.value)}
-                    className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                    className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                   />
                 </div>
               </div>
@@ -291,7 +325,7 @@ export default function EarningsPage() {
                     required
                     value={hoursWorked}
                     onChange={(e) => setHoursWorked(e.target.value)}
-                    className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                    className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                   />
                 </div>
 
@@ -303,7 +337,7 @@ export default function EarningsPage() {
                     required
                     value={tripsCount}
                     onChange={(e) => setTripsCount(e.target.value)}
-                    className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                    className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                   />
                 </div>
               </div>
@@ -317,7 +351,7 @@ export default function EarningsPage() {
                     required
                     value={grossAmount}
                     onChange={(e) => setGrossAmount(e.target.value)}
-                    className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                    className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                   />
                 </div>
 
@@ -329,7 +363,7 @@ export default function EarningsPage() {
                     required
                     value={deductions}
                     onChange={(e) => setDeductions(e.target.value)}
-                    className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                    className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                   />
                 </div>
 
@@ -340,7 +374,7 @@ export default function EarningsPage() {
                     min="0"
                     value={tipsAmount}
                     onChange={(e) => setTipsAmount(e.target.value)}
-                    className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                    className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                   />
                 </div>
               </div>
@@ -358,24 +392,26 @@ export default function EarningsPage() {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="e.g. Airport surge fare; heavy traffic"
-                  className="w-full text-xs p-2 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F]"
+                  className="focus-ring w-full text-xs p-2 border border-[#E7E5E4] rounded-lg bg-white"
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-2">
+              <div className="flex items-center justify-end gap-2.5 pt-2">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-3 py-1.5 border border-[#E7E5E4] text-xs font-semibold rounded-lg hover:bg-stone-50"
+                  className="btn-press focus-ring px-3.5 py-1.5 border border-[#E7E5E4] text-xs font-semibold rounded-lg hover:bg-stone-50 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-1.5 bg-[#1E3A2F] text-white text-xs font-semibold rounded-lg hover:bg-[#234737] disabled:opacity-50"
+                  aria-busy={isSubmitting}
+                  className="btn-press focus-ring inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#1E3A2F] text-white text-xs font-semibold rounded-lg hover:bg-[#234737] disabled:opacity-50 cursor-pointer shadow-xs"
                 >
-                  {isSubmitting ? 'Logging...' : 'Record Shift'}
+                  {isSubmitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                  <span>{isSubmitting ? 'Recording Shift...' : 'Record Shift'}</span>
                 </button>
               </div>
             </form>
@@ -385,16 +421,22 @@ export default function EarningsPage() {
 
       {/* CSV Batch Import Modal */}
       {isCsvModalOpen && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl border border-[#E7E5E4] max-w-lg w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-150">
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-modal-enter"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="csv-modal-title"
+        >
+          <div className="bg-white rounded-xl border border-[#E7E5E4] max-w-lg w-full p-6 shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-[#E7E5E4] mb-4">
               <div className="flex items-center gap-2">
-                <FileSpreadsheet className="w-4 h-4 text-emerald-700" />
-                <h2 className="text-base font-bold text-[#1C1917]">CSV Statement Batch Import</h2>
+                <FileSpreadsheet className="w-4 h-4 text-emerald-700" aria-hidden="true" />
+                <h2 id="csv-modal-title" className="text-base font-bold text-[#1C1917]">CSV Statement Batch Import</h2>
               </div>
               <button
                 onClick={() => setIsCsvModalOpen(false)}
-                className="p-1 text-[#78716C] hover:text-[#1C1917] rounded-md transition"
+                className="p-1.5 text-[#78716C] hover:text-[#1C1917] rounded-md transition focus-ring"
+                aria-label="Close dialog"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -408,27 +450,29 @@ export default function EarningsPage() {
               rows={6}
               value={csvRaw}
               onChange={(e) => setCsvRaw(e.target.value)}
-              className="w-full font-mono text-[11px] p-2.5 border border-[#E7E5E4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A2F] mb-4"
+              className="focus-ring w-full font-mono text-[11px] p-2.5 border border-[#E7E5E4] rounded-lg mb-4 bg-[#FAFAF8]"
             />
 
             <div className="flex items-center justify-between pt-2">
               <span className="text-[11px] text-[#78716C]">
                 {csvRaw.trim().split('\n').length - 1} shifts ready to import
               </span>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <button
                   type="button"
                   onClick={() => setIsCsvModalOpen(false)}
-                  className="px-3 py-1.5 border border-[#E7E5E4] text-xs font-semibold rounded-lg hover:bg-stone-50"
+                  className="btn-press focus-ring px-3.5 py-1.5 border border-[#E7E5E4] text-xs font-semibold rounded-lg hover:bg-stone-50 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleCsvImport}
                   disabled={isSubmitting}
-                  className="px-4 py-1.5 bg-[#1E3A2F] text-white text-xs font-semibold rounded-lg hover:bg-[#234737] disabled:opacity-50"
+                  aria-busy={isSubmitting}
+                  className="btn-press focus-ring inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#1E3A2F] text-white text-xs font-semibold rounded-lg hover:bg-[#234737] disabled:opacity-50 cursor-pointer shadow-xs"
                 >
-                  {isSubmitting ? 'Importing...' : 'Confirm Batch Import'}
+                  {isSubmitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                  <span>{isSubmitting ? 'Importing Shifts...' : 'Confirm Batch Import'}</span>
                 </button>
               </div>
             </div>

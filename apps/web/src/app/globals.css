@@ -21,20 +21,93 @@ body {
 .card-subtle {
   background-color: #FFFFFF;
   border: 1px solid #E7E5E4;
-  border-radius: 10px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-  transition: all 0.15s ease-in-out;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .card-subtle:hover {
   border-color: #D6D3D1;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Micro-interaction: button press */
+.btn-press {
+  transition: transform 0.1s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-press:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Accessible standard focus ring */
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  outline: 2px solid #1E3A2F;
+  outline-offset: 2px;
+}
+
+/* Low-contrast restrained shimmer for skeletons */
+@keyframes shimmerAnimation {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    #F5F5F3 0%,
+    #EAE9E5 50%,
+    #F5F5F3 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerAnimation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Modal and Drawer Transitions */
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-modal-enter {
+  animation: modalEnter 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .shimmer {
+    background: #EAE9E5 !important;
+    animation: none !important;
+  }
+  .btn-press:active:not(:disabled) {
+    transform: none !important;
+  }
 }
 
 /* Subtle clean scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -42,10 +115,29 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D6D3D1;
+  background: #E7E5E4;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #A8A29E;
+  background: #D6D3D1;
+}
+
+/* Print Styles for A4 Certificates */
+@media print {
+  aside,
+  header,
+  nav,
+  button,
+  .no-print {
+    display: none !important;
+  }
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  body {
+    background-color: #FFFFFF !important;
+  }
 }
