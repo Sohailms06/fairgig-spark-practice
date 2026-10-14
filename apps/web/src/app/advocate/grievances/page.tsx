@@ -2,14 +2,9 @@
 
 import React, { useState } from 'react';
 import {
-  Layers,
   Flame,
-  ArrowUpRight,
   CheckCircle2,
-  Tag,
   Send,
-  ShieldCheck,
-  Scale,
 } from 'lucide-react';
 import { AppShell } from '@/components/layout/app-shell';
 
@@ -64,11 +59,11 @@ export default function AdvocateGrievancesPage() {
   return (
     <AppShell
       title="Collective Grievance Action Hub"
-      subtitle="Aggregate systemic platform issues, organize petitions, and escalate joint actions to labor standards regulators"
+      subtitle="Aggregate systemic platform issues, organize petitions, and escalate joint actions to labor standards regulators."
     >
       {notification && (
-        <div className="mb-4 p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 flex items-center gap-2 animate-modal-enter shadow-2xs">
-          <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" aria-hidden="true" />
+        <div className="mb-4 p-3 bg-[#2D6A4F]/10 border border-[#2D6A4F]/20 rounded-lg text-xs font-medium text-[#2D6A4F] flex items-center gap-2 animate-modal-enter">
+          <CheckCircle2 className="w-4 h-4 text-[#2D6A4F] shrink-0" aria-hidden="true" />
           <span>{notification}</span>
         </div>
       )}
@@ -79,22 +74,22 @@ export default function AdvocateGrievancesPage() {
             <div className="flex flex-wrap items-start justify-between gap-4 mb-3">
               <div>
                 <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded-full">
+                  <span className="text-[10px] font-medium uppercase tracking-wider bg-[#2563EB]/10 text-[#2563EB] border border-[#2563EB]/20 px-2 py-0.5 rounded-md">
                     Collective Action Cluster
                   </span>
-                  <span className="text-xs font-semibold capitalize text-[#78716C]">
+                  <span className="text-xs font-medium capitalize text-[#5B6370]">
                     Platform: {cluster.platform}
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-[#1C1917]">{cluster.title}</h3>
+                <h3 className="text-base font-semibold text-[#22252A] tracking-tight">{cluster.title}</h3>
               </div>
 
               <div className="text-right">
-                <div className="text-lg font-extrabold text-[#1C1917]">
+                <div className="text-lg font-semibold text-[#22252A] tabular-nums">
                   PKR {cluster.estimatedLoss.toLocaleString()}
                 </div>
-                <div className="text-xs font-bold text-amber-700 flex items-center justify-end gap-1">
-                  <Flame className="w-3.5 h-3.5 text-amber-600" aria-hidden="true" />
+                <div className="text-xs font-medium text-[#D97706] flex items-center justify-end gap-1">
+                  <Flame className="w-3.5 h-3.5 text-[#D97706]" aria-hidden="true" />
                   <span>{cluster.affectedCount} Workers Joint Claim</span>
                 </div>
               </div>
@@ -105,7 +100,7 @@ export default function AdvocateGrievancesPage() {
               {cluster.tags.map((tag, idx) => (
                 <span
                   key={idx}
-                  className="px-2 py-0.5 rounded text-[11px] font-mono bg-stone-100 text-[#44403C] border border-[#E7E5E4]"
+                  className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-[#FAF9F5] text-[#5B6370] border border-[#E1E4EA]"
                 >
                   {tag}
                 </span>
@@ -113,20 +108,20 @@ export default function AdvocateGrievancesPage() {
             </div>
 
             {/* Target Regulatory Body */}
-            <div className="p-3 bg-[#FAFAF8] rounded-xl border border-[#E7E5E4] text-xs flex flex-wrap items-center justify-between gap-2 mb-4">
-              <span className="text-[#78716C]">Designated Enforcement Authority:</span>
-              <span className="font-semibold text-[#1C1917]">{cluster.targetRepresentative}</span>
+            <div className="p-3 bg-[#FAF9F5] rounded-lg border border-[#E1E4EA] text-xs flex flex-wrap items-center justify-between gap-2 mb-4">
+              <span className="text-[#5B6370]">Designated Enforcement Authority:</span>
+              <span className="font-medium text-[#22252A]">{cluster.targetRepresentative}</span>
             </div>
 
             {/* Actions */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#F0EFEA]">
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#E1E4EA]">
               <span
-                className={`text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
+                className={`text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-md border ${
                   cluster.status === 'resolved'
-                    ? 'bg-emerald-100 text-emerald-800'
+                    ? 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
                     : cluster.status === 'escalated'
-                    ? 'bg-purple-100 text-purple-800'
-                    : 'bg-blue-100 text-blue-800'
+                    ? 'bg-[#2563EB]/10 text-[#2563EB] border-[#2563EB]/20'
+                    : 'bg-[#1B4332]/10 text-[#1B4332] border-[#1B4332]/20'
                 }`}
               >
                 Status: {cluster.status}
@@ -137,14 +132,14 @@ export default function AdvocateGrievancesPage() {
                   <>
                     <button
                       onClick={() => handleEscalate(cluster.id)}
-                      className="btn-press focus-ring px-3.5 py-1.5 bg-purple-700 text-white rounded-lg text-xs font-semibold hover:bg-purple-800 transition flex items-center gap-1.5 cursor-pointer shadow-xs"
+                      className="focus-ring px-3 py-1.5 bg-[#2563EB] text-white rounded-md text-xs font-medium hover:bg-[#1D4ED8] transition-colors flex items-center gap-1.5 cursor-pointer"
                     >
                       <Send className="w-3 h-3" aria-hidden="true" />
                       <span>Escalate to Directorate</span>
                     </button>
                     <button
                       onClick={() => handleResolve(cluster.id)}
-                      className="btn-press focus-ring px-3.5 py-1.5 bg-[#1E3A2F] text-white rounded-lg text-xs font-semibold hover:bg-[#234737] transition flex items-center gap-1.5 cursor-pointer shadow-xs"
+                      className="focus-ring px-3 py-1.5 bg-[#1B4332] text-white rounded-md text-xs font-medium hover:bg-[#2D6A4F] transition-colors flex items-center gap-1.5 cursor-pointer"
                     >
                       <CheckCircle2 className="w-3 h-3" aria-hidden="true" />
                       <span>Mark Resolved</span>

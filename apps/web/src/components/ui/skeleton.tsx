@@ -36,7 +36,7 @@ export function ChartSkeleton({ height = 'h-72', title }: { height?: string; tit
       <div className="flex items-center justify-between">
         <div className="space-y-1.5">
           {title ? (
-            <div className="text-sm font-semibold text-[#1C1917]">{title}</div>
+            <div className="text-sm font-semibold text-[#22252A]">{title}</div>
           ) : (
             <Skeleton className="h-4 w-36" />
           )}
@@ -45,13 +45,13 @@ export function ChartSkeleton({ height = 'h-72', title }: { height?: string; tit
         <Skeleton className="h-7 w-20 rounded-md" />
       </div>
 
-      <div className={`w-full ${height} rounded-lg bg-[#FAF9F6] border border-[#E7E5E4]/60 p-4 flex flex-col justify-between relative overflow-hidden`}>
+      <div className={`w-full ${height} rounded-lg bg-[#FAF9F5] border border-[#E1E4EA]/60 p-4 flex flex-col justify-between relative overflow-hidden`}>
         <div className="absolute inset-0 shimmer opacity-40" />
         {/* Simulated gridlines */}
-        <div className="border-b border-[#E7E5E4]/50 w-full" />
-        <div className="border-b border-[#E7E5E4]/50 w-full" />
-        <div className="border-b border-[#E7E5E4]/50 w-full" />
-        <div className="border-b border-[#E7E5E4]/50 w-full" />
+        <div className="border-b border-[#E1E4EA]/50 w-full" />
+        <div className="border-b border-[#E1E4EA]/50 w-full" />
+        <div className="border-b border-[#E1E4EA]/50 w-full" />
+        <div className="border-b border-[#E1E4EA]/50 w-full" />
       </div>
     </div>
   );
@@ -60,20 +60,20 @@ export function ChartSkeleton({ height = 'h-72', title }: { height?: string; tit
 export function TableSkeleton({ rows = 5, cols = 5 }: { rows?: number; cols?: number }) {
   return (
     <div className="card-subtle overflow-hidden">
-      <div className="p-4 border-b border-[#E7E5E4] flex items-center justify-between">
+      <div className="p-4 border-b border-[#E1E4EA] flex items-center justify-between">
         <Skeleton className="h-4 w-40" />
         <Skeleton className="h-8 w-28 rounded-md" />
       </div>
       <div className="p-4 space-y-3">
         {/* Table header */}
-        <div className="grid grid-cols-5 gap-4 pb-2 border-b border-[#E7E5E4]/60">
+        <div className="grid grid-cols-5 gap-4 pb-2 border-b border-[#E1E4EA]/60">
           {Array.from({ length: cols }).map((_, i) => (
             <Skeleton key={i} className="h-3 w-3/4" />
           ))}
         </div>
         {/* Table rows */}
         {Array.from({ length: rows }).map((_, r) => (
-          <div key={r} className="grid grid-cols-5 gap-4 py-2 border-b border-[#E7E5E4]/40 last:border-0">
+          <div key={r} className="grid grid-cols-5 gap-4 py-2 border-b border-[#E1E4EA]/40 last:border-0">
             {Array.from({ length: cols }).map((_, c) => (
               <Skeleton key={c} className="h-3.5 w-5/6" />
             ))}

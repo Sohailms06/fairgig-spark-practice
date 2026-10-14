@@ -50,25 +50,25 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
 
   const workerNav = [
     { label: 'Overview', href: '/dashboard', icon: BarChart3 },
-    { label: 'Shifts & Earnings', href: '/dashboard/earnings', icon: Calendar },
-    { label: 'Anomaly Insights', href: '/dashboard/anomalies', icon: AlertTriangle },
-    { label: 'My Grievances', href: '/dashboard/grievances', icon: FileText },
-    { label: 'Income Certificate', href: '/dashboard/certificates', icon: Sparkles },
-    { label: 'Community Feed', href: '/community', icon: Users },
+    { label: 'Earnings', href: '/dashboard/earnings', icon: Calendar },
+    { label: 'Anomalies', href: '/dashboard/anomalies', icon: AlertTriangle },
+    { label: 'Grievances', href: '/dashboard/grievances', icon: FileText },
+    { label: 'Certificates', href: '/dashboard/certificates', icon: Sparkles },
+    { label: 'Community', href: '/community', icon: Users },
   ];
 
   const advocateNav = [
-    { label: 'Advocate Intelligence', href: '/advocate', icon: BarChart3 },
-    { label: 'Collective Clusters', href: '/advocate/grievances', icon: Layers },
-    { label: 'Commission Trends', href: '/advocate/commissions', icon: TrendingDown },
-    { label: 'Vulnerability Radar', href: '/advocate/zones', icon: AlertTriangle },
-    { label: 'Community Feed', href: '/community', icon: Users },
+    { label: 'Overview', href: '/advocate', icon: BarChart3 },
+    { label: 'Commissions', href: '/advocate/commissions', icon: TrendingDown },
+    { label: 'Zones', href: '/advocate/zones', icon: AlertTriangle },
+    { label: 'Grievances', href: '/advocate/grievances', icon: Layers },
+    { label: 'Community', href: '/community', icon: Users },
   ];
 
   const verifierNav = [
-    { label: 'Evidence Queue', href: '/verifier', icon: ShieldCheck },
-    { label: 'Audit History', href: '/verifier/history', icon: Calendar },
-    { label: 'Community Feed', href: '/community', icon: Users },
+    { label: 'Audit Queue', href: '/verifier', icon: ShieldCheck },
+    { label: 'History', href: '/verifier/history', icon: Calendar },
+    { label: 'Community', href: '/community', icon: Users },
   ];
 
   const navItems = role === 'advocate' ? advocateNav : role === 'verifier' ? verifierNav : workerNav;
@@ -76,14 +76,14 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
   const sidebarContent = (
     <div className="flex flex-col h-full bg-white select-none">
       {/* Brand Header */}
-      <div className="h-16 px-6 flex items-center justify-between border-b border-[#E7E5E4]">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-[#1E3A2F] flex items-center justify-center text-white font-bold text-sm shadow-xs">
+      <div className="h-14 px-5 flex items-center justify-between border-b border-[#E1E4EA]">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-md bg-[#1B4332] flex items-center justify-center text-white font-semibold text-xs shadow-2xs">
             FG
           </div>
           <div>
-            <div className="font-semibold text-sm tracking-tight text-[#1C1917]">FairGig Platform</div>
-            <div className="text-[11px] font-medium text-[#78716C] uppercase tracking-wider">
+            <div className="font-semibold text-sm tracking-tight text-[#22252A]">FairGig</div>
+            <div className="text-[10px] font-medium text-[#5B6370] uppercase tracking-wider leading-none">
               {role === 'advocate' ? 'Advocate Portal' : role === 'verifier' ? 'Verifier Audit' : 'Worker Workspace'}
             </div>
           </div>
@@ -93,7 +93,7 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
         {onMobileClose && (
           <button
             onClick={onMobileClose}
-            className="lg:hidden p-1.5 text-[#78716C] hover:text-[#1C1917] rounded-md focus-ring"
+            className="lg:hidden p-1.5 text-[#5B6370] hover:text-[#22252A] rounded-md focus-ring"
             aria-label="Close navigation menu"
           >
             <X className="w-5 h-5" />
@@ -102,38 +102,38 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
       </div>
 
       {/* Role Switcher for Hackathon Judges */}
-      <div className="p-3 bg-[#FAFAF8] border-b border-[#E7E5E4]">
-        <div className="text-[10px] font-semibold text-[#78716C] uppercase tracking-wider px-2 mb-1.5 flex items-center justify-between">
+      <div className="p-3 border-b border-[#E1E4EA] bg-[#FAF9F5]">
+        <div className="text-[10px] font-semibold text-[#5B6370] uppercase tracking-wider px-1 mb-1.5 flex items-center justify-between">
           <span>Judge Quick-Switch</span>
-          <span className="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-mono font-medium">1-Click</span>
+          <span className="text-[9px] bg-[#E2ECE6] text-[#1B4332] px-1.5 py-0.5 rounded font-mono font-medium">1-Click</span>
         </div>
-        <div className="grid grid-cols-3 gap-1">
+        <div className="grid grid-cols-3 gap-1 bg-[#F3F3F0] p-1 rounded-lg border border-[#E1E4EA]">
           <button
             onClick={() => switchDemoUser('worker')}
-            className={`btn-press px-2 py-1.5 text-xs rounded-md font-medium transition cursor-pointer ${
+            className={`btn-press px-2 py-1 text-xs rounded font-medium transition cursor-pointer text-center ${
               role === 'worker'
-                ? 'bg-[#1E3A2F] text-white shadow-xs'
-                : 'bg-white border border-[#E7E5E4] text-[#44403C] hover:bg-stone-50'
+                ? 'bg-white text-[#1B4332] shadow-2xs font-semibold'
+                : 'text-[#5B6370] hover:text-[#22252A]'
             }`}
           >
             Worker
           </button>
           <button
             onClick={() => switchDemoUser('advocate')}
-            className={`btn-press px-2 py-1.5 text-xs rounded-md font-medium transition cursor-pointer ${
+            className={`btn-press px-2 py-1 text-xs rounded font-medium transition cursor-pointer text-center ${
               role === 'advocate'
-                ? 'bg-[#1E3A2F] text-white shadow-xs'
-                : 'bg-white border border-[#E7E5E4] text-[#44403C] hover:bg-stone-50'
+                ? 'bg-white text-[#1B4332] shadow-2xs font-semibold'
+                : 'text-[#5B6370] hover:text-[#22252A]'
             }`}
           >
             Advocate
           </button>
           <button
             onClick={() => switchDemoUser('verifier')}
-            className={`btn-press px-2 py-1.5 text-xs rounded-md font-medium transition cursor-pointer ${
+            className={`btn-press px-2 py-1 text-xs rounded font-medium transition cursor-pointer text-center ${
               role === 'verifier'
-                ? 'bg-[#1E3A2F] text-white shadow-xs'
-                : 'bg-white border border-[#E7E5E4] text-[#44403C] hover:bg-stone-50'
+                ? 'bg-white text-[#1B4332] shadow-2xs font-semibold'
+                : 'text-[#5B6370] hover:text-[#22252A]'
             }`}
           >
             Verifier
@@ -142,8 +142,8 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto" aria-label="Main Navigation">
-        <div className="text-[11px] font-semibold text-[#78716C] uppercase tracking-wider px-3 mb-2">Navigation</div>
+      <nav className="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto" aria-label="Main Navigation">
+        <div className="text-[10px] font-semibold text-[#5B6370] uppercase tracking-wider px-2.5 mb-1.5">Navigation</div>
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -151,38 +151,38 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition ${
+              className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs sm:text-sm transition ${
                 isActive
-                  ? 'bg-[#F2F7F4] text-[#1E3A2F] font-semibold'
-                  : 'text-[#44403C] hover:bg-[#FAFAF8] hover:text-[#1C1917]'
+                  ? 'bg-[#F3F3F0] text-[#1B4332] font-semibold'
+                  : 'text-[#5B6370] hover:bg-[#F3F3F0]/60 hover:text-[#22252A] font-medium'
               }`}
             >
-              <div className="flex items-center gap-3">
-                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#1E3A2F]' : 'text-[#78716C]'}`} />
+              <div className="flex items-center gap-2.5">
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#1B4332]' : 'text-[#5B6370]'}`} />
                 <span className="truncate">{item.label}</span>
               </div>
-              {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#1E3A2F] shrink-0" />}
+              {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#1B4332] shrink-0" />}
             </Link>
           );
         })}
       </nav>
 
       {/* Current User Card & Logout */}
-      <div className="p-3 border-t border-[#E7E5E4] bg-[#FAFAF8]">
-        <div className="flex items-center justify-between p-2 rounded-lg bg-white border border-[#E7E5E4]">
-          <div className="flex items-center gap-2.5 overflow-hidden">
-            <div className="w-8 h-8 rounded-full bg-[#E2ECE6] text-[#1E3A2F] flex items-center justify-center font-bold text-xs shrink-0">
+      <div className="p-3 border-t border-[#E1E4EA] bg-[#FAF9F5]">
+        <div className="flex items-center justify-between p-2 rounded-lg bg-white border border-[#E1E4EA]">
+          <div className="flex items-center gap-2 overflow-hidden">
+            <div className="w-7 h-7 rounded-full bg-[#E2ECE6] text-[#1B4332] flex items-center justify-center font-semibold text-xs shrink-0">
               {user?.fullName ? user.fullName[0] : 'U'}
             </div>
             <div className="overflow-hidden">
-              <div className="text-xs font-semibold text-[#1C1917] truncate">{user?.fullName || 'Active User'}</div>
-              <div className="text-[10px] text-[#78716C] capitalize truncate">{role} &bull; {user?.cityName || 'Pakistan'}</div>
+              <div className="text-xs font-semibold text-[#22252A] truncate">{user?.fullName || 'Active User'}</div>
+              <div className="text-[10px] text-[#5B6370] capitalize truncate">{role} &bull; {user?.cityName || 'Pakistan'}</div>
             </div>
           </div>
           <button
             onClick={logout}
             aria-label="Sign out"
-            className="p-1.5 text-[#78716C] hover:text-[#1C1917] hover:bg-stone-100 rounded-md transition focus-ring cursor-pointer"
+            className="p-1.5 text-[#5B6370] hover:text-[#22252A] hover:bg-[#F3F3F0] rounded-md transition focus-ring cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
           </button>
@@ -194,7 +194,7 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
   return (
     <>
       {/* Desktop Persistent Sidebar */}
-      <aside className="hidden lg:flex w-64 border-r border-[#E7E5E4] bg-white flex-col h-screen sticky top-0 z-30 shrink-0">
+      <aside className="hidden lg:flex w-64 border-r border-[#E1E4EA] bg-white flex-col h-screen sticky top-0 z-30 shrink-0">
         {sidebarContent}
       </aside>
 

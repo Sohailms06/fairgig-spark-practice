@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
-import { ShieldCheck, CheckCircle2, AlertTriangle, FileText, Lock, Building } from 'lucide-react';
+import { CheckCircle2, AlertTriangle } from 'lucide-react';
 
 export default function PublicVerifyCertificatePage() {
   const params = useParams();
@@ -55,105 +55,105 @@ export default function PublicVerifyCertificatePage() {
   }, [certNumber, token]);
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] flex flex-col justify-center items-center px-4 py-12">
+    <div className="min-h-screen bg-[#FAF9F5] flex flex-col justify-center items-center px-4 py-12">
       <div className="w-full max-w-xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-xl bg-[#1E3A2F] text-white font-bold text-lg flex items-center justify-center mx-auto mb-3 shadow-sm">
+          <div className="w-10 h-10 rounded-lg bg-[#1B4332] text-white font-medium text-sm flex items-center justify-center mx-auto mb-3">
             FG
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-[#1C1917]">
-            FairGig Public Verification Gateway
+          <h1 className="text-2xl font-semibold tracking-tight text-[#22252A]">
+            Public Verification Gateway
           </h1>
-          <p className="text-xs text-[#78716C] mt-1">
-            Independent cryptographic ledger verification for landlords, financial institutions, and visa consulates
+          <p className="text-xs text-[#5B6370] mt-1">
+            Independent cryptographic ledger verification for landlords, financial institutions, and visa authorities
           </p>
         </div>
 
         {loading ? (
-          <div className="card-subtle p-12 text-center text-xs text-[#78716C]">
-            <div className="w-8 h-8 rounded-full border-2 border-[#1E3A2F] border-t-transparent animate-spin mx-auto mb-3" />
+          <div className="card-subtle p-12 text-center text-xs text-[#5B6370]">
+            <div className="w-6 h-6 rounded-full border-2 border-[#1B4332] border-t-transparent animate-spin mx-auto mb-3" />
             <span>Verifying SHA-256 cryptographic signature against PostgreSQL ledger...</span>
           </div>
         ) : verification?.isValid ? (
-          <div className="card-subtle p-6 bg-white border border-[#E7E5E4] shadow-md">
+          <div className="card-subtle p-6 bg-white border border-[#E1E4EA]">
             {/* Validity Banner */}
-            <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl mb-6 flex items-center gap-3">
-              <CheckCircle2 className="w-6 h-6 text-emerald-700 shrink-0" />
+            <div className="p-4 bg-[#2D6A4F]/10 border border-[#2D6A4F]/20 rounded-xl mb-6 flex items-center gap-3">
+              <CheckCircle2 className="w-5 h-5 text-[#2D6A4F] shrink-0" />
               <div>
-                <h2 className="text-sm font-bold text-emerald-900">Certificate Signature Authenticated</h2>
-                <p className="text-xs text-emerald-800 mt-0.5">{verification.message}</p>
+                <h2 className="text-sm font-semibold text-[#2D6A4F]">Certificate Signature Authenticated</h2>
+                <p className="text-xs text-[#2D6A4F] mt-0.5">{verification.message}</p>
               </div>
             </div>
 
             {/* Certificate Details */}
             <div className="space-y-4 text-xs">
-              <div className="grid grid-cols-2 gap-3 pb-3 border-b border-[#F0EFEA]">
+              <div className="grid grid-cols-2 gap-3 pb-3 border-b border-[#E1E4EA]">
                 <div>
-                  <span className="text-[#78716C] uppercase text-[10px] font-semibold">Certificate Number</span>
-                  <div className="font-mono font-bold text-[#1C1917] text-sm mt-0.5">
+                  <span className="text-[#5B6370] uppercase text-[10px] font-medium tracking-wider">Certificate Number</span>
+                  <div className="font-mono font-semibold text-[#22252A] text-sm mt-0.5">
                     {verification.certificate?.certificateNumber}
                   </div>
                 </div>
 
                 <div>
-                  <span className="text-[#78716C] uppercase text-[10px] font-semibold">Worker (Privacy Masked)</span>
-                  <div className="font-bold text-[#1C1917] text-sm mt-0.5">
+                  <span className="text-[#5B6370] uppercase text-[10px] font-medium tracking-wider">Worker (Privacy Masked)</span>
+                  <div className="font-semibold text-[#22252A] text-sm mt-0.5">
                     {verification.certificate?.workerName}
                   </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 pb-3 border-b border-[#F0EFEA]">
+              <div className="grid grid-cols-2 gap-3 pb-3 border-b border-[#E1E4EA]">
                 <div>
-                  <span className="text-[#78716C] uppercase text-[10px] font-semibold">Certified Period</span>
-                  <div className="font-semibold text-[#1C1917] mt-0.5">
+                  <span className="text-[#5B6370] uppercase text-[10px] font-medium tracking-wider">Certified Period</span>
+                  <div className="font-medium text-[#22252A] mt-0.5 tabular-nums">
                     {verification.certificate?.periodStartDate} &rarr; {verification.certificate?.periodEndDate}
                   </div>
                 </div>
 
                 <div>
-                  <span className="text-[#78716C] uppercase text-[10px] font-semibold">Intended Purpose</span>
-                  <div className="font-semibold text-[#1C1917] capitalize mt-0.5">
+                  <span className="text-[#5B6370] uppercase text-[10px] font-medium tracking-wider">Intended Purpose</span>
+                  <div className="font-medium text-[#22252A] capitalize mt-0.5">
                     {verification.certificate?.purpose?.replace(/_/g, ' ')}
                   </div>
                 </div>
               </div>
 
               {/* Financial Verification Card */}
-              <div className="p-4 bg-[#FAFAF8] rounded-xl border border-[#E7E5E4] grid grid-cols-2 gap-3">
+              <div className="p-4 bg-[#FAF9F5] rounded-xl border border-[#E1E4EA] grid grid-cols-2 gap-3">
                 <div>
-                  <span className="text-[#78716C] text-[10px] uppercase font-semibold">Verified Take-Home Net</span>
-                  <div className="text-lg font-extrabold text-[#1E3A2F]">
+                  <span className="text-[#5B6370] text-[10px] uppercase font-medium tracking-wider">Verified Take-Home Net</span>
+                  <div className="text-lg font-semibold text-[#1B4332] tabular-nums">
                     PKR {verification.certificate?.totalNetIncome?.toLocaleString()}
                   </div>
                 </div>
 
                 <div>
-                  <span className="text-[#78716C] text-[10px] uppercase font-semibold">Verified Hours Logged</span>
-                  <div className="text-lg font-extrabold text-[#1C1917]">
+                  <span className="text-[#5B6370] text-[10px] uppercase font-medium tracking-wider">Verified Hours Logged</span>
+                  <div className="text-lg font-semibold text-[#22252A] tabular-nums">
                     {verification.certificate?.totalHoursWorked} hrs
                   </div>
                 </div>
               </div>
 
               {/* Cryptographic Hash */}
-              <div className="p-3 bg-stone-50 rounded-lg border border-stone-200 font-mono text-[10px] text-[#44403C] break-all">
-                <span className="font-bold block text-[#1C1917] mb-0.5">SHA-256 Ledger Signature Hash:</span>
+              <div className="p-3 bg-[#FAF9F5] rounded-lg border border-[#E1E4EA] font-mono text-[10px] text-[#5B6370] break-all">
+                <span className="font-medium block text-[#22252A] mb-0.5">SHA-256 Ledger Signature Hash:</span>
                 {verification.certificate?.cryptographicSignature}
               </div>
 
               {/* Mandatory Non-Governmental Notice */}
-              <div className="p-3 bg-amber-50 border-l-4 border-amber-500 rounded-r-lg text-[11px] text-amber-900 leading-relaxed">
-                <strong>LEGAL NOTICE:</strong> This document is an automated platform-generated statement derived solely from cryptographically verified shift records on the FairGig ledger. It does not constitute a statutory tax filing, government-issued affidavit, or bank guarantee.
+              <div className="p-3 bg-[#FAF9F5] border-l-2 border-[#D97706] rounded-r-md text-[11px] text-[#5B6370] leading-relaxed">
+                <strong className="text-[#22252A]">LEGAL NOTICE:</strong> This document is an automated platform-generated statement derived solely from cryptographically verified shift records on the FairGig ledger. It does not constitute a statutory tax filing, government-issued affidavit, or bank guarantee.
               </div>
             </div>
           </div>
         ) : (
-          <div className="card-subtle p-8 bg-white border border-red-200 text-center">
-            <AlertTriangle className="w-8 h-8 text-red-600 mx-auto mb-2" />
-            <h2 className="text-base font-bold text-red-900">Certificate Verification Failed</h2>
-            <p className="text-xs text-[#78716C] mt-1">
+          <div className="card-subtle p-8 bg-white border border-[#DC2626]/20 text-center">
+            <AlertTriangle className="w-8 h-8 text-[#DC2626] mx-auto mb-2" />
+            <h2 className="text-base font-semibold text-[#DC2626]">Certificate Verification Failed</h2>
+            <p className="text-xs text-[#5B6370] mt-1">
               The provided certificate number or public verification token is invalid or has been revoked.
             </p>
           </div>

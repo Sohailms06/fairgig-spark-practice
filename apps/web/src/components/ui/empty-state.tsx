@@ -21,20 +21,20 @@ export function EmptyState({
 }: EmptyStateProps) {
   return (
     <div
-      className={`card-subtle p-10 flex flex-col items-center justify-center text-center ${className}`}
+      className={`card-subtle p-8 flex flex-col items-center justify-center text-center ${className}`}
       role="status"
     >
-      <div className="w-12 h-12 rounded-full bg-[#F2F7F4] border border-[#C5D9CE] flex items-center justify-center text-[#1E3A2F] mb-4">
-        <Icon className="w-6 h-6" aria-hidden="true" />
+      <div className="w-10 h-10 rounded-full bg-[#F3F3F0] border border-[#E1E4EA] flex items-center justify-center text-[#1B4332] mb-3">
+        <Icon className="w-5 h-5" aria-hidden="true" />
       </div>
-      <h3 className="text-sm font-semibold text-[#1C1917] tracking-tight">{title}</h3>
-      <p className="text-xs text-[#78716C] max-w-sm mt-1 mb-5 leading-relaxed">
+      <h3 className="text-sm font-semibold text-[#22252A] tracking-tight">{title}</h3>
+      <p className="text-xs text-[#5B6370] max-w-sm mt-1 mb-4 leading-relaxed">
         {description}
       </p>
       {action && (
         <button
           onClick={action.onClick}
-          className="btn-press focus-ring px-4 py-2 text-xs font-medium rounded-lg bg-[#1E3A2F] text-white hover:bg-[#234737] shadow-xs cursor-pointer"
+          className="btn-press focus-ring px-3.5 py-1.5 text-xs font-medium rounded-lg bg-[#1B4332] text-white hover:bg-[#2D6A4F] shadow-2xs cursor-pointer"
         >
           {action.label}
         </button>

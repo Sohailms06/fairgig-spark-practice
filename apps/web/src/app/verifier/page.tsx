@@ -7,10 +7,6 @@ import {
   AlertTriangle,
   XCircle,
   FileText,
-  Calendar,
-  Clock,
-  ExternalLink,
-  Search,
   Loader2,
   Lock,
 } from 'lucide-react';
@@ -66,20 +62,20 @@ export default function VerifierQueuePage() {
   };
 
   const getOcrColor = (confidence: number) => {
-    if (confidence >= 0.85) return 'text-emerald-700 bg-emerald-50 border-emerald-200';
-    if (confidence >= 0.6) return 'text-amber-800 bg-amber-50 border-amber-200';
-    return 'text-red-700 bg-red-50 border-red-200';
+    if (confidence >= 0.85) return 'text-[#2D6A4F] bg-[#2D6A4F]/10 border-[#2D6A4F]/20';
+    if (confidence >= 0.6) return 'text-[#D97706] bg-[#D97706]/10 border-[#D97706]/20';
+    return 'text-[#DC2626] bg-[#DC2626]/10 border-[#DC2626]/20';
   };
 
   return (
     <AppShell
-      title="Evidence Audit &amp; Shift Verification Queue"
-      subtitle="Inspect pay stub OCR screenshots, audit platform deductions, and verify ledger records"
+      title="Evidence Audit &amp; Verification"
+      subtitle="Inspect pay stub OCR screenshots, audit platform deductions, and verify ledger records."
     >
       {/* Toast Feedback */}
       {actionFeedback && (
-        <div className="mb-4 p-3 bg-[#F2F7F4] border border-[#C5D9CE] rounded-xl text-xs font-medium text-[#1E3A2F] flex items-center gap-2 animate-modal-enter shadow-2xs">
-          <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" aria-hidden="true" />
+        <div className="mb-4 p-3 bg-[#2D6A4F]/10 border border-[#2D6A4F]/20 rounded-lg text-xs font-medium text-[#2D6A4F] flex items-center gap-2 animate-modal-enter">
+          <ShieldCheck className="w-4 h-4 text-[#2D6A4F] shrink-0" aria-hidden="true" />
           <span>{actionFeedback}</span>
         </div>
       )}
@@ -87,10 +83,10 @@ export default function VerifierQueuePage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column: Review Queue List */}
         <div className="lg:col-span-1 space-y-3">
-          <div className="flex items-center justify-between pb-2 border-b border-[#E7E5E4] text-xs">
-            <span className="font-semibold text-[#1C1917]">{queue.length} Shifts Pending Audit</span>
-            <span className="text-[10px] text-[#78716C] flex items-center gap-1 font-mono">
-              <Lock className="w-3 h-3 text-stone-400" aria-hidden="true" />
+          <div className="flex items-center justify-between pb-2 border-b border-[#E1E4EA] text-xs">
+            <span className="font-semibold text-[#22252A]">{queue.length} Shifts Pending Audit</span>
+            <span className="text-[10px] text-[#5B6370] flex items-center gap-1 font-mono">
+              <Lock className="w-3 h-3 text-[#5B6370]" aria-hidden="true" />
               <span>Private S3 Bucket</span>
             </span>
           </div>
@@ -118,25 +114,25 @@ export default function VerifierQueuePage() {
                 <div
                   key={item.id}
                   onClick={() => setSelectedItem(item)}
-                  className={`p-4 rounded-xl border cursor-pointer transition text-xs ${
+                  className={`p-4 rounded-xl border cursor-pointer transition-colors text-xs ${
                     selectedItem?.id === item.id
-                      ? 'border-[#1E3A2F] bg-[#F2F7F4] shadow-2xs'
-                      : 'border-[#E7E5E4] bg-white hover:bg-stone-50'
+                      ? 'border-[#1B4332] bg-[#FAF9F5]'
+                      : 'border-[#E1E4EA] bg-white hover:bg-[#F3F3F0]/60'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="font-semibold text-[#1C1917]">{item.workerName}</span>
-                    <span className="capitalize font-medium text-[#1E3A2F]">{item.platform}</span>
+                    <span className="font-semibold text-[#22252A]">{item.workerName}</span>
+                    <span className="capitalize font-medium text-[#1B4332]">{item.platform}</span>
                   </div>
-                  <div className="text-[11px] text-[#78716C] flex items-center justify-between">
+                  <div className="text-[11px] text-[#5B6370] flex items-center justify-between">
                     <span>Shift Date: {item.shiftDate}</span>
-                    <span className="font-semibold text-[#1C1917] tabular-nums">PKR {item.netAmount}</span>
+                    <span className="font-semibold text-[#22252A] tabular-nums">PKR {item.netAmount}</span>
                   </div>
                   <div className="mt-2.5 flex items-center justify-between text-[10px]">
-                    <span className={`px-2 py-0.5 rounded font-medium border ${getOcrColor(item.ocrConfidence)}`}>
+                    <span className={`px-2 py-0.5 rounded-md font-medium border ${getOcrColor(item.ocrConfidence)}`}>
                       OCR Match: {ocrPercent}%
                     </span>
-                    <span className="text-[#78716C] font-mono">{item.evidenceCount} screenshot attached</span>
+                    <span className="text-[#5B6370] font-mono">{item.evidenceCount} screenshot attached</span>
                   </div>
                 </div>
               );
@@ -148,65 +144,65 @@ export default function VerifierQueuePage() {
         <div className="lg:col-span-2">
           {selectedItem ? (
             <div className="card-subtle p-6 space-y-6 animate-modal-enter">
-              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#E7E5E4]">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#E1E4EA]">
                 <div>
-                  <h3 className="text-sm font-semibold text-[#1C1917] tracking-tight">Evidence Inspection: {selectedItem.workerName}</h3>
-                  <div className="text-xs text-[#78716C] mt-0.5">
+                  <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Evidence Inspection: {selectedItem.workerName}</h3>
+                  <div className="text-xs text-[#5B6370] mt-0.5">
                     Worker ID: {selectedItem.workerId} &bull; Shift: {selectedItem.shiftDate} ({selectedItem.hoursWorked} hrs)
                   </div>
                 </div>
 
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-medium uppercase bg-amber-50 text-amber-800 border border-amber-200">
+                <span className="px-2.5 py-0.5 rounded-md text-[10px] font-medium uppercase bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/20">
                   {selectedItem.verificationStatus}
                 </span>
               </div>
 
               {/* Financial Comparison Grid */}
-              <div className="grid grid-cols-3 gap-3 p-4 bg-[#FAFAF8] rounded-xl border border-[#E7E5E4] text-xs">
+              <div className="grid grid-cols-3 gap-3 p-4 bg-[#FAF9F5] rounded-xl border border-[#E1E4EA] text-xs">
                 <div>
-                  <div className="text-[10px] uppercase font-semibold text-[#78716C]">Reported Gross</div>
-                  <div className="text-sm font-bold text-[#1C1917] mt-0.5">PKR {selectedItem.grossAmount}</div>
+                  <div className="text-[10px] uppercase font-medium text-[#5B6370]">Reported Gross</div>
+                  <div className="text-sm font-semibold text-[#22252A] mt-0.5 tabular-nums">PKR {selectedItem.grossAmount}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase font-semibold text-[#78716C]">Reported Deductions</div>
-                  <div className="text-sm font-bold text-red-600 mt-0.5">-PKR {selectedItem.deductions}</div>
+                  <div className="text-[10px] uppercase font-medium text-[#5B6370]">Reported Deductions</div>
+                  <div className="text-sm font-semibold text-[#DC2626] mt-0.5 tabular-nums">-PKR {selectedItem.deductions}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase font-semibold text-[#78716C]">Reported Take-Home</div>
-                  <div className="text-sm font-bold text-[#1E3A2F] mt-0.5">PKR {selectedItem.netAmount}</div>
+                  <div className="text-[10px] uppercase font-medium text-[#5B6370]">Reported Take-Home</div>
+                  <div className="text-sm font-semibold text-[#1B4332] mt-0.5 tabular-nums">PKR {selectedItem.netAmount}</div>
                 </div>
               </div>
 
               {/* OCR Match Confidence Bar */}
-              <div className="p-4 rounded-xl border border-[#E7E5E4] bg-white space-y-2">
+              <div className="p-4 rounded-xl border border-[#E1E4EA] bg-white space-y-2">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-[#1C1917]">Automated OCR Confidence Score</span>
-                  <span className="font-mono font-bold text-[#1E3A2F]">{Math.round(selectedItem.ocrConfidence * 100)}% Match</span>
+                  <span className="font-semibold text-[#22252A]">Automated OCR Confidence Score</span>
+                  <span className="font-mono font-semibold text-[#1B4332]">{Math.round(selectedItem.ocrConfidence * 100)}% Match</span>
                 </div>
-                <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-[#F3F3F0] h-2 rounded-full overflow-hidden">
                   <div
-                    className="bg-[#1E3A2F] h-full rounded-full transition-all duration-300"
+                    className="bg-[#1B4332] h-full rounded-full transition-all duration-300"
                     style={{ width: `${selectedItem.ocrConfidence * 100}%` }}
                   />
                 </div>
-                <div className="text-[10px] text-[#78716C]">
+                <div className="text-[11px] text-[#5B6370]">
                   Optical character recognition extracted date, platform header, and net payout token.
                 </div>
               </div>
 
               {/* Secure Evidence Display Placeholder */}
               <div>
-                <div className="text-xs font-semibold text-[#44403C] uppercase mb-2">Authenticated OCR Evidence File</div>
-                <div className="p-6 border-2 border-dashed border-[#C5D9CE] rounded-xl bg-[#F2F7F4] text-center">
-                  <div className="w-10 h-10 rounded-full bg-white border border-[#C5D9CE] flex items-center justify-center mx-auto mb-2 text-[#1E3A2F]">
+                <div className="text-xs font-semibold text-[#22252A] uppercase tracking-wider mb-2">Authenticated OCR Evidence File</div>
+                <div className="p-6 border border-dashed border-[#E1E4EA] rounded-xl bg-[#FAF9F5] text-center">
+                  <div className="w-10 h-10 rounded-lg bg-white border border-[#E1E4EA] flex items-center justify-center mx-auto mb-2 text-[#1B4332]">
                     <FileText className="w-5 h-5" aria-hidden="true" />
                   </div>
-                  <div className="text-xs font-bold text-[#1C1917]">{selectedItem.platform} Paystub Screenshot &bull; Trip ID #9831</div>
-                  <div className="text-[11px] text-[#78716C] mt-0.5 font-mono">
+                  <div className="text-xs font-semibold text-[#22252A]">{selectedItem.platform} Paystub Screenshot &bull; Trip ID #9831</div>
+                  <div className="text-[11px] text-[#5B6370] mt-0.5 font-mono">
                     Storage: evidence-private/{selectedItem.workerId?.substring(0, 8)}/stub.png
                   </div>
-                  <div className="mt-3 text-xs text-emerald-800 font-semibold flex items-center justify-center gap-1">
-                    <ShieldCheck className="w-4 h-4 text-emerald-700" aria-hidden="true" />
+                  <div className="mt-3 text-xs text-[#2D6A4F] font-medium flex items-center justify-center gap-1">
+                    <ShieldCheck className="w-4 h-4 text-[#2D6A4F]" aria-hidden="true" />
                     <span>OCR Match Confirmed: PKR {selectedItem.netAmount} matches statement net payout</span>
                   </div>
                 </div>
@@ -214,7 +210,7 @@ export default function VerifierQueuePage() {
 
               {/* Audit Notes Form */}
               <div>
-                <label className="block text-xs font-semibold text-[#44403C] uppercase mb-1.5">
+                <label className="block text-xs font-semibold text-[#22252A] uppercase tracking-wider mb-1.5">
                   Verifier Review Notes
                 </label>
                 <input
@@ -222,13 +218,13 @@ export default function VerifierQueuePage() {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="e.g. Screenshot timestamps match logged shift hours; deductions confirmed."
-                  className="focus-ring w-full text-xs p-2.5 border border-[#E7E5E4] rounded-lg bg-white"
+                  className="focus-ring w-full text-xs p-2.5 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                 />
               </div>
 
               {/* Decision Actions Bar */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#E7E5E4]">
-                <div className="text-[11px] text-[#78716C]">
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#E1E4EA]">
+                <div className="text-[11px] text-[#5B6370]">
                   Decisions are permanently signed into the PostgreSQL audit log.
                 </div>
 
@@ -237,7 +233,7 @@ export default function VerifierQueuePage() {
                     onClick={() => handleDecision('flag_discrepancy')}
                     disabled={isSubmitting}
                     aria-busy={isSubmitting}
-                    className="btn-press focus-ring px-3.5 py-1.5 bg-amber-600 text-white rounded-lg text-xs font-semibold hover:bg-amber-700 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    className="focus-ring px-3.5 py-1.5 bg-[#D97706] text-white rounded-md text-xs font-medium hover:bg-[#B45309] transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                   >
                     <AlertTriangle className="w-3.5 h-3.5" aria-hidden="true" />
                     <span>Flag Discrepancy</span>
@@ -246,7 +242,7 @@ export default function VerifierQueuePage() {
                     onClick={() => handleDecision('mark_unverifiable')}
                     disabled={isSubmitting}
                     aria-busy={isSubmitting}
-                    className="btn-press focus-ring px-3.5 py-1.5 border border-red-300 text-red-700 rounded-lg text-xs font-semibold hover:bg-red-50 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    className="focus-ring px-3.5 py-1.5 border border-[#DC2626]/30 text-[#DC2626] rounded-md text-xs font-medium hover:bg-[#DC2626]/5 transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                   >
                     <XCircle className="w-3.5 h-3.5" aria-hidden="true" />
                     <span>Unverifiable</span>
@@ -255,7 +251,7 @@ export default function VerifierQueuePage() {
                     onClick={() => handleDecision('approve')}
                     disabled={isSubmitting}
                     aria-busy={isSubmitting}
-                    className="btn-press focus-ring px-4 py-1.5 bg-[#1E3A2F] text-white rounded-lg text-xs font-semibold hover:bg-[#234737] transition flex items-center gap-1.5 shadow-xs cursor-pointer disabled:opacity-50"
+                    className="focus-ring px-4 py-1.5 bg-[#1B4332] text-white rounded-md text-xs font-medium hover:bg-[#2D6A4F] transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -268,7 +264,7 @@ export default function VerifierQueuePage() {
               </div>
             </div>
           ) : (
-            <div className="card-subtle p-12 text-center text-[#78716C] text-xs">
+            <div className="card-subtle p-12 text-center text-[#5B6370] text-xs">
               Select a shift from the queue on the left to inspect screenshot evidence.
             </div>
           )}
