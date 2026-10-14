@@ -136,16 +136,16 @@ export default function WorkerDashboardPage() {
             {/* Net Earnings */}
             <div className="card-subtle p-5">
               <div className="flex items-center justify-between text-[#78716C] mb-2">
-                <span className="text-xs font-semibold uppercase tracking-wider">Take-Home Net</span>
+                <span className="text-[11px] font-medium uppercase tracking-wider">Take-Home Net</span>
                 <div className="w-7 h-7 rounded-lg bg-[#F2F7F4] flex items-center justify-center text-[#1E3A2F]" aria-hidden="true">
                   <Wallet className="w-4 h-4" />
                 </div>
               </div>
-              <div className="text-2xl font-extrabold text-[#1C1917] tracking-tight">
+              <div className="text-2xl font-semibold text-[#1C1917] tracking-tight tabular-nums">
                 {formatPKR(analytics?.totalNetEarnings)}
               </div>
               <div className="text-[11px] text-[#78716C] mt-1.5 flex items-center gap-1.5">
-                <span>Gross: {formatPKR(analytics?.totalGrossEarnings)}</span>
+                <span className="tabular-nums">Gross: {formatPKR(analytics?.totalGrossEarnings)}</span>
                 <span className="text-emerald-700 font-medium">({Math.round((analytics?.verificationRate || 1) * 100)}% verified)</span>
               </div>
             </div>
@@ -153,12 +153,12 @@ export default function WorkerDashboardPage() {
             {/* Platform Deductions */}
             <div className="card-subtle p-5">
               <div className="flex items-center justify-between text-[#78716C] mb-2">
-                <span className="text-xs font-semibold uppercase tracking-wider">Total Deductions</span>
+                <span className="text-[11px] font-medium uppercase tracking-wider">Total Deductions</span>
                 <div className="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center text-amber-700" aria-hidden="true">
                   <Percent className="w-4 h-4" />
                 </div>
               </div>
-              <div className="text-2xl font-extrabold text-[#1C1917] tracking-tight">
+              <div className="text-2xl font-semibold text-[#1C1917] tracking-tight tabular-nums">
                 {formatPKR(analytics?.totalDeductions)}
               </div>
               <div className="text-[11px] text-[#78716C] mt-1.5">
@@ -169,12 +169,12 @@ export default function WorkerDashboardPage() {
             {/* Hours Worked */}
             <div className="card-subtle p-5">
               <div className="flex items-center justify-between text-[#78716C] mb-2">
-                <span className="text-xs font-semibold uppercase tracking-wider">Hours Logged</span>
+                <span className="text-[11px] font-medium uppercase tracking-wider">Hours Logged</span>
                 <div className="w-7 h-7 rounded-lg bg-stone-100 flex items-center justify-center text-[#44403C]" aria-hidden="true">
                   <Clock className="w-4 h-4" />
                 </div>
               </div>
-              <div className="text-2xl font-extrabold text-[#1C1917] tracking-tight">
+              <div className="text-2xl font-semibold text-[#1C1917] tracking-tight tabular-nums">
                 {(analytics?.totalHoursWorked || 0).toFixed(1)} hrs
               </div>
               <div className="text-[11px] text-[#78716C] mt-1.5">
@@ -185,12 +185,12 @@ export default function WorkerDashboardPage() {
             {/* Effective Hourly Rate */}
             <div className="card-subtle p-5">
               <div className="flex items-center justify-between text-[#78716C] mb-2">
-                <span className="text-xs font-semibold uppercase tracking-wider">Effective Hourly Rate</span>
+                <span className="text-[11px] font-medium uppercase tracking-wider">Effective Hourly Rate</span>
                 <div className="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-700" aria-hidden="true">
                   <TrendingUp className="w-4 h-4" />
                 </div>
               </div>
-              <div className="text-2xl font-extrabold text-[#1C1917] tracking-tight">
+              <div className="text-2xl font-semibold text-[#1C1917] tracking-tight tabular-nums">
                 PKR {(analytics?.effectiveHourlyRate || 0).toFixed(2)}/hr
               </div>
               <div className="text-[11px] text-emerald-700 font-medium mt-1.5 flex items-center gap-1">
@@ -204,13 +204,13 @@ export default function WorkerDashboardPage() {
           {analytics?.cityBenchmark && (
             <div className="mb-6 p-5 rounded-xl border border-[#C5D9CE] bg-[#F2F7F4] flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[#1E3A2F] text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                <div className="w-9 h-9 rounded-lg bg-[#1E3A2F] text-white flex items-center justify-center font-semibold text-xs shadow-2xs">
                   PK
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-[#1C1917] flex items-center gap-2">
+                  <div className="text-xs font-semibold text-[#1C1917] flex items-center gap-2">
                     <span>{analytics.cityBenchmark.cityName} Municipal Benchmark ({analytics.cityBenchmark.category})</span>
-                    <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-semibold">
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-medium">
                       Verified Cohort (n={analytics.cityBenchmark.workerCohortSize} &ge; 5)
                     </span>
                   </div>
@@ -222,7 +222,7 @@ export default function WorkerDashboardPage() {
 
               <div className="flex items-center gap-3">
                 <div className="text-right">
-                  <span className="inline-block px-3 py-1.5 rounded-lg bg-white border border-[#C5D9CE] text-xs font-bold text-[#1E3A2F] shadow-2xs">
+                  <span className="inline-block px-3 py-1.5 rounded-lg bg-white border border-[#C5D9CE] text-xs font-medium text-[#1E3A2F] shadow-2xs">
                     +{analytics.cityBenchmark.variancePercentage}% Above City Median
                   </span>
                 </div>
@@ -236,11 +236,11 @@ export default function WorkerDashboardPage() {
             <div className="card-subtle p-6 lg:col-span-2">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h2 className="text-sm font-bold text-[#1C1917]">Weekly Income Trend</h2>
+                  <h2 className="text-sm font-semibold text-[#1C1917] tracking-tight">Weekly Income Trend</h2>
                   <p className="text-xs text-[#78716C]">Verified take-home earnings over time</p>
                 </div>
-                <span className="text-[10px] bg-stone-100 text-[#44403C] px-2.5 py-1 rounded-md font-mono">
-                  Recharts Curvature
+                <span className="text-[10px] bg-stone-100 text-[#44403C] px-2.5 py-1 rounded-md font-medium">
+                  Daily Net Trend
                 </span>
               </div>
 
@@ -287,16 +287,16 @@ export default function WorkerDashboardPage() {
             {/* Platform Breakdown */}
             <div className="card-subtle p-6">
               <div className="mb-4">
-                <h2 className="text-sm font-bold text-[#1C1917]">Platform Distribution</h2>
+                <h2 className="text-sm font-semibold text-[#1C1917] tracking-tight">Platform Distribution</h2>
                 <p className="text-xs text-[#78716C]">Gross revenue &amp; platform deduction rates</p>
               </div>
 
-              <div className="space-y-3.5">
+              <div className="space-y-3">
                 {analytics?.platformBreakdown?.map((p: any) => (
                   <div key={p.platform} className="p-3 bg-[#FAFAF8] rounded-xl border border-[#E7E5E4]">
-                    <div className="flex items-center justify-between text-xs font-semibold text-[#1C1917] capitalize mb-1">
+                    <div className="flex items-center justify-between text-xs font-medium text-[#1C1917] capitalize mb-1">
                       <span>{p.platform}</span>
-                      <span>{formatPKR(p.netAmount)}</span>
+                      <span className="tabular-nums font-semibold">{formatPKR(p.netAmount)}</span>
                     </div>
                     <div className="w-full bg-stone-200 h-1.5 rounded-full overflow-hidden mb-1.5">
                       <div
@@ -318,12 +318,12 @@ export default function WorkerDashboardPage() {
           <div className="card-subtle p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-sm font-bold text-[#1C1917]">Recent Shift Ledger</h2>
+                <h2 className="text-sm font-semibold text-[#1C1917] tracking-tight">Recent Shift Ledger</h2>
                 <p className="text-xs text-[#78716C]">Latest shifts logged with auditor verification status</p>
               </div>
               <Link
                 href="/dashboard/earnings"
-                className="text-xs font-semibold text-[#1E3A2F] hover:underline flex items-center gap-1"
+                className="text-xs font-medium text-[#1E3A2F] hover:underline flex items-center gap-1"
               >
                 <span>View All Shifts</span>
                 <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
@@ -344,27 +344,27 @@ export default function WorkerDashboardPage() {
                 <table className="w-full text-left text-xs">
                   <thead>
                     <tr className="border-b border-[#E7E5E4] text-[#78716C] uppercase tracking-wider text-[10px]">
-                      <th className="py-2.5 px-3">Date</th>
-                      <th className="py-2.5 px-3">Platform</th>
-                      <th className="py-2.5 px-3 text-right">Hours</th>
-                      <th className="py-2.5 px-3 text-right">Gross</th>
-                      <th className="py-2.5 px-3 text-right">Deductions</th>
-                      <th className="py-2.5 px-3 text-right">Net</th>
-                      <th className="py-2.5 px-3 text-center">Status</th>
+                      <th className="py-2.5 px-3 font-medium">Date</th>
+                      <th className="py-2.5 px-3 font-medium">Platform</th>
+                      <th className="py-2.5 px-3 text-right font-medium">Hours</th>
+                      <th className="py-2.5 px-3 text-right font-medium">Gross</th>
+                      <th className="py-2.5 px-3 text-right font-medium">Deductions</th>
+                      <th className="py-2.5 px-3 text-right font-medium">Net</th>
+                      <th className="py-2.5 px-3 text-center font-medium">Status</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#F0EFEA]">
                     {shifts.slice(0, 5).map((shift) => (
                       <tr key={shift.id} className="hover:bg-[#FAFAF8] transition">
-                        <td className="py-3 px-3 font-medium text-[#1C1917]">{shift.shiftDate}</td>
-                        <td className="py-3 px-3 capitalize font-semibold text-[#44403C]">{shift.platform}</td>
-                        <td className="py-3 px-3 text-right text-[#44403C]">{shift.hoursWorked} hrs</td>
-                        <td className="py-3 px-3 text-right text-[#44403C]">{formatPKR(shift.grossAmount)}</td>
-                        <td className="py-3 px-3 text-right text-red-600">-{formatPKR(shift.deductions)}</td>
-                        <td className="py-3 px-3 text-right font-bold text-[#1C1917]">{formatPKR(shift.netAmount)}</td>
+                        <td className="py-3 px-3 font-medium text-[#1C1917] tabular-nums">{shift.shiftDate}</td>
+                        <td className="py-3 px-3 capitalize font-medium text-[#44403C]">{shift.platform}</td>
+                        <td className="py-3 px-3 text-right text-[#44403C] tabular-nums">{shift.hoursWorked} hrs</td>
+                        <td className="py-3 px-3 text-right text-[#44403C] tabular-nums">{formatPKR(shift.grossAmount)}</td>
+                        <td className="py-3 px-3 text-right text-red-600 tabular-nums">-{formatPKR(shift.deductions)}</td>
+                        <td className="py-3 px-3 text-right font-semibold text-[#1C1917] tabular-nums">{formatPKR(shift.netAmount)}</td>
                         <td className="py-3 px-3 text-center">
                           <span
-                            className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold capitalize ${
+                            className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-medium capitalize ${
                               shift.verificationStatus === 'verified'
                                 ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                                 : shift.verificationStatus === 'discrepancy'

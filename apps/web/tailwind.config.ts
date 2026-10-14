@@ -38,11 +38,12 @@ const config: Config = {
       },
       fontFamily: {
         sans: [
-          'Inter',
           '-apple-system',
           'BlinkMacSystemFont',
+          '"SF Pro Text"',
+          '"SF Pro Display"',
+          'Inter',
           '"Segoe UI"',
-          'Roboto',
           'sans-serif',
         ],
       },

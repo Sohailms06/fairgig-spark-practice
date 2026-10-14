@@ -78,7 +78,7 @@ export default function VerifierQueuePage() {
     >
       {/* Toast Feedback */}
       {actionFeedback && (
-        <div className="mb-4 p-3 bg-[#F2F7F4] border border-[#C5D9CE] rounded-xl text-xs font-semibold text-[#1E3A2F] flex items-center gap-2 animate-modal-enter shadow-xs">
+        <div className="mb-4 p-3 bg-[#F2F7F4] border border-[#C5D9CE] rounded-xl text-xs font-medium text-[#1E3A2F] flex items-center gap-2 animate-modal-enter shadow-2xs">
           <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" aria-hidden="true" />
           <span>{actionFeedback}</span>
         </div>
@@ -88,7 +88,7 @@ export default function VerifierQueuePage() {
         {/* Left Column: Review Queue List */}
         <div className="lg:col-span-1 space-y-3">
           <div className="flex items-center justify-between pb-2 border-b border-[#E7E5E4] text-xs">
-            <span className="font-bold text-[#1C1917]">{queue.length} Shifts Pending Audit</span>
+            <span className="font-semibold text-[#1C1917]">{queue.length} Shifts Pending Audit</span>
             <span className="text-[10px] text-[#78716C] flex items-center gap-1 font-mono">
               <Lock className="w-3 h-3 text-stone-400" aria-hidden="true" />
               <span>Private S3 Bucket</span>
@@ -120,17 +120,17 @@ export default function VerifierQueuePage() {
                   onClick={() => setSelectedItem(item)}
                   className={`p-4 rounded-xl border cursor-pointer transition text-xs ${
                     selectedItem?.id === item.id
-                      ? 'border-[#1E3A2F] bg-[#F2F7F4] shadow-xs'
+                      ? 'border-[#1E3A2F] bg-[#F2F7F4] shadow-2xs'
                       : 'border-[#E7E5E4] bg-white hover:bg-stone-50'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="font-bold text-[#1C1917]">{item.workerName}</span>
-                    <span className="capitalize font-semibold text-[#1E3A2F]">{item.platform}</span>
+                    <span className="font-semibold text-[#1C1917]">{item.workerName}</span>
+                    <span className="capitalize font-medium text-[#1E3A2F]">{item.platform}</span>
                   </div>
                   <div className="text-[11px] text-[#78716C] flex items-center justify-between">
                     <span>Shift Date: {item.shiftDate}</span>
-                    <span className="font-bold text-[#1C1917]">PKR {item.netAmount}</span>
+                    <span className="font-semibold text-[#1C1917] tabular-nums">PKR {item.netAmount}</span>
                   </div>
                   <div className="mt-2.5 flex items-center justify-between text-[10px]">
                     <span className={`px-2 py-0.5 rounded font-medium border ${getOcrColor(item.ocrConfidence)}`}>
@@ -150,13 +150,13 @@ export default function VerifierQueuePage() {
             <div className="card-subtle p-6 space-y-6 animate-modal-enter">
               <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#E7E5E4]">
                 <div>
-                  <h3 className="text-sm font-bold text-[#1C1917]">Evidence Inspection: {selectedItem.workerName}</h3>
+                  <h3 className="text-sm font-semibold text-[#1C1917] tracking-tight">Evidence Inspection: {selectedItem.workerName}</h3>
                   <div className="text-xs text-[#78716C] mt-0.5">
                     Worker ID: {selectedItem.workerId} &bull; Shift: {selectedItem.shiftDate} ({selectedItem.hoursWorked} hrs)
                   </div>
                 </div>
 
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-50 text-amber-800 border border-amber-200">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-medium uppercase bg-amber-50 text-amber-800 border border-amber-200">
                   {selectedItem.verificationStatus}
                 </span>
               </div>

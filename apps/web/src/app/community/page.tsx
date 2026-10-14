@@ -51,17 +51,17 @@ export default function CommunityBoardPage() {
       {/* Privacy Safeguard Banner */}
       <div className="mb-6 p-4 rounded-xl border border-[#C5D9CE] bg-[#F2F7F4] flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-[#1E3A2F] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs">
+          <div className="w-8 h-8 rounded-lg bg-[#1E3A2F] text-white flex items-center justify-center font-semibold text-xs shrink-0 shadow-2xs">
             <ShieldCheck className="w-4 h-4" aria-hidden="true" />
           </div>
           <div>
-            <div className="text-xs font-bold text-[#1C1917]">K-Anonymity &amp; PII Concealment Enforced</div>
+            <div className="text-xs font-semibold text-[#1C1917]">K-Anonymity &amp; PII Concealment Enforced</div>
             <div className="text-[11px] text-[#44403C]">
               Worker identities, private evidence URLs, and phone numbers are scrubbed from public broadcasts.
             </div>
           </div>
         </div>
-        <span className="text-[11px] bg-white border border-[#C5D9CE] text-[#1E3A2F] px-2.5 py-1 rounded-md font-mono font-semibold shadow-2xs">
+        <span className="text-[11px] bg-white border border-[#C5D9CE] text-[#1E3A2F] px-2.5 py-1 rounded-md font-mono font-medium shadow-2xs">
           ANON Masking Active
         </span>
       </div>

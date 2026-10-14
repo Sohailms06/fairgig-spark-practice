@@ -62,12 +62,12 @@ export default function AdvocateDashboardPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <div className="card-subtle p-5">
             <div className="flex items-center justify-between text-[#78716C] mb-2">
-              <span className="text-xs font-semibold uppercase tracking-wider">Workers Monitored</span>
+              <span className="text-[11px] font-medium uppercase tracking-wider">Workers Monitored</span>
               <div className="w-7 h-7 rounded-lg bg-[#F2F7F4] flex items-center justify-center text-[#1E3A2F]" aria-hidden="true">
                 <Users className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-2xl font-extrabold text-[#1C1917] tracking-tight">
+            <div className="text-2xl font-semibold text-[#1C1917] tracking-tight tabular-nums">
               {overview?.totalWorkersMonitored || 8}
             </div>
             <div className="text-[11px] text-[#78716C] mt-1.5">
@@ -77,12 +77,12 @@ export default function AdvocateDashboardPage() {
 
           <div className="card-subtle p-5">
             <div className="flex items-center justify-between text-[#78716C] mb-2">
-              <span className="text-xs font-semibold uppercase tracking-wider">Claimed Underpayments</span>
+              <span className="text-[11px] font-medium uppercase tracking-wider">Claimed Underpayments</span>
               <div className="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center text-amber-700" aria-hidden="true">
                 <Scale className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-2xl font-extrabold text-[#1C1917] tracking-tight">
+            <div className="text-2xl font-semibold text-[#1C1917] tracking-tight tabular-nums">
               {formatPKR(overview?.totalEstimatedLossClaimed || 18450)}
             </div>
             <div className="text-[11px] text-[#78716C] mt-1.5">
@@ -92,12 +92,12 @@ export default function AdvocateDashboardPage() {
 
           <div className="card-subtle p-5">
             <div className="flex items-center justify-between text-[#78716C] mb-2">
-              <span className="text-xs font-semibold uppercase tracking-wider">Collective Clusters</span>
+              <span className="text-[11px] font-medium uppercase tracking-wider">Collective Clusters</span>
               <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center text-blue-700" aria-hidden="true">
                 <Layers className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-2xl font-extrabold text-[#1C1917] tracking-tight">
+            <div className="text-2xl font-semibold text-[#1C1917] tracking-tight tabular-nums">
               {overview?.topGrievanceClusters?.length || 1}
             </div>
             <div className="text-[11px] text-[#78716C] mt-1.5">
@@ -107,12 +107,12 @@ export default function AdvocateDashboardPage() {
 
           <div className="card-subtle p-5">
             <div className="flex items-center justify-between text-[#78716C] mb-2">
-              <span className="text-xs font-semibold uppercase tracking-wider">Vulnerable Workers</span>
+              <span className="text-[11px] font-medium uppercase tracking-wider">Vulnerable Workers</span>
               <div className="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center text-red-700" aria-hidden="true">
                 <AlertTriangle className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-2xl font-extrabold text-red-700 tracking-tight">
+            <div className="text-2xl font-semibold text-red-700 tracking-tight tabular-nums">
               {vulnerabilities.length}
             </div>
             <div className="text-[11px] text-red-600 font-medium mt-1.5">
@@ -126,13 +126,13 @@ export default function AdvocateDashboardPage() {
       <div className="card-subtle p-6 mb-8">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
           <div>
-            <h3 className="text-sm font-bold text-[#1C1917]">Platform Cohort Intelligence (k &ge; 5 Anonymity)</h3>
+            <h3 className="text-sm font-semibold text-[#1C1917] tracking-tight">Platform Cohort Intelligence (k &ge; 5 Anonymity)</h3>
             <p className="text-xs text-[#78716C] mt-0.5">
               Cohorts with fewer than 5 workers are automatically suppressed to safeguard worker privacy
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-mono bg-[#E2ECE6] text-[#1E3A2F] px-2.5 py-1 rounded-full font-bold">
+            <span className="text-[10px] font-mono bg-[#E2ECE6] text-[#1E3A2F] px-2.5 py-1 rounded-full font-medium">
               Privacy Floor: k &ge; 5 Workers
             </span>
           </div>
