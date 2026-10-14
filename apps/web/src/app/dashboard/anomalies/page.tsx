@@ -5,11 +5,9 @@ import {
   AlertTriangle,
   ShieldAlert,
   CheckCircle2,
-  Sparkles,
   ArrowRight,
-  Sliders,
   Loader2,
-  Calculator,
+  ChevronDown,
 } from 'lucide-react';
 import { AppShell } from '@/components/layout/app-shell';
 import { apiClient } from '@/lib/api-client';
@@ -59,106 +57,97 @@ export default function AnomaliesPage() {
 
   return (
     <AppShell
-      title="Anomaly Detection & Risk Analysis"
-      subtitle="Statistical Z-score & MAD evaluation for platform deductions, surge anomalies, and wage floors."
+      title="Anomalies"
+      subtitle="Review unusual deductions."
     >
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: Interactive Anomaly Simulator */}
+        {/* Left Column: Check Deductions */}
         <div className="lg:col-span-1 space-y-6">
           <div className="card-subtle p-6">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <Sliders className="w-4 h-4 text-[#1B4332]" aria-hidden="true" />
-                <h2 className="text-base font-semibold text-[#22252A] tracking-tight">Interactive Simulator</h2>
-              </div>
-              <span className="text-[10px] bg-[#F3F3F0] text-[#1B4332] font-mono font-medium px-2 py-0.5 rounded-md border border-[#E1E4EA]">
-                Live Math
-              </span>
-            </div>
-            <p className="text-xs text-[#5B6370] mb-4 leading-relaxed">
-              Test statistical threshold triggers: Z-score fee outliers, sudden income drops (&gt;20%), and sub-minimum wage deficits.
-            </p>
+            <h2 className="text-base font-semibold text-[#22252A] tracking-tight mb-4">
+              Check deductions
+            </h2>
 
-            {/* Quick Presets for Demo */}
-            <div className="mb-4 p-3 bg-[#FAF9F5] border border-[#E1E4EA] rounded-lg">
-              <span className="text-[10px] font-semibold text-[#5B6370] uppercase tracking-wider block mb-2">
-                Auditor Benchmark Presets:
+            {/* Quick Example Presets */}
+            <div className="mb-4">
+              <span className="text-xs font-medium text-[#5B6370] block mb-2">
+                Quick examples
               </span>
               <div className="flex flex-wrap gap-1.5">
                 <button
                   type="button"
                   onClick={() => applyPreset(6500, 1950, 'careem')}
-                  className="focus-ring text-[10px] font-medium px-2.5 py-1 bg-white border border-[#DC2626]/30 text-[#DC2626] rounded-md hover:bg-[#DC2626]/5 cursor-pointer transition-colors"
+                  className="focus-ring text-xs font-medium px-2.5 py-1 bg-white border border-[#DC2626]/30 text-[#DC2626] rounded-md hover:bg-[#DC2626]/5 cursor-pointer transition-colors"
                 >
-                  30% Spike (Critical)
+                  30% spike
                 </button>
                 <button
                   type="button"
                   onClick={() => applyPreset(6500, 1625, 'careem')}
-                  className="focus-ring text-[10px] font-medium px-2.5 py-1 bg-white border border-[#D97706]/30 text-[#D97706] rounded-md hover:bg-[#D97706]/5 cursor-pointer transition-colors"
+                  className="focus-ring text-xs font-medium px-2.5 py-1 bg-white border border-[#D97706]/30 text-[#D97706] rounded-md hover:bg-[#D97706]/5 cursor-pointer transition-colors"
                 >
-                  25% Cut (Warning)
+                  25% cut
                 </button>
                 <button
                   type="button"
                   onClick={() => applyPreset(5000, 1000, 'indrive')}
-                  className="focus-ring text-[10px] font-medium px-2.5 py-1 bg-white border border-[#E1E4EA] text-[#1B4332] rounded-md hover:bg-[#F3F3F0] cursor-pointer transition-colors"
+                  className="focus-ring text-xs font-medium px-2.5 py-1 bg-white border border-[#E1E4EA] text-[#1B4332] rounded-md hover:bg-[#F3F3F0] cursor-pointer transition-colors"
                 >
-                  20% Baseline
+                  20% baseline
                 </button>
               </div>
             </div>
 
-            <form onSubmit={handleSimulate} className="space-y-3.5">
+            <form onSubmit={handleSimulate} className="space-y-4">
               <div>
-                <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Platform</label>
+                <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Platform</label>
                 <select
                   value={platform}
                   onChange={(e) => setPlatform(e.target.value)}
-                  className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                  className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                 >
-                  <option value="careem">Careem Pakistan (Test 25% Surge Clawback)</option>
-                  <option value="indrive">inDrive Pakistan (Test Normal 20%)</option>
-                  <option value="bykea">Bykea (Test 18% Delivery)</option>
-                  <option value="foodpanda">Foodpanda (Test Rain Surge)</option>
+                  <option value="careem">Careem</option>
+                  <option value="indrive">inDrive</option>
+                  <option value="bykea">Bykea</option>
+                  <option value="foodpanda">Foodpanda</option>
                 </select>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Hours Worked</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Hours worked</label>
                   <input
                     type="number"
                     step="0.5"
                     value={hoursWorked}
                     onChange={(e) => setHoursWorked(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Gross (PKR)</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Gross earnings (PKR)</label>
                   <input
                     type="number"
                     value={grossAmount}
                     onChange={(e) => setGrossAmount(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Deductions (PKR)</label>
+                <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Deductions (PKR)</label>
                 <input
                   type="number"
                   value={deductions}
                   onChange={(e) => setDeductions(e.target.value)}
-                  className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                  className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                 />
-                <div className="text-[10px] text-[#5B6370] mt-1.5 flex items-center justify-between">
-                  <span>Calculated Fee Ratio:</span>
+                <div className="text-xs text-[#5B6370] mt-1.5 flex items-center justify-between">
+                  <span>Deduction rate:</span>
                   <span className="font-semibold text-[#22252A] tabular-nums">
-                    {Number(grossAmount) > 0 ? ((Number(deductions) / Number(grossAmount)) * 100).toFixed(1) : 0}% deduction
+                    {Number(grossAmount) > 0 ? ((Number(deductions) / Number(grossAmount)) * 100).toFixed(1) : 0}%
                   </span>
                 </div>
               </div>
@@ -167,38 +156,22 @@ export default function AnomaliesPage() {
                 type="submit"
                 disabled={isScanning}
                 aria-busy={isScanning}
-                className="focus-ring w-full py-2 px-3 bg-[#1B4332] text-white text-xs font-medium rounded-md hover:bg-[#2D6A4F] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 transition-colors"
+                className="focus-ring w-full py-2.5 px-4 bg-[#1B4332] text-white text-sm font-medium rounded-lg hover:bg-[#2D6A4F] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 transition-colors"
               >
                 {isScanning ? (
                   <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    <span>Evaluating Statistical Rules...</span>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Analyzing...</span>
                   </>
                 ) : (
-                  <>
-                    <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>Run Statistical Scan</span>
-                  </>
+                  <span>Analyze</span>
                 )}
               </button>
             </form>
           </div>
-
-          {/* Mathematical Engine Specs Box */}
-          <div className="card-subtle p-5 bg-[#FAF9F5] border-[#E1E4EA]">
-            <div className="text-xs font-semibold text-[#1B4332] mb-2 flex items-center gap-1.5">
-              <Calculator className="w-3.5 h-3.5" aria-hidden="true" />
-              <span>Statistical Engine Safeguards</span>
-            </div>
-            <ul className="text-[11px] text-[#5B6370] space-y-1.5 list-disc list-inside">
-              <li><strong>Zero-Variance Guard:</strong> Enforces &sigma;<sub>floor</sub> = 0.02 to eliminate division-by-zero on uniform cohorts.</li>
-              <li><strong>Robust Estimators:</strong> Uses Median Absolute Deviation (MAD) for small samples ($n &lt; 30$).</li>
-              <li><strong>Statutory Wage Floor:</strong> Evaluates net rate deficits against PKR 175.0/hr municipal minimum wage.</li>
-            </ul>
-          </div>
         </div>
 
-        {/* Right Column: Active Anomaly Alerts & Scan Results */}
+        {/* Right Column: Detected Anomalies */}
         <div className="lg:col-span-2 space-y-6">
           {/* Scan Result Card */}
           {simResult && (
@@ -215,11 +188,11 @@ export default function AnomaliesPage() {
                     <CheckCircle2 className="w-5 h-5 text-[#2D6A4F] shrink-0" aria-hidden="true" />
                   )}
                   <h3 className="text-base font-semibold text-[#22252A] tracking-tight">
-                    {simResult.isAnomaly ? 'Anomaly Detected by Statistical Engine' : 'Shift Conforms to Historical Baseline'}
+                    {simResult.isAnomaly ? 'Unusual deduction detected' : 'Shift matches expected platform rates'}
                   </h3>
                 </div>
                 <span
-                  className={`px-2.5 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border ${
+                  className={`px-2.5 py-0.5 rounded-md text-xs font-semibold uppercase tracking-wider border ${
                     simResult.riskLevel === 'critical'
                       ? 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/20'
                       : simResult.riskLevel === 'warning'
@@ -227,35 +200,35 @@ export default function AnomaliesPage() {
                       : 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
                   }`}
                 >
-                  Risk: {simResult.riskLevel}
+                  {simResult.riskLevel}
                 </span>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-3 border-y border-[#E1E4EA] mb-3 text-xs">
                 <div>
-                  <span className="text-[#5B6370] text-[10px] uppercase tracking-wider font-medium">Effective Rate</span>
-                  <div className="font-semibold text-[#22252A] mt-0.5 tabular-nums">PKR {simResult.targetHourlyRate}/hr</div>
+                  <span className="text-[#5B6370]">Hourly rate</span>
+                  <div className="font-semibold text-sm text-[#22252A] mt-0.5 tabular-nums">PKR {simResult.targetHourlyRate}/hr</div>
                 </div>
                 <div>
-                  <span className="text-[#5B6370] text-[10px] uppercase tracking-wider font-medium">Deduction Ratio</span>
-                  <div className="font-semibold text-[#22252A] mt-0.5 tabular-nums">{(simResult.targetDeductionRatio * 100).toFixed(1)}%</div>
+                  <span className="text-[#5B6370]">Deduction rate</span>
+                  <div className="font-semibold text-sm text-[#22252A] mt-0.5 tabular-nums">{(simResult.targetDeductionRatio * 100).toFixed(1)}%</div>
                 </div>
                 <div>
-                  <span className="text-[#5B6370] text-[10px] uppercase tracking-wider font-medium">Baseline Rate</span>
-                  <div className="font-semibold text-[#22252A] mt-0.5 tabular-nums">PKR {simResult.baselineAverageHourlyRate}/hr</div>
+                  <span className="text-[#5B6370]">Platform baseline</span>
+                  <div className="font-semibold text-sm text-[#22252A] mt-0.5 tabular-nums">{(simResult.baselineAverageDeductionRatio * 100).toFixed(1)}%</div>
                 </div>
                 <div>
-                  <span className="text-[#5B6370] text-[10px] uppercase tracking-wider font-medium">Baseline Fee</span>
-                  <div className="font-semibold text-[#22252A] mt-0.5 tabular-nums">{(simResult.baselineAverageDeductionRatio * 100).toFixed(1)}%</div>
+                  <span className="text-[#5B6370]">Expected rate</span>
+                  <div className="font-semibold text-sm text-[#22252A] mt-0.5 tabular-nums">PKR {simResult.baselineAverageHourlyRate}/hr</div>
                 </div>
               </div>
 
               {simResult.anomaliesDetected?.length > 0 ? (
-                <div className="space-y-2.5">
+                <div className="space-y-2.5 mb-3">
                   {simResult.anomaliesDetected.map((a: any, idx: number) => (
                     <div key={idx} className="p-3.5 bg-white rounded-lg border border-[#DC2626]/20 text-xs">
-                      <div className="font-semibold text-[#DC2626]">{a.name}</div>
-                      <div className="text-[#5B6370] mt-1 leading-relaxed">{a.description}</div>
+                      <div className="font-semibold text-[#DC2626] text-sm">{a.name}</div>
+                      <div className="text-[#5B6370] mt-1 leading-relaxed text-xs">{a.description}</div>
                       {a.suggestedAction && (
                         <div className="text-[#2D6A4F] font-medium mt-2 flex items-center gap-1.5 pt-2 border-t border-[#E1E4EA]">
                           <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -266,62 +239,73 @@ export default function AnomaliesPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-xs text-[#5B6370]">
-                  Shift earnings and deduction percentages fall cleanly within normal 2.0 standard deviation statistical bounds.
+                <p className="text-xs text-[#5B6370] mb-3">
+                  Shift earnings and deduction percentages are within expected platform rates.
                 </p>
               )}
+
+              {/* Analysis details disclosure */}
+              <details className="text-xs text-[#5B6370] pt-2 border-t border-[#E1E4EA] group">
+                <summary className="cursor-pointer font-medium text-[#22252A] hover:text-[#1B4332] flex items-center gap-1">
+                  <ChevronDown className="w-3.5 h-3.5 transition-transform group-open:rotate-180" />
+                  <span>Analysis details</span>
+                </summary>
+                <div className="mt-2.5 p-3 bg-white rounded-lg border border-[#E1E4EA] space-y-1 font-mono text-[11px] text-[#5B6370]">
+                  <div>Target deduction ratio: {(simResult.targetDeductionRatio * 100).toFixed(2)}%</div>
+                  <div>Baseline deduction ratio: {(simResult.baselineAverageDeductionRatio * 100).toFixed(2)}%</div>
+                  <div>Threshold trigger: 2.0 standard deviations from cohort median</div>
+                </div>
+              </details>
             </div>
           )}
 
-          {/* Historical Flagged Shifts from Live Seed Data */}
+          {/* Detected anomalies list */}
           <div className="card-subtle p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Historical Platform Outlier Flags</h3>
-                <p className="text-xs text-[#5B6370]">Past shifts evaluated against municipal baselines</p>
-              </div>
+            <div className="mb-4">
+              <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Detected anomalies</h3>
+              <p className="text-xs text-[#5B6370]">Past shifts with unusual deductions</p>
             </div>
 
             <div className="space-y-3.5">
               {/* Flagged Item 1 */}
-              <div className="p-4 rounded-lg border border-[#D97706]/30 bg-[#D97706]/5">
+              <div className="p-4 rounded-xl border border-[#D97706]/30 bg-[#D97706]/5">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2.5">
                     <AlertTriangle className="w-4 h-4 text-[#D97706] shrink-0" aria-hidden="true" />
                     <div>
-                      <div className="text-xs font-semibold text-[#22252A]">Careem 25.0% Unexplained Deduction Outlier</div>
-                      <div className="text-[11px] text-[#5B6370] mt-0.5">Shift Date: October 8, 2026 &bull; Gross PKR 6,500 &bull; Deducted PKR 1,625</div>
+                      <div className="text-sm font-semibold text-[#22252A]">Careem</div>
+                      <div className="text-xs text-[#5B6370] mt-0.5">October 8, 2026 &bull; Gross PKR 6,500 &bull; Deductions PKR 1,625</div>
                     </div>
                   </div>
-                  <span className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/20">
+                  <span className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/20">
                     Warning
                   </span>
                 </div>
-                <div className="text-xs text-[#5B6370] mt-2 leading-relaxed">
-                  Deduction ratio 25.0% is 4.2 standard deviations above historical platform average (18.0%).
+                <div className="text-sm text-[#5B6370] mt-2.5">
+                  25% deduction &bull; Above the usual platform rate (18%).
                 </div>
                 <div className="mt-3 flex items-center justify-between pt-2.5 border-t border-[#D97706]/20 text-xs">
-                  <span className="text-[#5B6370]">Suggested Action: Grievance under review with advocate cluster</span>
-                  <span className="font-medium text-[#1B4332]">Clustered in FG-CLUST-44</span>
+                  <span className="text-[#5B6370]">Action: Grievance under review</span>
+                  <span className="font-medium text-[#1B4332]">Grievance linked</span>
                 </div>
               </div>
 
               {/* Normal Item 2 */}
-              <div className="p-4 rounded-lg border border-[#E1E4EA] bg-white">
+              <div className="p-4 rounded-xl border border-[#E1E4EA] bg-white">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-[#2D6A4F] shrink-0" aria-hidden="true" />
                     <div>
-                      <div className="text-xs font-semibold text-[#22252A]">inDrive October 14 Regular Shift</div>
-                      <div className="text-[11px] text-[#5B6370] mt-0.5">Shift Date: October 14, 2026 &bull; Net Rate: PKR 583.5/hr</div>
+                      <div className="text-sm font-semibold text-[#22252A]">inDrive</div>
+                      <div className="text-xs text-[#5B6370] mt-0.5">October 14, 2026 &bull; Rate: PKR 584/hr</div>
                     </div>
                   </div>
-                  <span className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-[#2D6A4F]/10 text-[#2D6A4F] border border-[#2D6A4F]/20">
+                  <span className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#2D6A4F]/10 text-[#2D6A4F] border border-[#2D6A4F]/20">
                     Normal
                   </span>
                 </div>
-                <div className="text-xs text-[#5B6370] mt-2">
-                  20.0% standard commission; effective hourly rate conforms to Lahore rideshare median.
+                <div className="text-sm text-[#5B6370] mt-2.5">
+                  20% standard commission &bull; Conforms to city median rate.
                 </div>
               </div>
             </div>

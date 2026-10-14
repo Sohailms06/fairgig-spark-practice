@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ShieldCheck, ArrowRight, Lock, Mail, Sparkles, Loader2 } from 'lucide-react';
+import { ArrowRight, Lock, Mail, Loader2 } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
 
 export default function LoginPage() {
@@ -20,7 +20,7 @@ export default function LoginPage() {
     try {
       const ok = await login(email, password);
       if (!ok) {
-        setError('Invalid email or password. You can also use the 1-click demo accounts below.');
+        setError('Invalid email or password. You can also use the demo accounts below.');
       }
     } catch (err: any) {
       setError(err.message || 'Authentication failed. Please verify service connectivity.');
@@ -37,31 +37,25 @@ export default function LoginPage() {
           <div className="w-10 h-10 rounded-lg bg-[#1B4332] text-white font-medium text-sm flex items-center justify-center mx-auto mb-3">
             FG
           </div>
-          <h1 className="text-2xl font-semibold tracking-tight text-[#22252A]">FairGig</h1>
-          <p className="text-xs text-[#5B6370] mt-1">
-            Sign in to access your worker income ledger &amp; dispute workspace
+          <h1 className="text-2xl font-semibold tracking-tight text-[#22252A]">Welcome back</h1>
+          <p className="text-sm text-[#5B6370] mt-1">
+            Sign in to your FairGig account.
           </p>
         </div>
 
-        {/* 1-Click Hackathon Judge Demo Switcher */}
+        {/* Quick Demo Switcher */}
         <div className="mb-6 p-4 bg-white border border-[#E1E4EA] rounded-xl">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-[#22252A] flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#2D6A4F]" aria-hidden="true" />
-              <span>Auditor 1-Click Sign-In</span>
-            </span>
-            <span className="text-[10px] bg-[#2D6A4F]/10 text-[#2D6A4F] font-mono px-2 py-0.5 rounded-md border border-[#2D6A4F]/20 font-medium">
-              Seed Profiles
-            </span>
+          <div className="text-xs font-semibold text-[#22252A] mb-2.5">
+            Quick sign-in
           </div>
-          <div className="grid grid-cols-2 gap-2 mt-3">
+          <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
               onClick={() => switchDemoUser('worker')}
               className="text-left p-2.5 rounded-lg border border-[#E1E4EA] hover:border-[#1B4332] hover:bg-[#FAF9F5] transition-colors text-xs group cursor-pointer focus-ring"
             >
               <div className="font-semibold text-[#22252A] group-hover:text-[#1B4332]">Tariq Mehmood</div>
-              <div className="text-[10px] text-[#5B6370]">Worker &bull; Lahore &bull; inDrive</div>
+              <div className="text-xs text-[#5B6370]">Worker &bull; Lahore</div>
             </button>
             <button
               type="button"
@@ -69,7 +63,7 @@ export default function LoginPage() {
               className="text-left p-2.5 rounded-lg border border-[#E1E4EA] hover:border-[#1B4332] hover:bg-[#FAF9F5] transition-colors text-xs group cursor-pointer focus-ring"
             >
               <div className="font-semibold text-[#22252A] group-hover:text-[#1B4332]">Ayesha Siddiqui</div>
-              <div className="text-[10px] text-[#5B6370]">Advocate &bull; K-Anonymity</div>
+              <div className="text-xs text-[#5B6370]">Advocate</div>
             </button>
             <button
               type="button"
@@ -77,7 +71,7 @@ export default function LoginPage() {
               className="text-left p-2.5 rounded-lg border border-[#E1E4EA] hover:border-[#1B4332] hover:bg-[#FAF9F5] transition-colors text-xs group cursor-pointer focus-ring"
             >
               <div className="font-semibold text-[#22252A] group-hover:text-[#1B4332]">Fatima Noor</div>
-              <div className="text-[10px] text-[#5B6370]">Verifier &bull; Evidence Audit</div>
+              <div className="text-xs text-[#5B6370]">Verifier</div>
             </button>
             <button
               type="button"
@@ -85,7 +79,7 @@ export default function LoginPage() {
               className="text-left p-2.5 rounded-lg border border-[#E1E4EA] hover:border-[#1B4332] hover:bg-[#FAF9F5] transition-colors text-xs group cursor-pointer focus-ring"
             >
               <div className="font-semibold text-[#22252A] group-hover:text-[#1B4332]">Usman Ali</div>
-              <div className="text-[10px] text-[#5B6370]">Worker B &bull; Rawalpindi</div>
+              <div className="text-xs text-[#5B6370]">Worker &bull; Rawalpindi</div>
             </button>
           </div>
         </div>
@@ -100,8 +94,8 @@ export default function LoginPage() {
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-[#22252A] uppercase tracking-wider mb-1.5">
-                Email Address
+              <label className="block text-xs font-medium text-[#5B6370] mb-1.5">
+                Email
               </label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-[#5B6370] absolute left-3 top-3" aria-hidden="true" />
@@ -117,7 +111,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#22252A] uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-medium text-[#5B6370] mb-1.5">
                 Password
               </label>
               <div className="relative">
@@ -127,7 +121,7 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                  placeholder="••••••••"
                   className="focus-ring w-full pl-9 pr-3 py-2 text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
                 />
               </div>
@@ -142,11 +136,11 @@ export default function LoginPage() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Verifying Credentials...</span>
+                  <span>Signing in...</span>
                 </>
               ) : (
                 <>
-                  <span>Sign In</span>
+                  <span>Sign in</span>
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </>
               )}
@@ -156,15 +150,9 @@ export default function LoginPage() {
           <div className="mt-5 text-center text-xs text-[#5B6370]">
             Don&apos;t have an account?{' '}
             <Link href="/register" className="font-semibold text-[#1B4332] hover:underline focus-ring rounded">
-              Register as Gig Worker
+              Register
             </Link>
           </div>
-        </div>
-
-        {/* Security Assurance */}
-        <div className="mt-6 text-center text-xs text-[#5B6370] flex items-center justify-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-[#2D6A4F]" aria-hidden="true" />
-          <span>Secured with Argon2 password hashing &amp; Bearer JWT</span>
         </div>
       </div>
     </div>

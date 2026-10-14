@@ -129,22 +129,22 @@ export default function EarningsPage() {
 
   return (
     <AppShell
-      title="Shifts & Earnings Ledger"
-      subtitle="Log daily gig shifts, import platform statements, and track auditor verification."
+      title="Earnings"
+      subtitle="Log daily shifts, import statements, and track verification."
     >
       {/* Controls & Filter Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div className="flex flex-wrap items-center gap-3">
           {/* Platform Filter */}
-          <div className="flex items-center gap-2 text-xs text-[#5B6370] bg-white border border-[#E1E4EA] px-3 py-1.5 rounded-lg">
-            <Filter className="w-3.5 h-3.5 text-[#5B6370]" aria-hidden="true" />
+          <div className="flex items-center gap-2 text-sm text-[#5B6370] bg-white border border-[#E1E4EA] px-3 py-2 rounded-lg h-10">
+            <Filter className="w-4 h-4 text-[#5B6370]" aria-hidden="true" />
             <select
               value={platformFilter}
               onChange={(e) => setPlatformFilter(e.target.value)}
-              className="bg-transparent text-[#22252A] font-medium focus:outline-none cursor-pointer"
+              className="bg-transparent text-[#22252A] font-medium focus:outline-none cursor-pointer text-sm"
               aria-label="Filter shifts by platform"
             >
-              <option value="all">All Platforms</option>
+              <option value="all">All platforms</option>
               <option value="indrive">inDrive</option>
               <option value="bykea">Bykea</option>
               <option value="foodpanda">Foodpanda</option>
@@ -154,17 +154,17 @@ export default function EarningsPage() {
           </div>
 
           {/* Status Filter */}
-          <div className="flex items-center gap-2 text-xs text-[#5B6370] bg-white border border-[#E1E4EA] px-3 py-1.5 rounded-lg">
+          <div className="flex items-center gap-2 text-sm text-[#5B6370] bg-white border border-[#E1E4EA] px-3 py-2 rounded-lg h-10">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-transparent text-[#22252A] font-medium focus:outline-none cursor-pointer"
+              className="bg-transparent text-[#22252A] font-medium focus:outline-none cursor-pointer text-sm"
               aria-label="Filter shifts by audit status"
             >
-              <option value="all">All Verification Statuses</option>
+              <option value="all">All statuses</option>
               <option value="verified">Verified</option>
-              <option value="pending">Pending Audit</option>
-              <option value="discrepancy">Discrepancy Flagged</option>
+              <option value="pending">Pending</option>
+              <option value="discrepancy">Discrepancy</option>
             </select>
           </div>
         </div>
@@ -172,17 +172,17 @@ export default function EarningsPage() {
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => setIsCsvModalOpen(true)}
-            className="focus-ring inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E1E4EA] text-[#22252A] text-xs font-medium rounded-lg hover:bg-[#F3F3F0] transition-colors cursor-pointer"
+            className="focus-ring inline-flex items-center gap-1.5 px-3.5 py-2 bg-white border border-[#E1E4EA] text-[#22252A] text-xs font-medium rounded-lg hover:bg-[#F3F3F0] transition-colors cursor-pointer h-10"
           >
-            <UploadCloud className="w-3.5 h-3.5 text-[#5B6370]" aria-hidden="true" />
-            <span>CSV Statement Import</span>
+            <UploadCloud className="w-4 h-4 text-[#5B6370]" aria-hidden="true" />
+            <span>Import CSV</span>
           </button>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="focus-ring inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1B4332] text-white text-xs font-medium rounded-lg hover:bg-[#2D6A4F] transition-colors cursor-pointer"
+            className="focus-ring inline-flex items-center gap-1.5 px-4 py-2 bg-[#1B4332] text-white text-xs font-medium rounded-lg hover:bg-[#2D6A4F] transition-colors cursor-pointer h-10"
           >
-            <PlusCircle className="w-3.5 h-3.5" aria-hidden="true" />
-            <span>Log Single Shift</span>
+            <PlusCircle className="w-4 h-4" aria-hidden="true" />
+            <span>Log shift</span>
           </button>
         </div>
       </div>
@@ -193,19 +193,19 @@ export default function EarningsPage() {
       ) : (
         <div className="card-subtle overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+            <table className="w-full text-left text-sm">
               <thead>
-                <tr className="bg-[#FAF9F5] border-b border-[#E1E4EA] text-[#5B6370] uppercase tracking-wider text-[10px]">
-                  <th className="py-2.5 px-4 font-medium">Shift Date</th>
-                  <th className="py-2.5 px-4 font-medium">Platform</th>
-                  <th className="py-2.5 px-4 text-right font-medium">Hours</th>
-                  <th className="py-2.5 px-4 text-right font-medium">Trips</th>
-                  <th className="py-2.5 px-4 text-right font-medium">Gross</th>
-                  <th className="py-2.5 px-4 text-right font-medium">Deductions</th>
-                  <th className="py-2.5 px-4 text-right font-medium">Tips</th>
-                  <th className="py-2.5 px-4 text-right font-medium">Net</th>
-                  <th className="py-2.5 px-4 text-right font-medium">Rate</th>
-                  <th className="py-2.5 px-4 text-center font-medium">Audit Status</th>
+                <tr className="bg-[#FAF9F5] border-b border-[#E1E4EA] text-[#5B6370] text-xs font-medium">
+                  <th className="py-3 px-4 font-medium">Date</th>
+                  <th className="py-3 px-4 font-medium">Platform</th>
+                  <th className="py-3 px-4 text-right font-medium">Hours</th>
+                  <th className="py-3 px-4 text-right font-medium">Trips</th>
+                  <th className="py-3 px-4 text-right font-medium">Gross</th>
+                  <th className="py-3 px-4 text-right font-medium">Deductions</th>
+                  <th className="py-3 px-4 text-right font-medium">Tips</th>
+                  <th className="py-3 px-4 text-right font-medium">Net</th>
+                  <th className="py-3 px-4 text-right font-medium">Rate</th>
+                  <th className="py-3 px-4 text-center font-medium">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#E1E4EA]">
@@ -213,30 +213,30 @@ export default function EarningsPage() {
                   <tr>
                     <td colSpan={10} className="py-12 text-center text-[#5B6370]">
                       <div className="max-w-xs mx-auto text-center space-y-1.5">
-                        <p className="font-semibold text-[#22252A] text-sm">No Matching Shifts Found</p>
-                        <p className="text-xs text-[#5B6370]">Try clearing the platform or verification filters to see all recorded shifts.</p>
+                        <p className="font-semibold text-[#22252A] text-sm">No shifts found</p>
+                        <p className="text-xs text-[#5B6370]">Try clearing the platform or status filters.</p>
                       </div>
                     </td>
                   </tr>
                 ) : (
                   filteredShifts.map((shift) => {
-                    const rate = shift.hoursWorked > 0 ? (shift.netAmount / shift.hoursWorked).toFixed(1) : '0';
+                    const rate = shift.hoursWorked > 0 ? (shift.netAmount / shift.hoursWorked).toFixed(0) : '0';
                     return (
                       <tr key={shift.id} className="hover:bg-[#F3F3F0]/60 transition-colors">
-                        <td className="py-3 px-4 font-medium text-[#22252A] tabular-nums">{shift.shiftDate}</td>
-                        <td className="py-3 px-4 capitalize font-medium text-[#5B6370]">{shift.platform}</td>
-                        <td className="py-3 px-4 text-right text-[#5B6370] tabular-nums">{shift.hoursWorked} hrs</td>
-                        <td className="py-3 px-4 text-right text-[#5B6370] tabular-nums">{shift.tripsCount || 1}</td>
-                        <td className="py-3 px-4 text-right text-[#5B6370] tabular-nums">PKR {shift.grossAmount.toLocaleString()}</td>
-                        <td className="py-3 px-4 text-right text-[#DC2626] tabular-nums">-PKR {shift.deductions.toLocaleString()}</td>
-                        <td className="py-3 px-4 text-right text-[#2D6A4F] tabular-nums">+PKR {shift.tipsAmount || 0}</td>
-                        <td className="py-3 px-4 text-right font-semibold text-[#22252A] tabular-nums">
+                        <td className="py-3.5 px-4 font-medium text-[#22252A] tabular-nums">{shift.shiftDate}</td>
+                        <td className="py-3.5 px-4 capitalize text-[#5B6370]">{shift.platform}</td>
+                        <td className="py-3.5 px-4 text-right text-[#5B6370] tabular-nums">{shift.hoursWorked} hrs</td>
+                        <td className="py-3.5 px-4 text-right text-[#5B6370] tabular-nums">{shift.tripsCount || 1}</td>
+                        <td className="py-3.5 px-4 text-right text-[#5B6370] tabular-nums">PKR {shift.grossAmount.toLocaleString()}</td>
+                        <td className="py-3.5 px-4 text-right text-[#DC2626] tabular-nums">-PKR {shift.deductions.toLocaleString()}</td>
+                        <td className="py-3.5 px-4 text-right text-[#2D6A4F] tabular-nums">+PKR {shift.tipsAmount || 0}</td>
+                        <td className="py-3.5 px-4 text-right font-semibold text-[#22252A] tabular-nums">
                           PKR {shift.netAmount.toLocaleString()}
                         </td>
-                        <td className="py-3 px-4 text-right text-[#5B6370] tabular-nums">PKR {rate}/hr</td>
-                        <td className="py-3 px-4 text-center">
+                        <td className="py-3.5 px-4 text-right text-[#5B6370] tabular-nums">PKR {rate}/hr</td>
+                        <td className="py-3.5 px-4 text-center">
                           <span
-                            className={`inline-block px-2.5 py-0.5 rounded-md text-[10px] font-medium capitalize border ${
+                            className={`inline-block px-2.5 py-0.5 rounded-md text-xs font-medium capitalize border ${
                               shift.verificationStatus === 'verified'
                                 ? 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
                                 : shift.verificationStatus === 'discrepancy'
@@ -267,7 +267,7 @@ export default function EarningsPage() {
         >
           <div className="bg-white rounded-xl border border-[#E1E4EA] max-w-md w-full p-6 shadow-sm">
             <div className="flex items-center justify-between pb-3 border-b border-[#E1E4EA] mb-4">
-              <h2 id="manual-shift-title" className="text-base font-semibold text-[#22252A] tracking-tight">Log Daily Gig Shift</h2>
+              <h2 id="manual-shift-title" className="text-base font-semibold text-[#22252A] tracking-tight">Log shift</h2>
               <button
                 onClick={() => setIsAddModalOpen(false)}
                 className="p-1.5 text-[#5B6370] hover:text-[#22252A] rounded-md transition-colors focus-ring"
@@ -280,11 +280,11 @@ export default function EarningsPage() {
             <form onSubmit={handleAddShift} className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Platform</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Platform</label>
                   <select
                     value={platform}
                     onChange={(e) => setPlatform(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   >
                     <option value="indrive">inDrive</option>
                     <option value="bykea">Bykea</option>
@@ -296,20 +296,20 @@ export default function EarningsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Shift Date</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Shift date</label>
                   <input
                     type="date"
                     required
                     value={shiftDate}
                     onChange={(e) => setShiftDate(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Hours Worked</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Hours worked</label>
                   <input
                     type="number"
                     step="0.5"
@@ -318,74 +318,74 @@ export default function EarningsPage() {
                     required
                     value={hoursWorked}
                     onChange={(e) => setHoursWorked(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Trips Logged</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Trips</label>
                   <input
                     type="number"
                     min="0"
                     required
                     value={tripsCount}
                     onChange={(e) => setTripsCount(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Gross (PKR)</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Gross (PKR)</label>
                   <input
                     type="number"
                     min="0"
                     required
                     value={grossAmount}
                     onChange={(e) => setGrossAmount(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Deductions</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Deductions</label>
                   <input
                     type="number"
                     min="0"
                     required
                     value={deductions}
                     onChange={(e) => setDeductions(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Tips</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Tips</label>
                   <input
                     type="number"
                     min="0"
                     value={tipsAmount}
                     onChange={(e) => setTipsAmount(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
               </div>
 
-              {/* Dynamic Real-Time Math Preview */}
-              <div className="p-3 bg-[#FAF9F5] border border-[#E1E4EA] rounded-md flex items-center justify-between text-xs">
-                <span className="font-medium text-[#5B6370]">Calculated Take-Home Net:</span>
+              {/* Dynamic Math Preview */}
+              <div className="p-3 bg-[#FAF9F5] border border-[#E1E4EA] rounded-lg flex items-center justify-between text-sm">
+                <span className="text-[#5B6370]">Net earnings:</span>
                 <span className="font-semibold text-sm text-[#1B4332] tabular-nums">PKR {calculatedNet.toLocaleString()}</span>
               </div>
 
               <div>
-                <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Shift Notes</label>
+                <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Notes (optional)</label>
                 <input
                   type="text"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="e.g. Airport surge fare; heavy traffic"
-                  className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                  className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                 />
               </div>
 
@@ -393,7 +393,7 @@ export default function EarningsPage() {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="focus-ring px-3.5 py-1.5 border border-[#E1E4EA] text-xs font-medium rounded-md hover:bg-[#F3F3F0] transition-colors cursor-pointer text-[#22252A]"
+                  className="focus-ring px-3.5 py-2 border border-[#E1E4EA] text-xs font-medium rounded-lg hover:bg-[#F3F3F0] transition-colors cursor-pointer text-[#22252A]"
                 >
                   Cancel
                 </button>
@@ -401,10 +401,10 @@ export default function EarningsPage() {
                   type="submit"
                   disabled={isSubmitting}
                   aria-busy={isSubmitting}
-                  className="focus-ring inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#1B4332] text-white text-xs font-medium rounded-md hover:bg-[#2D6A4F] disabled:opacity-50 transition-colors cursor-pointer"
+                  className="focus-ring inline-flex items-center gap-1.5 px-4 py-2 bg-[#1B4332] text-white text-xs font-medium rounded-lg hover:bg-[#2D6A4F] disabled:opacity-50 transition-colors cursor-pointer"
                 >
                   {isSubmitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                  <span>{isSubmitting ? 'Recording Shift...' : 'Record Shift'}</span>
+                  <span>{isSubmitting ? 'Recording...' : 'Record shift'}</span>
                 </button>
               </div>
             </form>
@@ -424,7 +424,7 @@ export default function EarningsPage() {
             <div className="flex items-center justify-between pb-3 border-b border-[#E1E4EA] mb-4">
               <div className="flex items-center gap-2">
                 <FileSpreadsheet className="w-4 h-4 text-[#2D6A4F]" aria-hidden="true" />
-                <h2 id="csv-modal-title" className="text-base font-semibold text-[#22252A] tracking-tight">CSV Statement Batch Import</h2>
+                <h2 id="csv-modal-title" className="text-base font-semibold text-[#22252A] tracking-tight">Import CSV</h2>
               </div>
               <button
                 onClick={() => setIsCsvModalOpen(false)}
@@ -436,25 +436,25 @@ export default function EarningsPage() {
             </div>
 
             <p className="text-xs text-[#5B6370] mb-3">
-              Paste CSV records exported from inDrive, Bykea, or Careem rider weekly summaries:
+              Paste CSV records exported from inDrive, Bykea, or Careem weekly summaries:
             </p>
 
             <textarea
               rows={6}
               value={csvRaw}
               onChange={(e) => setCsvRaw(e.target.value)}
-              className="focus-ring w-full font-mono text-[11px] p-2.5 border border-[#E1E4EA] rounded-md mb-4 bg-[#FAF9F5] text-[#22252A]"
+              className="focus-ring w-full font-mono text-xs p-2.5 border border-[#E1E4EA] rounded-lg mb-4 bg-[#FAF9F5] text-[#22252A]"
             />
 
             <div className="flex items-center justify-between pt-2">
-              <span className="text-[11px] text-[#5B6370]">
+              <span className="text-xs text-[#5B6370]">
                 {csvRaw.trim().split('\n').length - 1} shifts ready to import
               </span>
               <div className="flex items-center gap-2.5">
                 <button
                   type="button"
                   onClick={() => setIsCsvModalOpen(false)}
-                  className="focus-ring px-3.5 py-1.5 border border-[#E1E4EA] text-xs font-medium rounded-md hover:bg-[#F3F3F0] transition-colors cursor-pointer text-[#22252A]"
+                  className="focus-ring px-3.5 py-2 border border-[#E1E4EA] text-xs font-medium rounded-lg hover:bg-[#F3F3F0] transition-colors cursor-pointer text-[#22252A]"
                 >
                   Cancel
                 </button>
@@ -462,10 +462,10 @@ export default function EarningsPage() {
                   onClick={handleCsvImport}
                   disabled={isSubmitting}
                   aria-busy={isSubmitting}
-                  className="focus-ring inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#1B4332] text-white text-xs font-medium rounded-md hover:bg-[#2D6A4F] disabled:opacity-50 transition-colors cursor-pointer"
+                  className="focus-ring inline-flex items-center gap-1.5 px-4 py-2 bg-[#1B4332] text-white text-xs font-medium rounded-lg hover:bg-[#2D6A4F] disabled:opacity-50 transition-colors cursor-pointer"
                 >
                   {isSubmitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                  <span>{isSubmitting ? 'Importing Shifts...' : 'Confirm Batch Import'}</span>
+                  <span>{isSubmitting ? 'Importing...' : 'Import shifts'}</span>
                 </button>
               </div>
             </div>

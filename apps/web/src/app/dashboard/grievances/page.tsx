@@ -5,7 +5,6 @@ import {
   FileText,
   PlusCircle,
   Layers,
-  ShieldCheck,
   X,
   Loader2,
 } from 'lucide-react';
@@ -80,22 +79,20 @@ export default function WorkerGrievancesPage() {
 
   return (
     <AppShell
-      title="Disputes & Grievances"
-      subtitle="File payout discrepancies, track collective clustering, and monitor advocate petitions."
+      title="Grievances"
+      subtitle="Report deduction discrepancies and track dispute status."
     >
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <div>
-          <span className="text-xs text-[#5B6370]">
-            Logged disputes are analyzed by the collective clustering engine to assemble joint advocate actions.
-          </span>
-        </div>
+      <div className="flex items-center justify-between mb-6">
+        <span className="text-xs text-[#5B6370]">
+          {grievances.length} {grievances.length === 1 ? 'grievance' : 'grievances'} filed
+        </span>
 
         <button
           onClick={() => setIsSubmitModalOpen(true)}
-          className="focus-ring inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1B4332] text-white text-xs font-medium rounded-lg hover:bg-[#2D6A4F] transition-colors cursor-pointer"
+          className="focus-ring inline-flex items-center gap-1.5 px-4 py-2 bg-[#1B4332] text-white text-xs font-medium rounded-lg hover:bg-[#2D6A4F] transition-colors cursor-pointer"
         >
-          <PlusCircle className="w-3.5 h-3.5" aria-hidden="true" />
-          <span>File New Grievance</span>
+          <PlusCircle className="w-4 h-4" aria-hidden="true" />
+          <span>File grievance</span>
         </button>
       </div>
 
@@ -120,10 +117,10 @@ export default function WorkerGrievancesPage() {
       ) : grievances.length === 0 ? (
         <EmptyState
           icon={FileText}
-          title="No Active Grievances"
-          description="If you notice arbitrary platform commission clawbacks, unfair account deactivations, or withheld tips, file a grievance here for collective action."
+          title="No active grievances"
+          description="If you notice arbitrary platform fee deductions, unfair deactivations, or withheld tips, file a grievance here."
           action={{
-            label: "File First Grievance",
+            label: "File grievance",
             onClick: () => setIsSubmitModalOpen(true)
           }}
         />
@@ -134,7 +131,7 @@ export default function WorkerGrievancesPage() {
               <div className="flex flex-wrap items-start justify-between gap-3 mb-2">
                 <div className="flex items-center gap-2">
                   <span
-                    className={`px-2 py-0.5 rounded-md text-[10px] font-medium uppercase tracking-wider border ${
+                    className={`px-2 py-0.5 rounded-md text-xs font-medium uppercase tracking-wider border ${
                       g.priority === 'urgent'
                         ? 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/20'
                         : g.priority === 'high'
@@ -144,15 +141,15 @@ export default function WorkerGrievancesPage() {
                   >
                     {g.priority} priority
                   </span>
-                  <span className="text-xs text-[#5B6370] capitalize font-medium">Platform: {g.platform}</span>
+                  <span className="text-xs text-[#5B6370] capitalize">{g.platform}</span>
                   <span className="text-[#E1E4EA]">&bull;</span>
-                  <span className="text-xs text-[#5B6370] font-mono tabular-nums">{new Date(g.createdAt).toLocaleDateString()}</span>
+                  <span className="text-xs text-[#5B6370] tabular-nums">{new Date(g.createdAt).toLocaleDateString()}</span>
                 </div>
 
                 {/* Status Indicator */}
-                <div className="flex items-center gap-1.5 text-xs font-medium">
+                <div>
                   <span
-                    className={`px-2.5 py-0.5 rounded-md capitalize text-[10px] border ${
+                    className={`px-2.5 py-0.5 rounded-md capitalize text-xs font-medium border ${
                       g.status === 'resolved'
                         ? 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
                         : g.status === 'escalated'
@@ -168,12 +165,12 @@ export default function WorkerGrievancesPage() {
               </div>
 
               <h3 className="text-base font-semibold text-[#22252A] mb-1 tracking-tight">{g.title}</h3>
-              <p className="text-xs text-[#5B6370] leading-relaxed mb-3">{g.description}</p>
+              <p className="text-sm text-[#5B6370] leading-relaxed mb-3">{g.description}</p>
 
               <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#E1E4EA] text-xs">
                 <div className="flex items-center gap-3">
                   <span className="text-[#5B6370]">
-                    Claimed Underpayment: <strong className="text-[#22252A] tabular-nums">PKR {g.claimedLossAmount}</strong>
+                    Claimed underpayment: <strong className="text-[#22252A] tabular-nums">PKR {g.claimedLossAmount}</strong>
                   </span>
                   <span className="text-[#5B6370]">Category: <strong className="capitalize text-[#22252A]">{g.category.replace(/_/g, ' ')}</strong></span>
                 </div>
@@ -181,7 +178,7 @@ export default function WorkerGrievancesPage() {
                 {g.clusterId && (
                   <div className="flex items-center gap-1.5 text-xs font-medium text-[#1B4332] bg-[#FAF9F5] px-2.5 py-1 rounded-md border border-[#E1E4EA]">
                     <Layers className="w-3.5 h-3.5 text-[#2D6A4F]" aria-hidden="true" />
-                    <span>Linked to Collective Action Cluster</span>
+                    <span>Linked to collective action</span>
                   </div>
                 )}
               </div>
@@ -200,7 +197,7 @@ export default function WorkerGrievancesPage() {
         >
           <div className="bg-white rounded-xl border border-[#E1E4EA] max-w-lg w-full p-6 shadow-sm">
             <div className="flex items-center justify-between pb-3 border-b border-[#E1E4EA] mb-4">
-              <h2 id="grievance-modal-title" className="text-base font-semibold text-[#22252A] tracking-tight">Submit Worker Grievance</h2>
+              <h2 id="grievance-modal-title" className="text-base font-semibold text-[#22252A] tracking-tight">File grievance</h2>
               <button
                 onClick={() => setIsSubmitModalOpen(false)}
                 className="p-1.5 text-[#5B6370] hover:text-[#22252A] rounded-md transition-colors focus-ring"
@@ -212,68 +209,68 @@ export default function WorkerGrievancesPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Title</label>
+                <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Title</label>
                 <input
                   type="text"
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="e.g. Unexplained 25% surge fee deduction on October 8 shift"
-                  className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                  placeholder="e.g. Unexplained 25% surge fee deduction"
+                  className="focus-ring w-full text-sm p-2.5 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Platform</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Platform</label>
                   <select
                     value={platform}
                     onChange={(e) => setPlatform(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   >
-                    <option value="careem">Careem Pakistan</option>
-                    <option value="indrive">inDrive Pakistan</option>
+                    <option value="careem">Careem</option>
+                    <option value="indrive">inDrive</option>
                     <option value="bykea">Bykea</option>
-                    <option value="foodpanda">Foodpanda Pakistan</option>
+                    <option value="foodpanda">Foodpanda</option>
                     <option value="yango">Yango</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Category</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Category</label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   >
-                    <option value="unexplained_deduction">Unexplained Deduction</option>
-                    <option value="fare_underpayment">Fare Underpayment</option>
-                    <option value="surge_manipulation">Surge Fee Clawback</option>
-                    <option value="tip_withholding">Tip Withholding</option>
-                    <option value="account_deactivation">Unfair Account Deactivation</option>
+                    <option value="unexplained_deduction">Unexplained deduction</option>
+                    <option value="fare_underpayment">Fare underpayment</option>
+                    <option value="surge_manipulation">Surge clawback</option>
+                    <option value="tip_withholding">Tip withholding</option>
+                    <option value="account_deactivation">Account deactivation</option>
                   </select>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Claimed Loss (PKR)</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Claimed underpayment (PKR)</label>
                   <input
                     type="number"
                     min="0"
                     required
                     value={claimedLoss}
                     onChange={(e) => setClaimedLoss(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Priority</label>
+                  <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Priority</label>
                   <select
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
-                    className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   >
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
@@ -283,27 +280,26 @@ export default function WorkerGrievancesPage() {
               </div>
 
               <div>
-                <label className="block text-[11px] font-medium text-[#5B6370] uppercase tracking-wider mb-1">Incident Description</label>
+                <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Description</label>
                 <textarea
                   rows={4}
                   required
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Provide shift dates, trip IDs, and details of unexplained platform deductions..."
-                  className="focus-ring w-full text-xs p-2 border border-[#E1E4EA] rounded-md bg-white text-[#22252A]"
+                  placeholder="Provide shift dates, trip numbers, and details of deductions..."
+                  className="focus-ring w-full text-sm p-2.5 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                 />
               </div>
 
-              <div className="p-3 bg-[#FAF9F5] border border-[#E1E4EA] rounded-md text-[11px] text-[#5B6370] flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-[#2D6A4F] shrink-0" aria-hidden="true" />
-                <span>Identity protected. Worker names are strictly anonymized as <strong className="text-[#22252A]">ANON-XXXX</strong> on public solidarity feeds.</span>
+              <div className="p-3 bg-[#FAF9F5] border border-[#E1E4EA] rounded-lg text-xs text-[#5B6370]">
+                Worker identity is anonymized on public feeds.
               </div>
 
               <div className="flex items-center justify-end gap-2.5 pt-2">
                 <button
                   type="button"
                   onClick={() => setIsSubmitModalOpen(false)}
-                  className="focus-ring px-3.5 py-1.5 border border-[#E1E4EA] text-xs font-medium rounded-md hover:bg-[#F3F3F0] transition-colors cursor-pointer text-[#22252A]"
+                  className="focus-ring px-3.5 py-2 border border-[#E1E4EA] text-xs font-medium rounded-lg hover:bg-[#F3F3F0] transition-colors cursor-pointer text-[#22252A]"
                 >
                   Cancel
                 </button>
@@ -311,10 +307,10 @@ export default function WorkerGrievancesPage() {
                   type="submit"
                   disabled={isSubmitting}
                   aria-busy={isSubmitting}
-                  className="focus-ring inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#1B4332] text-white text-xs font-medium rounded-md hover:bg-[#2D6A4F] disabled:opacity-50 transition-colors cursor-pointer"
+                  className="focus-ring inline-flex items-center gap-1.5 px-4 py-2 bg-[#1B4332] text-white text-xs font-medium rounded-lg hover:bg-[#2D6A4F] disabled:opacity-50 transition-colors cursor-pointer"
                 >
                   {isSubmitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                  <span>{isSubmitting ? 'Filing Grievance...' : 'Submit Grievance'}</span>
+                  <span>{isSubmitting ? 'Submitting...' : 'Submit grievance'}</span>
                 </button>
               </div>
             </form>

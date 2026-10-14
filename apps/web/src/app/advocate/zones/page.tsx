@@ -54,72 +54,67 @@ export default function ZonesPage() {
 
   return (
     <AppShell
-      title="Municipal Zone Analytics"
-      subtitle="Geographic earnings breakdown with strict privacy suppression for small worker cohorts."
+      title="Zone Analytics"
+      subtitle="Geographic earnings breakdown with privacy suppression."
     >
       {/* Zone Distribution Table */}
       <div className="card-subtle p-6 mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Zone Benchmarks (Statutory Wage: PKR 175.0/hr)</h3>
-            <p className="text-xs text-[#5B6370]">
-              Enforcing k &ge; 5 distinct worker threshold for all geographic cohorts
-            </p>
-          </div>
-          <span className="text-[10px] font-mono bg-[#FAF9F5] border border-[#E1E4EA] text-[#1B4332] px-2.5 py-1 rounded-md font-medium">
-            Municipal Ledger
-          </span>
+        <div className="mb-4">
+          <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Zone benchmarks</h3>
+          <p className="text-xs text-[#5B6370]">
+            Cohorts with fewer than 5 workers are suppressed to protect privacy
+          </p>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-sm">
             <thead>
-              <tr className="bg-[#FAF9F5] border-b border-[#E1E4EA] text-[#5B6370] uppercase tracking-wider text-[10px]">
-                <th className="py-2.5 px-4 font-medium">City</th>
-                <th className="py-2.5 px-4 font-medium">Zone</th>
-                <th className="py-2.5 px-4 text-center font-medium">Cohort (k)</th>
-                <th className="py-2.5 px-4 text-center font-medium">Privacy Status</th>
-                <th className="py-2.5 px-4 text-right font-medium">Median Rate</th>
-                <th className="py-2.5 px-4 text-right font-medium">Average Rate</th>
-                <th className="py-2.5 px-4 text-center font-medium">Sub-Min Wage Deficit</th>
+              <tr className="bg-[#FAF9F5] border-b border-[#E1E4EA] text-[#5B6370] text-xs font-medium">
+                <th className="py-3 px-4 font-medium">City</th>
+                <th className="py-3 px-4 font-medium">Zone</th>
+                <th className="py-3 px-4 text-center font-medium">Cohort size</th>
+                <th className="py-3 px-4 text-center font-medium">Privacy status</th>
+                <th className="py-3 px-4 text-right font-medium">Median rate</th>
+                <th className="py-3 px-4 text-right font-medium">Average rate</th>
+                <th className="py-3 px-4 text-center font-medium">Wage floor</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E1E4EA]">
               {zoneCohorts.map((z, idx) => (
                 <tr key={idx} className="hover:bg-[#F3F3F0]/60 transition-colors">
-                  <td className="py-3 px-4 font-medium text-[#22252A]">{z.cityName}</td>
-                  <td className="py-3 px-4 text-[#5B6370]">{z.zoneName}</td>
-                  <td className="py-3 px-4 text-center font-semibold text-[#22252A] tabular-nums">{z.workerCount} workers</td>
-                  <td className="py-3 px-4 text-center">
+                  <td className="py-3.5 px-4 font-medium text-[#22252A]">{z.cityName}</td>
+                  <td className="py-3.5 px-4 text-[#5B6370]">{z.zoneName}</td>
+                  <td className="py-3.5 px-4 text-center font-medium text-[#22252A] tabular-nums">{z.workerCount} workers</td>
+                  <td className="py-3.5 px-4 text-center">
                     {z.isSuppressed ? (
-                      <span className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-[#F3F3F0] text-[#5B6370] border border-[#E1E4EA]">
-                        Suppressed (k &lt; 5)
+                      <span className="px-2 py-0.5 rounded-md text-xs font-medium bg-[#F3F3F0] text-[#5B6370] border border-[#E1E4EA]">
+                        Suppressed (n &lt; 5)
                       </span>
                     ) : (
-                      <span className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-[#2D6A4F]/10 text-[#2D6A4F] border border-[#2D6A4F]/20">
+                      <span className="px-2 py-0.5 rounded-md text-xs font-medium bg-[#2D6A4F]/10 text-[#2D6A4F] border border-[#2D6A4F]/20">
                         Disclosed
                       </span>
                     )}
                   </td>
-                  <td className="py-3 px-4 text-right font-medium text-[#22252A] tabular-nums">
+                  <td className="py-3.5 px-4 text-right font-medium text-[#22252A] tabular-nums">
                     {z.isSuppressed ? (
                       <span className="text-[#5B6370] italic font-mono">&mdash;</span>
                     ) : (
-                      `PKR ${z.medianRate?.toFixed(2)}/hr`
+                      `PKR ${z.medianRate?.toFixed(0)}/hr`
                     )}
                   </td>
-                  <td className="py-3 px-4 text-right font-medium text-[#22252A] tabular-nums">
+                  <td className="py-3.5 px-4 text-right font-medium text-[#22252A] tabular-nums">
                     {z.isSuppressed ? (
                       <span className="text-[#5B6370] italic font-mono">&mdash;</span>
                     ) : (
-                      `PKR ${z.averageRate?.toFixed(2)}/hr`
+                      `PKR ${z.averageRate?.toFixed(0)}/hr`
                     )}
                   </td>
-                  <td className="py-3 px-4 text-center">
+                  <td className="py-3.5 px-4 text-center">
                     {z.isSuppressed ? (
                       <span className="text-[#5B6370] italic font-mono">&mdash;</span>
                     ) : (
-                      <span className="text-[#2D6A4F] font-medium text-[11px]">0 Deficits</span>
+                      <span className="text-[#2D6A4F] font-medium text-xs">Standard</span>
                     )}
                   </td>
                 </tr>
@@ -129,43 +124,38 @@ export default function ZonesPage() {
         </div>
       </div>
 
-      {/* Individual Vulnerability Radar (Restricted to Authorized Advocates) */}
+      {/* Individual Vulnerability List */}
       <div className="card-subtle p-6">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Worker Income Collapse Radar (&gt;20% Drop)</h3>
-            <p className="text-xs text-[#5B6370]">
-              Authorized outreach list for union representatives and legal aid advocates
-            </p>
-          </div>
-          <span className="text-[10px] bg-[#DC2626]/10 text-[#DC2626] font-medium border border-[#DC2626]/20 px-2 py-0.5 rounded-md">
-            Confidential Advocate View
-          </span>
+        <div className="mb-4">
+          <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Income drop alerts</h3>
+          <p className="text-xs text-[#5B6370]">
+            Workers experiencing &gt;20% income reduction
+          </p>
         </div>
 
         <div className="space-y-3">
           {vulnerabilities.map((v) => (
-            <div key={v.workerId} className="p-4 rounded-lg border border-[#DC2626]/20 bg-[#DC2626]/5">
+            <div key={v.workerId} className="p-4 rounded-xl border border-[#DC2626]/20 bg-[#DC2626]/5">
               <div className="flex items-start justify-between">
                 <div>
-                  <div className="text-xs font-semibold text-[#22252A]">{v.workerName} ({v.workerId.substring(0, 8)}...)</div>
-                  <div className="text-[11px] text-[#5B6370] mt-0.5">
-                    Platform: <strong className="capitalize text-[#22252A]">{v.platform}</strong> &bull; Baseline Net: PKR {v.previousPeriodIncome?.toLocaleString()} &bull; Current Net: PKR {v.currentPeriodIncome?.toLocaleString()}
+                  <div className="text-sm font-semibold text-[#22252A]">{v.workerName}</div>
+                  <div className="text-xs text-[#5B6370] mt-0.5">
+                    Platform: <strong className="capitalize text-[#22252A]">{v.platform}</strong> &bull; Baseline PKR {v.previousPeriodIncome?.toLocaleString()} &rarr; Current PKR {v.currentPeriodIncome?.toLocaleString()}
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-semibold text-[#DC2626] tabular-nums">-{v.percentageDrop}% Drop</span>
-                  <div className="text-[10px] uppercase font-medium text-[#DC2626]">Severity: {v.severity}</div>
+                  <span className="text-sm font-semibold text-[#DC2626] tabular-nums">-{v.percentageDrop}%</span>
+                  <div className="text-xs text-[#DC2626] capitalize">Severity: {v.severity}</div>
                 </div>
               </div>
 
-              <div className="mt-3 pt-2 border-t border-[#DC2626]/10 text-[11px] text-[#5B6370] flex items-center justify-between">
+              <div className="mt-3 pt-2 border-t border-[#DC2626]/10 text-xs text-[#5B6370] flex items-center justify-between">
                 <span className="italic">{v.disclaimer}</span>
                 <button
                   onClick={() => alert(`Initiated advocate support contact with ${v.workerName}`)}
-                  className="px-2.5 py-1 bg-[#1B4332] text-white rounded-md text-[11px] font-medium hover:bg-[#2D6A4F] transition-colors cursor-pointer"
+                  className="px-3 py-1 bg-[#1B4332] text-white rounded-lg text-xs font-medium hover:bg-[#2D6A4F] transition-colors cursor-pointer"
                 >
-                  Initiate Outreach
+                  Contact worker
                 </button>
               </div>
             </div>

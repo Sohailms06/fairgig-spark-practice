@@ -22,7 +22,7 @@ export function AppShell({
       <div className="min-h-screen bg-[#FAF9F5] flex items-center justify-center p-4">
         <div className="flex flex-col items-center gap-3">
           <div className="w-7 h-7 rounded-full border-2 border-[#1B4332] border-t-transparent animate-spin" />
-          <div className="text-xs font-medium text-[#5B6370] tracking-wide">Connecting to FairGig Platform...</div>
+          <div className="text-xs font-medium text-[#5B6370] tracking-wide">Connecting to FairGig...</div>
         </div>
       </div>
     );

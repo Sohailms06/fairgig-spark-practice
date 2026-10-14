@@ -84,7 +84,7 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
           </div>
           <div>
             <div className="font-semibold text-sm tracking-tight text-[#22252A]">FairGig</div>
-            <div className="text-[10px] font-medium text-[#5B6370] uppercase tracking-wider leading-none">
+            <div className="text-xs text-[#5B6370] leading-none mt-0.5">
               {role === 'advocate' ? 'Advocate Portal' : role === 'verifier' ? 'Verifier Audit' : 'Worker Workspace'}
             </div>
           </div>
@@ -102,16 +102,15 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
         )}
       </div>
 
-      {/* Role Switcher for Hackathon Judges */}
+      {/* Role Switcher */}
       <div className="p-3 border-b border-[#E1E4EA] bg-[#FAF9F5]">
-        <div className="text-[10px] font-semibold text-[#5B6370] uppercase tracking-wider px-1 mb-1.5 flex items-center justify-between">
-          <span>Judge Quick-Switch</span>
-          <span className="text-[9px] bg-[#E2ECE6] text-[#1B4332] px-1.5 py-0.5 rounded font-mono font-medium">1-Click</span>
+        <div className="text-xs font-medium text-[#5B6370] px-1 mb-1.5">
+          Switch workspace
         </div>
         <div className="grid grid-cols-3 gap-1 bg-[#F3F3F0] p-1 rounded-lg border border-[#E1E4EA]">
           <button
             onClick={() => switchDemoUser('worker')}
-            className={`btn-press px-2 py-1 text-xs rounded font-medium transition cursor-pointer text-center ${
+            className={`btn-press px-2 py-1 text-xs rounded-md font-medium transition cursor-pointer text-center ${
               role === 'worker'
                 ? 'bg-white text-[#1B4332] shadow-2xs font-semibold'
                 : 'text-[#5B6370] hover:text-[#22252A]'
@@ -121,7 +120,7 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
           </button>
           <button
             onClick={() => switchDemoUser('advocate')}
-            className={`btn-press px-2 py-1 text-xs rounded font-medium transition cursor-pointer text-center ${
+            className={`btn-press px-2 py-1 text-xs rounded-md font-medium transition cursor-pointer text-center ${
               role === 'advocate'
                 ? 'bg-white text-[#1B4332] shadow-2xs font-semibold'
                 : 'text-[#5B6370] hover:text-[#22252A]'
@@ -131,7 +130,7 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
           </button>
           <button
             onClick={() => switchDemoUser('verifier')}
-            className={`btn-press px-2 py-1 text-xs rounded font-medium transition cursor-pointer text-center ${
+            className={`btn-press px-2 py-1 text-xs rounded-md font-medium transition cursor-pointer text-center ${
               role === 'verifier'
                 ? 'bg-white text-[#1B4332] shadow-2xs font-semibold'
                 : 'text-[#5B6370] hover:text-[#22252A]'
@@ -144,7 +143,6 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
 
       {/* Navigation Links */}
       <nav className="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto" aria-label="Main Navigation">
-        <div className="text-[10px] font-semibold text-[#5B6370] uppercase tracking-wider px-2.5 mb-1.5">Navigation</div>
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -152,7 +150,7 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs sm:text-sm transition ${
+              className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm transition ${
                 isActive
                   ? 'bg-[#F3F3F0] text-[#1B4332] font-semibold'
                   : 'text-[#5B6370] hover:bg-[#F3F3F0]/60 hover:text-[#22252A] font-medium'
@@ -171,14 +169,14 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
       {/* PWA Install Button & User Card */}
       <div className="p-3 border-t border-[#E1E4EA] bg-[#FAF9F5] space-y-2">
         <InstallPwaButton variant="outline" className="w-full justify-center bg-white" />
-        <div className="flex items-center justify-between p-2 rounded-lg bg-white border border-[#E1E4EA]">
-          <div className="flex items-center gap-2 overflow-hidden">
-            <div className="w-7 h-7 rounded-full bg-[#E2ECE6] text-[#1B4332] flex items-center justify-center font-semibold text-xs shrink-0">
+        <div className="flex items-center justify-between p-2.5 rounded-lg bg-white border border-[#E1E4EA]">
+          <div className="flex items-center gap-2.5 overflow-hidden">
+            <div className="w-8 h-8 rounded-full bg-[#E2ECE6] text-[#1B4332] flex items-center justify-center font-semibold text-xs shrink-0">
               {user?.fullName ? user.fullName[0] : 'U'}
             </div>
             <div className="overflow-hidden">
-              <div className="text-xs font-semibold text-[#22252A] truncate">{user?.fullName || 'Active User'}</div>
-              <div className="text-[10px] text-[#5B6370] capitalize truncate">{role} &bull; {user?.cityName || 'Pakistan'}</div>
+              <div className="text-sm font-medium text-[#22252A] truncate">{user?.fullName || 'Active User'}</div>
+              <div className="text-xs text-[#5B6370] capitalize truncate">{role} &bull; {user?.cityName || 'Pakistan'}</div>
             </div>
           </div>
           <button

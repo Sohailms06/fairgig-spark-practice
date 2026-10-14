@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ShieldCheck, ArrowRight, Lock, Mail, User, Phone, MapPin, Truck, Loader2 } from 'lucide-react';
+import { ArrowRight, Lock, Mail, User, Phone, MapPin, Truck, Loader2 } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
 
 export default function RegisterPage() {
@@ -53,9 +53,9 @@ export default function RegisterPage() {
           <div className="w-10 h-10 rounded-lg bg-[#1B4332] text-white font-medium text-sm flex items-center justify-center mx-auto mb-3">
             FG
           </div>
-          <h1 className="text-2xl font-semibold tracking-tight text-[#22252A]">Worker Registration</h1>
-          <p className="text-xs text-[#5B6370] mt-1">
-            Join the FairGig transparency ledger to verify earnings and protect your rights
+          <h1 className="text-2xl font-semibold tracking-tight text-[#22252A]">Create your account</h1>
+          <p className="text-sm text-[#5B6370] mt-1">
+            Register to track earnings and verify your work.
           </p>
         </div>
 
@@ -68,8 +68,8 @@ export default function RegisterPage() {
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-[#22252A] uppercase tracking-wider mb-1.5">
-                Full Name
+              <label className="block text-xs font-medium text-[#5B6370] mb-1.5">
+                Full name
               </label>
               <div className="relative">
                 <User className="w-4 h-4 text-[#5B6370] absolute left-3 top-3" aria-hidden="true" />
@@ -78,7 +78,7 @@ export default function RegisterPage() {
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder="e.g. Tariq Mehmood"
+                  placeholder="Tariq Mehmood"
                   className="focus-ring w-full pl-9 pr-3 py-2 text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
                 />
               </div>
@@ -86,8 +86,8 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-[#22252A] uppercase tracking-wider mb-1.5">
-                  Email Address
+                <label className="block text-xs font-medium text-[#5B6370] mb-1.5">
+                  Email
                 </label>
                 <div className="relative">
                   <Mail className="w-4 h-4 text-[#5B6370] absolute left-3 top-3" aria-hidden="true" />
@@ -103,8 +103,8 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#22252A] uppercase tracking-wider mb-1.5">
-                  Phone Number
+                <label className="block text-xs font-medium text-[#5B6370] mb-1.5">
+                  Phone number
                 </label>
                 <div className="relative">
                   <Phone className="w-4 h-4 text-[#5B6370] absolute left-3 top-3" aria-hidden="true" />
@@ -121,7 +121,7 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-[#22252A] uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-medium text-[#5B6370] mb-1.5">
                   City
                 </label>
                 <div className="relative">
@@ -140,8 +140,8 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#22252A] uppercase tracking-wider mb-1.5">
-                  Primary Platform
+                <label className="block text-xs font-medium text-[#5B6370] mb-1.5">
+                  Primary platform
                 </label>
                 <div className="relative">
                   <Truck className="w-4 h-4 text-[#5B6370] absolute left-3 top-3" aria-hidden="true" />
@@ -150,20 +150,20 @@ export default function RegisterPage() {
                     onChange={(e) => setPrimaryPlatform(e.target.value)}
                     className="focus-ring w-full pl-9 pr-3 py-2 text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
                   >
-                    <option value="indrive">inDrive Pakistan</option>
-                    <option value="bykea">Bykea (Rides &amp; Delivery)</option>
-                    <option value="foodpanda">Foodpanda Pakistan</option>
-                    <option value="careem">Careem Pakistan</option>
-                    <option value="yango">Yango Pakistan</option>
-                    <option value="cheetay">Cheetay Logistics</option>
-                    <option value="other">Independent / Other</option>
+                    <option value="indrive">inDrive</option>
+                    <option value="bykea">Bykea</option>
+                    <option value="foodpanda">Foodpanda</option>
+                    <option value="careem">Careem</option>
+                    <option value="yango">Yango</option>
+                    <option value="cheetay">Cheetay</option>
+                    <option value="other">Other</option>
                   </select>
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#22252A] uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-medium text-[#5B6370] mb-1.5">
                 Password
               </label>
               <div className="relative">
@@ -179,9 +179,8 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div className="p-3 bg-[#FAF9F5] border border-[#E1E4EA] rounded-md text-[11px] text-[#5B6370] flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#2D6A4F] shrink-0" aria-hidden="true" />
-              <span>Public accounts default strictly to <strong className="text-[#22252A]">Worker</strong> role to prevent unauthorized privilege escalation.</span>
+            <div className="p-3 bg-[#FAF9F5] border border-[#E1E4EA] rounded-lg text-xs text-[#5B6370]">
+              New registrations are assigned to the Worker workspace.
             </div>
 
             <button
@@ -193,11 +192,11 @@ export default function RegisterPage() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Registering Account...</span>
+                  <span>Creating account...</span>
                 </>
               ) : (
                 <>
-                  <span>Create Worker Account</span>
+                  <span>Create account</span>
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </>
               )}
@@ -207,7 +206,7 @@ export default function RegisterPage() {
           <div className="mt-5 text-center text-xs text-[#5B6370]">
             Already have an account?{' '}
             <Link href="/login" className="font-semibold text-[#1B4332] hover:underline focus-ring rounded">
-              Sign In
+              Sign in
             </Link>
           </div>
         </div>

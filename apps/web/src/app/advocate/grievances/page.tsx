@@ -19,7 +19,7 @@ export default function AdvocateGrievancesPage() {
       estimatedLoss: 8940.0,
       status: 'escalated',
       targetRepresentative: 'Punjab Directorate of Labor Welfare',
-      tags: ['#surge_clawback', '#careem_pakistan', '#systemic_discrepancy'],
+      tags: ['Surge clawback', 'Careem'],
     },
     {
       id: '77777777-8888-9999-0000-111111111111',
@@ -29,8 +29,8 @@ export default function AdvocateGrievancesPage() {
       affectedCount: 23,
       estimatedLoss: 4600.0,
       status: 'clustered',
-      targetRepresentative: 'Direct Platform Management Review',
-      tags: ['#rain_incentive', '#foodpanda_pk'],
+      targetRepresentative: 'Platform Management Review',
+      tags: ['Peak incentive', 'Foodpanda'],
     },
   ]);
 
@@ -42,7 +42,7 @@ export default function AdvocateGrievancesPage() {
         c.id === clusterId ? { ...c, status: 'escalated' } : c
       )
     );
-    setNotification('Petition escalated to Directorate of Labor Welfare under FairGig cluster verification!');
+    setNotification('Petition escalated to Directorate of Labor Welfare.');
     setTimeout(() => setNotification(null), 4000);
   };
 
@@ -52,17 +52,17 @@ export default function AdvocateGrievancesPage() {
         c.id === clusterId ? { ...c, status: 'resolved' } : c
       )
     );
-    setNotification('Cluster marked as resolved with platform payout reimbursement notes.');
+    setNotification('Cluster marked as resolved.');
     setTimeout(() => setNotification(null), 4000);
   };
 
   return (
     <AppShell
-      title="Collective Grievance Action Hub"
-      subtitle="Aggregate systemic platform issues, organize petitions, and escalate joint actions to labor standards regulators."
+      title="Collective Grievances"
+      subtitle="Grouped disputes and joint worker petitions."
     >
       {notification && (
-        <div className="mb-4 p-3 bg-[#2D6A4F]/10 border border-[#2D6A4F]/20 rounded-lg text-xs font-medium text-[#2D6A4F] flex items-center gap-2 animate-modal-enter">
+        <div className="mb-4 p-3 bg-[#2D6A4F]/10 border border-[#2D6A4F]/20 rounded-lg text-sm font-medium text-[#2D6A4F] flex items-center gap-2 animate-modal-enter">
           <CheckCircle2 className="w-4 h-4 text-[#2D6A4F] shrink-0" aria-hidden="true" />
           <span>{notification}</span>
         </div>
@@ -74,11 +74,11 @@ export default function AdvocateGrievancesPage() {
             <div className="flex flex-wrap items-start justify-between gap-4 mb-3">
               <div>
                 <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-[10px] font-medium uppercase tracking-wider bg-[#2563EB]/10 text-[#2563EB] border border-[#2563EB]/20 px-2 py-0.5 rounded-md">
-                    Collective Action Cluster
+                  <span className="text-xs font-medium uppercase tracking-wider bg-[#2563EB]/10 text-[#2563EB] border border-[#2563EB]/20 px-2 py-0.5 rounded-md">
+                    Collective cluster
                   </span>
                   <span className="text-xs font-medium capitalize text-[#5B6370]">
-                    Platform: {cluster.platform}
+                    {cluster.platform}
                   </span>
                 </div>
                 <h3 className="text-base font-semibold text-[#22252A] tracking-tight">{cluster.title}</h3>
@@ -90,7 +90,7 @@ export default function AdvocateGrievancesPage() {
                 </div>
                 <div className="text-xs font-medium text-[#D97706] flex items-center justify-end gap-1">
                   <Flame className="w-3.5 h-3.5 text-[#D97706]" aria-hidden="true" />
-                  <span>{cluster.affectedCount} Workers Joint Claim</span>
+                  <span>{cluster.affectedCount} workers claim</span>
                 </div>
               </div>
             </div>
@@ -100,7 +100,7 @@ export default function AdvocateGrievancesPage() {
               {cluster.tags.map((tag, idx) => (
                 <span
                   key={idx}
-                  className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-[#FAF9F5] text-[#5B6370] border border-[#E1E4EA]"
+                  className="px-2 py-0.5 rounded-md text-xs bg-[#FAF9F5] text-[#5B6370] border border-[#E1E4EA]"
                 >
                   {tag}
                 </span>
@@ -109,14 +109,14 @@ export default function AdvocateGrievancesPage() {
 
             {/* Target Regulatory Body */}
             <div className="p-3 bg-[#FAF9F5] rounded-lg border border-[#E1E4EA] text-xs flex flex-wrap items-center justify-between gap-2 mb-4">
-              <span className="text-[#5B6370]">Designated Enforcement Authority:</span>
+              <span className="text-[#5B6370]">Target authority:</span>
               <span className="font-medium text-[#22252A]">{cluster.targetRepresentative}</span>
             </div>
 
             {/* Actions */}
             <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#E1E4EA]">
               <span
-                className={`text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-md border ${
+                className={`text-xs font-medium capitalize px-2 py-0.5 rounded-md border ${
                   cluster.status === 'resolved'
                     ? 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
                     : cluster.status === 'escalated'
@@ -124,7 +124,7 @@ export default function AdvocateGrievancesPage() {
                     : 'bg-[#1B4332]/10 text-[#1B4332] border-[#1B4332]/20'
                 }`}
               >
-                Status: {cluster.status}
+                {cluster.status}
               </span>
 
               <div className="flex items-center gap-2">
@@ -132,17 +132,17 @@ export default function AdvocateGrievancesPage() {
                   <>
                     <button
                       onClick={() => handleEscalate(cluster.id)}
-                      className="focus-ring px-3 py-1.5 bg-[#2563EB] text-white rounded-md text-xs font-medium hover:bg-[#1D4ED8] transition-colors flex items-center gap-1.5 cursor-pointer"
+                      className="focus-ring px-3.5 py-1.5 bg-[#2563EB] text-white rounded-lg text-xs font-medium hover:bg-[#1D4ED8] transition-colors flex items-center gap-1.5 cursor-pointer"
                     >
                       <Send className="w-3 h-3" aria-hidden="true" />
-                      <span>Escalate to Directorate</span>
+                      <span>Escalate petition</span>
                     </button>
                     <button
                       onClick={() => handleResolve(cluster.id)}
-                      className="focus-ring px-3 py-1.5 bg-[#1B4332] text-white rounded-md text-xs font-medium hover:bg-[#2D6A4F] transition-colors flex items-center gap-1.5 cursor-pointer"
+                      className="focus-ring px-3.5 py-1.5 bg-[#1B4332] text-white rounded-lg text-xs font-medium hover:bg-[#2D6A4F] transition-colors flex items-center gap-1.5 cursor-pointer"
                     >
                       <CheckCircle2 className="w-3 h-3" aria-hidden="true" />
-                      <span>Mark Resolved</span>
+                      <span>Mark resolved</span>
                     </button>
                   </>
                 )}
