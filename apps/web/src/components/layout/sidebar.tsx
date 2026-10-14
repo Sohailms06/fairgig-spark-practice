@@ -18,6 +18,7 @@ import {
   X,
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
+import { InstallPwaButton } from '@/components/pwa/install-button';
 
 interface AppSidebarProps {
   isMobileOpen?: boolean;
@@ -167,8 +168,9 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
         })}
       </nav>
 
-      {/* Current User Card & Logout */}
-      <div className="p-3 border-t border-[#E1E4EA] bg-[#FAF9F5]">
+      {/* PWA Install Button & User Card */}
+      <div className="p-3 border-t border-[#E1E4EA] bg-[#FAF9F5] space-y-2">
+        <InstallPwaButton variant="outline" className="w-full justify-center bg-white" />
         <div className="flex items-center justify-between p-2 rounded-lg bg-white border border-[#E1E4EA]">
           <div className="flex items-center gap-2 overflow-hidden">
             <div className="w-7 h-7 rounded-full bg-[#E2ECE6] text-[#1B4332] flex items-center justify-center font-semibold text-xs shrink-0">

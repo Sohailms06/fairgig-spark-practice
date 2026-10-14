@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { FAIRGIG_SERVICES } from '@fairgig/contracts';
 import { ArrowRight, BarChart3, ShieldCheck, Layers, Sparkles } from 'lucide-react';
+import { InstallPwaButton } from '@/components/pwa/install-button';
 
 export default function HomePage() {
   return (
@@ -24,7 +25,8 @@ export default function HomePage() {
               FairGig provides gig economy workers in Pakistan with tamper-proof income verification, statistical deduction anomaly detection, and privacy-preserving collective advocacy.
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <InstallPwaButton variant="outline" />
             <Link
               href="/login"
               className="focus-ring px-4 py-2 border border-[#E1E4EA] bg-white rounded-lg text-xs font-medium text-[#22252A] hover:bg-[#F3F3F0] transition-colors"

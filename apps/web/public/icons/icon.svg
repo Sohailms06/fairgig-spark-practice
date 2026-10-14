@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E4A37"/>
+      <stop offset="100%" stop-color="#1B4332"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Container -->
+  <rect width="512" height="512" rx="104" fill="url(#bgGrad)"/>
+  <rect x="12" y="12" width="488" height="488" rx="94" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-opacity="0.5"/>
+
+  <!-- Monogram FG in Warm Ivory -->
+  <g fill="#FAF9F5">
+    <!-- Letter F -->
+    <path d="M 138 152 H 242 V 186 H 180 V 238 H 234 V 272 H 180 V 360 H 138 Z"/>
+
+    <!-- Letter G -->
+    <path d="M 284 256 C 284 186 314 152 376 152 C 418 152 444 176 452 208 L 414 220 C 408 198 394 186 376 186 C 338 186 324 214 324 256 C 324 298 338 326 376 326 C 400 326 414 312 416 288 H 368 V 256 H 454 V 292 C 448 336 418 360 376 360 C 314 360 284 326 284 256 Z"/>
+  </g>
+</svg>

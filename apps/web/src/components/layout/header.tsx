@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Menu, ShieldCheck, Database } from 'lucide-react';
+import { Menu, Database } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
+import { InstallPwaButton } from '@/components/pwa/install-button';
 
 interface AppHeaderProps {
   title: string;
@@ -19,7 +20,7 @@ export function AppHeader({ title, subtitle, onOpenMobileMenu }: AppHeaderProps)
         {/* Mobile Hamburger Menu Toggle */}
         <button
           onClick={onOpenMobileMenu}
-          className="lg:hidden p-2 -ml-1 text-[#5B6370] hover:text-[#22252A] hover:bg-[#F3F3F0] rounded-lg focus-ring transition"
+          className="lg:hidden p-2 -ml-1 text-[#5B6370] hover:text-[#22252A] hover:bg-[#F3F3F0] rounded-lg focus-ring transition-colors"
           aria-label="Open navigation menu"
         >
           <Menu className="w-5 h-5" />
@@ -31,10 +32,13 @@ export function AppHeader({ title, subtitle, onOpenMobileMenu }: AppHeaderProps)
         </div>
       </div>
 
-      <div className="flex items-center gap-3 sm:gap-4">
+      <div className="flex items-center gap-2.5 sm:gap-3">
+        {/* PWA Install Button (Appears if installable on client) */}
+        <InstallPwaButton variant="outline" />
+
         {/* System PostgreSQL Ledger Status Pill (Honest, non-fake neutral state) */}
         <div
-          className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#F3F3F0] border border-[#E1E4EA] text-[11px] font-medium text-[#22252A]"
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#F3F3F0] border border-[#E1E4EA] text-[11px] font-medium text-[#22252A]"
           title="Direct connection to Supabase PostgreSQL Ledger"
         >
           <Database className="w-3.5 h-3.5 text-[#5B6370]" aria-hidden="true" />
