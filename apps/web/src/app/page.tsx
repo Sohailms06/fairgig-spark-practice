@@ -1,84 +1,131 @@
 import React from 'react';
+import Link from 'next/link';
 import { FAIRGIG_SERVICES, USER_ROLES } from '@fairgig/contracts';
+import { ArrowRight, BarChart3, ShieldCheck, Layers, Users, Sparkles } from 'lucide-react';
 
 export default function HomePage() {
   return (
     <main className="max-w-6xl mx-auto px-4 py-12">
-      <header className="mb-12 border-b border-slate-200 pb-8">
-        <div className="flex items-center justify-between">
+      <header className="mb-12 border-b border-[#E7E5E4] pb-8">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold tracking-wider text-indigo-700 uppercase bg-indigo-50 rounded-full border border-indigo-200">
-              Phase 0 Foundation Active
+            <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold tracking-wider text-[#1E3A2F] uppercase bg-[#E2ECE6] rounded-full border border-[#C5D9CE]">
+              Phase 4 Application Active
             </span>
-            <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
+            <h1 className="text-4xl font-extrabold tracking-tight text-[#1C1917] sm:text-5xl">
               FairGig Platform
             </h1>
-            <p className="mt-2 text-lg text-slate-600">
-              Gig Worker Income Verification, Rights Advocacy & Transparent Analytics.
+            <p className="mt-2 text-base text-[#78716C]">
+              Gig Worker Income Verification, Dispute Advocacy &amp; Transparent Collective Analytics.
             </p>
           </div>
-          <div className="hidden sm:block text-right">
-            <span className="text-xs text-slate-500 font-mono">Dev A: Services & Contracts</span>
-            <br />
-            <span className="text-xs text-indigo-600 font-mono font-bold">Dev B: Frontend UI Ready</span>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/login"
+              className="px-4 py-2 border border-[#E7E5E4] bg-white rounded-lg text-xs font-semibold text-[#44403C] hover:bg-stone-50 transition shadow-xs"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/dashboard"
+              className="px-5 py-2.5 bg-[#1E3A2F] hover:bg-[#234737] text-white rounded-lg text-xs font-semibold transition shadow-xs flex items-center gap-1.5"
+            >
+              <span>Launch Worker Dashboard</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </header>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        <div className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+      {/* Role Workspace Cards */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <Link
+          href="/dashboard"
+          className="p-6 bg-white rounded-xl border border-[#E7E5E4] shadow-xs hover:border-[#1E3A2F] hover:shadow-md transition group block"
+        >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-slate-800">Worker Dashboard</h3>
-            <span className="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium">Ready</span>
+            <div className="flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 text-[#1E3A2F]" />
+              <h3 className="font-bold text-[#1C1917]">Worker Dashboard</h3>
+            </div>
+            <span className="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-semibold">
+              Active
+            </span>
           </div>
-          <p className="text-sm text-slate-600 mb-4">
-            Upload pay slips, log daily shifts, run anomaly detection, and export verified income certificates.
+          <p className="text-xs text-[#78716C] mb-4 leading-relaxed">
+            Upload pay slips, log daily shifts, run anomaly detection, compare city medians, and export verifiable income certificates.
           </p>
-          <div className="text-xs font-mono text-slate-400">Target Role: {USER_ROLES.WORKER}</div>
-        </div>
+          <div className="text-[11px] font-semibold text-[#1E3A2F] group-hover:underline flex items-center gap-1">
+            <span>Enter Worker Workspace</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </div>
+        </Link>
 
-        <div className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+        <Link
+          href="/advocate"
+          className="p-6 bg-white rounded-xl border border-[#E7E5E4] shadow-xs hover:border-[#1E3A2F] hover:shadow-md transition group block"
+        >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-slate-800">Verifier Portal</h3>
-            <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-medium">Ready</span>
+            <div className="flex items-center gap-2">
+              <Layers className="w-5 h-5 text-purple-700" />
+              <h3 className="font-bold text-[#1C1917]">Advocate Intelligence</h3>
+            </div>
+            <span className="text-[10px] bg-purple-50 text-purple-800 border border-purple-200 px-2 py-0.5 rounded font-semibold">
+              Active
+            </span>
           </div>
-          <p className="text-sm text-slate-600 mb-4">
-            Audit OCR screenshot uploads, verify shift authenticity, and resolve payout discrepancies.
+          <p className="text-xs text-[#78716C] mb-4 leading-relaxed">
+            Cluster collective grievances, audit platform deduction percentages, monitor worker vulnerability, and enforce k &ge; 5 privacy.
           </p>
-          <div className="text-xs font-mono text-slate-400">Target Role: {USER_ROLES.VERIFIER}</div>
-        </div>
+          <div className="text-[11px] font-semibold text-purple-700 group-hover:underline flex items-center gap-1">
+            <span>Enter Advocate Portal</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </div>
+        </Link>
 
-        <div className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+        <Link
+          href="/verifier"
+          className="p-6 bg-white rounded-xl border border-[#E7E5E4] shadow-xs hover:border-[#1E3A2F] hover:shadow-md transition group block"
+        >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-slate-800">Advocate Intelligence</h3>
-            <span className="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-medium">Ready</span>
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-blue-700" />
+              <h3 className="font-bold text-[#1C1917]">Verifier Audit Queue</h3>
+            </div>
+            <span className="text-[10px] bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded font-semibold">
+              Active
+            </span>
           </div>
-          <p className="text-sm text-slate-600 mb-4">
-            Cluster collective grievances, track platform deductions, and view k-anonymity aggregate earnings.
+          <p className="text-xs text-[#78716C] mb-4 leading-relaxed">
+            Audit pay stub OCR screenshots in private storage, verify shift authenticity, flag discrepancies, and sign ledger reviews.
           </p>
-          <div className="text-xs font-mono text-slate-400">Target Role: {USER_ROLES.ADVOCATE}</div>
-        </div>
+          <div className="text-[11px] font-semibold text-blue-700 group-hover:underline flex items-center gap-1">
+            <span>Enter Verifier Queue</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </div>
+        </Link>
       </section>
 
-      <section className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-        <h2 className="text-lg font-bold text-slate-900 mb-4">Architecture & Service Registry</h2>
+      {/* Service Architecture Table */}
+      <section className="bg-white rounded-xl border border-[#E7E5E4] p-6 shadow-xs">
+        <h2 className="text-sm font-bold text-[#1C1917] mb-3">Live Microservice Registry &bull; 6 Operational Services</h2>
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-slate-50 text-slate-500 uppercase text-xs">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-[#FAFAF8] text-[#78716C] uppercase text-[10px] tracking-wider">
               <tr>
-                <th className="py-3 px-4">Service</th>
-                <th className="py-3 px-4">Runtime</th>
-                <th className="py-3 px-4">Default Port</th>
-                <th className="py-3 px-4">Health Endpoint</th>
+                <th className="py-2.5 px-4">Service</th>
+                <th className="py-2.5 px-4">Runtime</th>
+                <th className="py-2.5 px-4">Default Port</th>
+                <th className="py-2.5 px-4">Health Probe</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-mono text-xs">
+            <tbody className="divide-y divide-[#F0EFEA] font-mono text-[11px]">
               {FAIRGIG_SERVICES.map((s) => (
-                <tr key={s.name} className="hover:bg-slate-50">
-                  <td className="py-3 px-4 font-semibold text-slate-800">{s.name}</td>
-                  <td className="py-3 px-4 text-slate-600">{s.runtime}</td>
-                  <td className="py-3 px-4 text-slate-600">:{s.defaultPort}</td>
-                  <td className="py-3 px-4 text-indigo-600">{s.healthPath}</td>
+                <tr key={s.name} className="hover:bg-[#FAFAF8] transition">
+                  <td className="py-2.5 px-4 font-semibold text-[#1C1917]">{s.name}</td>
+                  <td className="py-2.5 px-4 text-[#78716C]">{s.runtime}</td>
+                  <td className="py-2.5 px-4 text-[#78716C]">:{s.defaultPort}</td>
+                  <td className="py-2.5 px-4 text-emerald-700">{s.healthPath}</td>
                 </tr>
               ))}
             </tbody>
