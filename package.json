@@ -1,0 +1,26 @@
+{
+  "name": "fairgig",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FairGig — Gig Worker Income & Rights Platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "services/grievance",
+    "services/certificate"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace=apps/web",
+    "build:web": "npm run build --workspace=apps/web",
+    "build:contracts": "npm run build --workspace=packages/contracts",
+    "build:grievance": "npm run build --workspace=services/grievance",
+    "build:certificate": "npm run build --workspace=services/certificate",
+    "dev:grievance": "npm run dev --workspace=services/grievance",
+    "dev:certificate": "npm run dev --workspace=services/certificate",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "build": "npm run build:contracts && npm run build:grievance && npm run build:certificate && npm run build:web"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}

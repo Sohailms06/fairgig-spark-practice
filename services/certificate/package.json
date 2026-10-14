@@ -1,0 +1,19 @@
+{
+  "name": "@fairgig/service-certificate",
+  "version": "0.1.0",
+  "description": "FairGig Income Certificate Service (Node.js + TypeScript)",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc && node dist/index.js",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fairgig/contracts": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  }
+}
