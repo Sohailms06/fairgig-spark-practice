@@ -7,7 +7,11 @@ dotenv.config({ path: path.join(rootDir, '.env.local') });
 dotenv.config({ path: path.join(rootDir, '.env') });
 
 export const config = {
-  port: process.env.PORT_GRIEVANCE ? parseInt(process.env.PORT_GRIEVANCE, 10) : 4001,
+  port: process.env.PORT_GRIEVANCE
+    ? parseInt(process.env.PORT_GRIEVANCE, 10)
+    : process.env.PORT
+    ? parseInt(process.env.PORT, 10)
+    : 4001,
   jwtSecret: process.env.JWT_SECRET || 'super-secret-jwt-signing-key-min-32-chars-long!',
   jwtAlgorithm: process.env.JWT_ALGORITHM || 'HS256',
   supabaseUrl: (process.env.SUPABASE_URL || '').replace(/\/$/, ''),

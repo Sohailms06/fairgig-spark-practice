@@ -29,7 +29,7 @@ try:
 except Exception:
     pass
 
-PORT_ANOMALY = int(os.getenv("PORT_ANOMALY", "8003"))
+PORT_ANOMALY = int(os.getenv("PORT_ANOMALY", os.getenv("PORT", "8003")))
 JWT_SECRET = os.getenv("JWT_SECRET", "super-secret-jwt-signing-key-min-32-chars-long!")
 JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")

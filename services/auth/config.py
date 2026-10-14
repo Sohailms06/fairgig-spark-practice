@@ -14,7 +14,7 @@ except Exception:
 class Settings(BaseModel):
     service_name: str = "auth"
     version: str = "0.1.0"
-    port: int = int(os.getenv("PORT_AUTH", "8001"))
+    port: int = int(os.getenv("PORT_AUTH", os.getenv("PORT", "8001")))
     
     # Supabase & PostgreSQL
     supabase_url: str = os.getenv("SUPABASE_URL", "")
