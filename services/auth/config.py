@@ -2,6 +2,14 @@ import os
 from typing import List
 from pydantic import BaseModel
 
+try:
+    from dotenv import load_dotenv
+    _root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    load_dotenv(os.path.join(_root_dir, ".env.local"))
+    load_dotenv(os.path.join(_root_dir, ".env"))
+except Exception:
+    pass
+
 
 class Settings(BaseModel):
     service_name: str = "auth"
