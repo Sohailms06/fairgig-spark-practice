@@ -37,6 +37,23 @@ state = {
 }
 
 
+@pytest.fixture(scope="session", autouse=True)
+def setup_test_database():
+    with auth_db._get_connection() as conn:
+        cursor = conn.cursor()
+        for table in ["audit_logs", "refresh_sessions", "platform_earnings", "users"]:
+            cursor.execute(f"DROP TABLE IF EXISTS {table}")
+        conn.commit()
+    auth_db._init_sqlite_schema()
+    earnings_db._init_sqlite_schema()
+    yield
+    with auth_db._get_connection() as conn:
+        cursor = conn.cursor()
+        for table in ["audit_logs", "refresh_sessions", "platform_earnings", "users"]:
+            cursor.execute(f"DROP TABLE IF EXISTS {table}")
+        conn.commit()
+
+
 # ============================================================================
 # 1. AUTHENTICATION TESTS (Tests 1-7)
 # ============================================================================
