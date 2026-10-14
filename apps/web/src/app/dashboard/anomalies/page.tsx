@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { AppShell } from '@/components/layout/app-shell';
 import { apiClient } from '@/lib/api-client';
+import { Select } from '@/components/ui/select';
 
 export default function AnomaliesPage() {
   const [platform, setPlatform] = useState('careem');
@@ -101,16 +102,16 @@ export default function AnomaliesPage() {
             <form onSubmit={handleSimulate} className="space-y-4">
               <div>
                 <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Platform</label>
-                <select
+                <Select
                   value={platform}
-                  onChange={(e) => setPlatform(e.target.value)}
-                  className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
-                >
-                  <option value="careem">Careem</option>
-                  <option value="indrive">inDrive</option>
-                  <option value="bykea">Bykea</option>
-                  <option value="foodpanda">Foodpanda</option>
-                </select>
+                  onValueChange={setPlatform}
+                  options={[
+                    { value: 'careem', label: 'Careem' },
+                    { value: 'indrive', label: 'inDrive' },
+                    { value: 'bykea', label: 'Bykea' },
+                    { value: 'foodpanda', label: 'Foodpanda' },
+                  ]}
+                />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

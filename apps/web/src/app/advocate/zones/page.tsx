@@ -1,11 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { MapPin } from 'lucide-react';
 import { AppShell } from '@/components/layout/app-shell';
 import { apiClient } from '@/lib/api-client';
+import { Select } from '@/components/ui/select';
 
 export default function ZonesPage() {
   const [vulnerabilities, setVulnerabilities] = useState<any[]>([]);
+  const [cityFilter, setCityFilter] = useState('all');
 
   useEffect(() => {
     async function loadData() {
@@ -52,6 +55,10 @@ export default function ZonesPage() {
     },
   ];
 
+  const filteredZoneCohorts = zoneCohorts.filter(
+    (z) => cityFilter === 'all' || z.cityName.toLowerCase() === cityFilter.toLowerCase()
+  );
+
   return (
     <AppShell
       title="Zone Analytics"
@@ -59,11 +66,26 @@ export default function ZonesPage() {
     >
       {/* Zone Distribution Table */}
       <div className="card-subtle p-4 sm:p-6 mb-8 min-w-0">
-        <div className="mb-4">
-          <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Zone benchmarks</h3>
-          <p className="text-xs text-[#5B6370]">
-            Cohorts with fewer than 5 workers are suppressed to protect privacy
-          </p>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+          <div>
+            <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Zone benchmarks</h3>
+            <p className="text-xs text-[#5B6370]">
+              Cohorts with fewer than 5 workers are suppressed to protect privacy
+            </p>
+          </div>
+          <div className="w-full sm:w-48">
+            <Select
+              value={cityFilter}
+              onValueChange={setCityFilter}
+              icon={<MapPin className="w-4 h-4 text-[#5B6370]" />}
+              options={[
+                { value: 'all', label: 'All Cities' },
+                { value: 'lahore', label: 'Lahore' },
+                { value: 'rawalpindi', label: 'Rawalpindi' },
+              ]}
+              aria-label="Filter zones by city"
+            />
+          </div>
         </div>
 
         {/* Desktop Table View */}
@@ -81,8 +103,14 @@ export default function ZonesPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E1E4EA]">
-              {zoneCohorts.map((z, idx) => (
-                <tr key={idx} className="hover:bg-[#F3F3F0]/60 transition-colors">
+              {filteredZoneCohorts.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="py-8 text-center text-sm text-[#5B6370]">
+                    No zone cohorts found for this city.
+                  </td>
+                </tr>
+              ) : filteredZoneCohorts.map((z, idx) => (
+                  <tr key={idx} className="hover:bg-[#F3F3F0]/60 transition-colors">
                   <td className="py-3.5 px-4 font-medium text-[#22252A]">{z.cityName}</td>
                   <td className="py-3.5 px-4 text-[#5B6370]">{z.zoneName}</td>
                   <td className="py-3.5 px-4 text-center font-medium text-[#22252A] tabular-nums">{z.workerCount} workers</td>
@@ -126,7 +154,12 @@ export default function ZonesPage() {
 
         {/* Mobile Stacked Cards View */}
         <div className="block md:hidden divide-y divide-[#E1E4EA]">
-          {zoneCohorts.map((z, idx) => (
+          {filteredZoneCohorts.length === 0 ? (
+            <div className="py-8 text-center text-sm text-[#5B6370]">
+              No zone cohorts found for this city.
+            </div>
+          ) : (
+            filteredZoneCohorts.map((z, idx) => (
             <div key={idx} className="p-4 hover:bg-[#FAF9F5] transition-colors space-y-2.5">
               <div className="flex items-center justify-between gap-2">
                 <div>
@@ -166,7 +199,8 @@ export default function ZonesPage() {
                 {!z.isSuppressed && <span className="text-[#2D6A4F] font-medium">Wage floor met</span>}
               </div>
             </div>
-          ))}
+          ))
+        )}
         </div>
       </div>
 

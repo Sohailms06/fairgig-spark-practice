@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { AppShell } from '@/components/layout/app-shell';
 import { apiClient } from '@/lib/api-client';
+import { Select } from '@/components/ui/select';
 
 export default function CertificatesPage() {
   const [startDate, setStartDate] = useState('2026-10-01');
@@ -81,17 +82,17 @@ export default function CertificatesPage() {
 
               <div>
                 <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Purpose</label>
-                <select
+                <Select
                   value={purpose}
-                  onChange={(e) => setPurpose(e.target.value)}
-                  className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
-                >
-                  <option value="housing_rental">Housing / Apartment rental</option>
-                  <option value="loan_application">Bank loan / Credit facility</option>
-                  <option value="government_support">Social support program</option>
-                  <option value="visa_immigration">Visa / Consulate verification</option>
-                  <option value="personal_record">Personal financial record</option>
-                </select>
+                  onValueChange={setPurpose}
+                  options={[
+                    { value: 'housing_rental', label: 'Housing / Apartment rental' },
+                    { value: 'loan_application', label: 'Bank loan / Credit facility' },
+                    { value: 'government_support', label: 'Social support program' },
+                    { value: 'visa_immigration', label: 'Visa / Consulate verification' },
+                    { value: 'personal_record', label: 'Personal financial record' },
+                  ]}
+                />
               </div>
 
               <div>

@@ -12,6 +12,7 @@ import { AppShell } from '@/components/layout/app-shell';
 import { apiClient } from '@/lib/api-client';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Select } from '@/components/ui/select';
 
 export default function WorkerGrievancesPage() {
   const [grievances, setGrievances] = useState<any[]>([]);
@@ -223,32 +224,32 @@ export default function WorkerGrievancesPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Platform</label>
-                  <select
+                  <Select
                     value={platform}
-                    onChange={(e) => setPlatform(e.target.value)}
-                    className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
-                  >
-                    <option value="careem">Careem</option>
-                    <option value="indrive">inDrive</option>
-                    <option value="bykea">Bykea</option>
-                    <option value="foodpanda">Foodpanda</option>
-                    <option value="yango">Yango</option>
-                  </select>
+                    onValueChange={setPlatform}
+                    options={[
+                      { value: 'careem', label: 'Careem' },
+                      { value: 'indrive', label: 'inDrive' },
+                      { value: 'bykea', label: 'Bykea' },
+                      { value: 'foodpanda', label: 'Foodpanda' },
+                      { value: 'yango', label: 'Yango' },
+                    ]}
+                  />
                 </div>
 
                 <div>
                   <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Category</label>
-                  <select
+                  <Select
                     value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
-                  >
-                    <option value="unexplained_deduction">Unexplained deduction</option>
-                    <option value="fare_underpayment">Fare underpayment</option>
-                    <option value="surge_manipulation">Surge clawback</option>
-                    <option value="tip_withholding">Tip withholding</option>
-                    <option value="account_deactivation">Account deactivation</option>
-                  </select>
+                    onValueChange={setCategory}
+                    options={[
+                      { value: 'unexplained_deduction', label: 'Unexplained deduction' },
+                      { value: 'fare_underpayment', label: 'Fare underpayment' },
+                      { value: 'surge_manipulation', label: 'Surge clawback' },
+                      { value: 'tip_withholding', label: 'Tip withholding' },
+                      { value: 'account_deactivation', label: 'Account deactivation' },
+                    ]}
+                  />
                 </div>
               </div>
 
@@ -261,21 +262,21 @@ export default function WorkerGrievancesPage() {
                     required
                     value={claimedLoss}
                     onChange={(e) => setClaimedLoss(e.target.value)}
-                    className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                    className="focus-ring w-full text-base sm:text-sm p-2.5 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
 
                 <div>
                   <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Priority</label>
-                  <select
+                  <Select
                     value={priority}
-                    onChange={(e) => setPriority(e.target.value)}
-                    className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
-                  >
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                    <option value="urgent">Urgent</option>
-                  </select>
+                    onValueChange={setPriority}
+                    options={[
+                      { value: 'medium', label: 'Medium' },
+                      { value: 'high', label: 'High' },
+                      { value: 'urgent', label: 'Urgent' },
+                    ]}
+                  />
                 </div>
               </div>
 

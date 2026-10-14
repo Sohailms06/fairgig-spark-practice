@@ -1,9 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { AppShell } from '@/components/layout/app-shell';
+import { Select } from '@/components/ui/select';
+import { Filter } from 'lucide-react';
 
 export default function VerifierHistoryPage() {
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [platformFilter, setPlatformFilter] = useState('all');
+
   const auditLogs = [
     {
       id: 'rev-01',
@@ -40,17 +45,53 @@ export default function VerifierHistoryPage() {
     },
   ];
 
+  const filteredLogs = auditLogs.filter((log) => {
+    if (statusFilter !== 'all' && log.status !== statusFilter) return false;
+    if (platformFilter !== 'all' && log.platform.toLowerCase() !== platformFilter.toLowerCase()) return false;
+    return true;
+  });
+
   return (
     <AppShell
       title="Audit History"
       subtitle="Verified shift submissions and audit decisions."
     >
       <div className="card-subtle p-4 sm:p-6 min-w-0">
-        <div className="mb-4">
-          <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Audit records</h3>
-          <p className="text-xs text-[#5B6370]">
-            Log of verified shift reviews and auditor decisions
-          </p>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+          <div>
+            <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Audit records</h3>
+            <p className="text-xs text-[#5B6370]">
+              Log of verified shift reviews and auditor decisions
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2.5">
+            <Select
+              value={statusFilter}
+              onValueChange={setStatusFilter}
+              icon={<Filter className="w-4 h-4 text-[#5B6370]" aria-hidden="true" />}
+              className="w-full sm:w-44"
+              aria-label="Filter by verification status"
+              options={[
+                { value: 'all', label: 'All statuses' },
+                { value: 'verified', label: 'Approved & verified' },
+                { value: 'discrepancy', label: 'Flagged discrepancy' },
+              ]}
+            />
+
+            <Select
+              value={platformFilter}
+              onValueChange={setPlatformFilter}
+              className="w-full sm:w-40"
+              aria-label="Filter by platform"
+              options={[
+                { value: 'all', label: 'All platforms' },
+                { value: 'indrive', label: 'inDrive' },
+                { value: 'bykea', label: 'Bykea' },
+                { value: 'careem', label: 'Careem' },
+              ]}
+            />
+          </div>
         </div>
 
         {/* Desktop Table View */}
@@ -68,7 +109,7 @@ export default function VerifierHistoryPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E1E4EA]">
-              {auditLogs.map((log) => (
+              {filteredLogs.map((log) => (
                 <tr key={log.id} className="hover:bg-[#F3F3F0]/60 transition-colors">
                   <td className="py-3.5 px-4 font-mono text-[#5B6370] text-xs tabular-nums">
                     {new Date(log.reviewedAt).toLocaleString()}
@@ -101,7 +142,7 @@ export default function VerifierHistoryPage() {
 
         {/* Mobile Stacked Cards View */}
         <div className="block lg:hidden divide-y divide-[#E1E4EA]">
-          {auditLogs.map((log) => (
+          {filteredLogs.map((log) => (
             <div key={log.id} className="p-4 hover:bg-[#FAF9F5] transition-colors space-y-2.5">
               <div className="flex items-center justify-between gap-2">
                 <div>

@@ -13,11 +13,13 @@ import { AppShell } from '@/components/layout/app-shell';
 import { apiClient } from '@/lib/api-client';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Select } from '@/components/ui/select';
 
 export default function VerifierQueuePage() {
   const [queue, setQueue] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
+  const [platformFilter, setPlatformFilter] = useState('all');
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [actionFeedback, setActionFeedback] = useState<string | null>(null);
@@ -66,6 +68,13 @@ export default function VerifierQueuePage() {
     return 'text-[#DC2626] bg-[#DC2626]/10 border-[#DC2626]/20';
   };
 
+  const filteredQueue = queue.filter((item) => {
+    if (platformFilter !== 'all' && item.platform.toLowerCase() !== platformFilter.toLowerCase()) {
+      return false;
+    }
+    return true;
+  });
+
   return (
     <AppShell
       title="Verification Queue"
@@ -83,9 +92,23 @@ export default function VerifierQueuePage() {
         {/* Left Column: Review Queue List */}
         <div className="lg:col-span-1 space-y-3">
           <div className="flex items-center justify-between pb-2 border-b border-[#E1E4EA] text-sm">
-            <span className="font-semibold text-[#22252A]">{queue.length} shifts to review</span>
+            <span className="font-semibold text-[#22252A]">{filteredQueue.length} shifts to review</span>
             <span className="text-xs text-[#5B6370]">Pending</span>
           </div>
+
+          <Select
+            value={platformFilter}
+            onValueChange={setPlatformFilter}
+            aria-label="Filter queue by platform"
+            className="w-full"
+            options={[
+              { value: 'all', label: 'All platforms' },
+              { value: 'indrive', label: 'inDrive' },
+              { value: 'careem', label: 'Careem' },
+              { value: 'bykea', label: 'Bykea' },
+              { value: 'foodpanda', label: 'Foodpanda' },
+            ]}
+          />
 
           {loading ? (
             <div className="space-y-3">
@@ -97,14 +120,14 @@ export default function VerifierQueuePage() {
                 </div>
               ))}
             </div>
-          ) : queue.length === 0 ? (
+          ) : filteredQueue.length === 0 ? (
             <EmptyState
               icon={ShieldCheck}
-              title="Queue clear"
-              description="All submitted shift proofs have been reviewed."
+              title={queue.length > 0 ? "No matches" : "Queue clear"}
+              description={queue.length > 0 ? "No pending shifts for the selected platform." : "All submitted shift proofs have been reviewed."}
             />
           ) : (
-            queue.map((item) => {
+            filteredQueue.map((item) => {
               const ocrPercent = Math.round(item.ocrConfidence * 100);
               return (
                 <div

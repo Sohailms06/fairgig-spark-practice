@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import {
   TrendingDown,
   TrendingUp,
+  Filter,
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -18,6 +19,7 @@ import {
 import { AppShell } from '@/components/layout/app-shell';
 import { apiClient } from '@/lib/api-client';
 import { KpiSkeleton } from '@/components/ui/skeleton';
+import { Select } from '@/components/ui/select';
 
 function CustomBarTooltip({ active, payload, label }: any) {
   if (active && payload && payload.length) {
@@ -42,6 +44,7 @@ function CustomBarTooltip({ active, payload, label }: any) {
 export default function CommissionsPage() {
   const [commissions, setCommissions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [platformFilter, setPlatformFilter] = useState('all');
 
   useEffect(() => {
     async function loadData() {
@@ -57,6 +60,13 @@ export default function CommissionsPage() {
     }
     loadData();
   }, []);
+
+  const filteredCommissions = commissions.filter((c) => {
+    if (platformFilter !== 'all' && c.platform.toLowerCase() !== platformFilter.toLowerCase()) {
+      return false;
+    }
+    return true;
+  });
 
   return (
     <AppShell
@@ -134,9 +144,26 @@ export default function CommissionsPage() {
 
       {/* Comprehensive Commission Table */}
       <div className="card-subtle p-4 sm:p-6 min-w-0">
-        <div className="mb-4">
-          <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Commission ledger</h3>
-          <p className="text-xs text-[#5B6370]">Deduction ratios across delivery and rideshare platforms</p>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Commission ledger</h3>
+            <p className="text-xs text-[#5B6370]">Deduction ratios across delivery and rideshare platforms</p>
+          </div>
+
+          <Select
+            value={platformFilter}
+            onValueChange={setPlatformFilter}
+            icon={<Filter className="w-4 h-4 text-[#5B6370]" aria-hidden="true" />}
+            className="w-full sm:w-44"
+            aria-label="Filter commissions by platform"
+            options={[
+              { value: 'all', label: 'All platforms' },
+              { value: 'careem', label: 'Careem' },
+              { value: 'indrive', label: 'inDrive' },
+              { value: 'foodpanda', label: 'Foodpanda' },
+              { value: 'bykea', label: 'Bykea' },
+            ]}
+          />
         </div>
 
         {/* Desktop Table View */}
@@ -153,7 +180,7 @@ export default function CommissionsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E1E4EA]">
-              {commissions.map((c) => (
+              {filteredCommissions.map((c) => (
                 <tr key={c.platform} className="hover:bg-[#F3F3F0]/60 transition-colors">
                   <td className="py-3.5 px-4 font-medium text-[#22252A] capitalize">{c.platformName || c.platform}</td>
                   <td className="py-3.5 px-4 text-center text-[#5B6370] tabular-nums">{c.shiftCount} shifts</td>
@@ -182,7 +209,7 @@ export default function CommissionsPage() {
 
         {/* Mobile Stacked Cards View */}
         <div className="block md:hidden divide-y divide-[#E1E4EA]">
-          {commissions.map((c) => (
+          {filteredCommissions.map((c) => (
             <div key={c.platform} className="p-4 hover:bg-[#FAF9F5] transition-colors space-y-2.5">
               <div className="flex items-center justify-between gap-2">
                 <span className="font-semibold text-sm text-[#22252A] capitalize">{c.platformName || c.platform}</span>

@@ -11,6 +11,7 @@ import { AppShell } from '@/components/layout/app-shell';
 import { apiClient } from '@/lib/api-client';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Select } from '@/components/ui/select';
 
 export default function CommunityBoardPage() {
   const [feed, setFeed] = useState<any[]>([]);
@@ -62,35 +63,33 @@ export default function CommunityBoardPage() {
       {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div className="flex flex-wrap items-center gap-2.5">
-          <div className="flex items-center gap-2 text-sm text-[#5B6370] bg-white border border-[#E1E4EA] px-3 py-2 rounded-lg h-10 flex-1 sm:flex-initial">
-            <Filter className="w-4 h-4 text-[#5B6370] shrink-0" aria-hidden="true" />
-            <select
-              value={platformFilter}
-              onChange={(e) => setPlatformFilter(e.target.value)}
-              className="bg-transparent text-[#22252A] font-medium focus:outline-none cursor-pointer text-sm w-full"
-              aria-label="Filter by platform"
-            >
-              <option value="all">All platforms</option>
-              <option value="careem">Careem</option>
-              <option value="indrive">inDrive</option>
-              <option value="foodpanda">Foodpanda</option>
-              <option value="bykea">Bykea</option>
-            </select>
-          </div>
+          <Select
+            value={platformFilter}
+            onValueChange={setPlatformFilter}
+            icon={<Filter className="w-4 h-4 text-[#5B6370]" aria-hidden="true" />}
+            className="w-full sm:w-44"
+            aria-label="Filter by platform"
+            options={[
+              { value: 'all', label: 'All platforms' },
+              { value: 'careem', label: 'Careem' },
+              { value: 'indrive', label: 'inDrive' },
+              { value: 'foodpanda', label: 'Foodpanda' },
+              { value: 'bykea', label: 'Bykea' },
+            ]}
+          />
 
-          <div className="flex items-center gap-2 text-sm text-[#5B6370] bg-white border border-[#E1E4EA] px-3 py-2 rounded-lg h-10 flex-1 sm:flex-initial">
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="bg-transparent text-[#22252A] font-medium focus:outline-none cursor-pointer text-sm w-full"
-              aria-label="Filter by category"
-            >
-              <option value="all">All categories</option>
-              <option value="unexplained_deduction">Unexplained deductions</option>
-              <option value="fare_underpayment">Fare underpayments</option>
-              <option value="surge_manipulation">Surge fee issues</option>
-            </select>
-          </div>
+          <Select
+            value={categoryFilter}
+            onValueChange={setCategoryFilter}
+            className="w-full sm:w-56"
+            aria-label="Filter by category"
+            options={[
+              { value: 'all', label: 'All categories' },
+              { value: 'unexplained_deduction', label: 'Unexplained deductions' },
+              { value: 'fare_underpayment', label: 'Fare underpayments' },
+              { value: 'surge_manipulation', label: 'Surge fee issues' },
+            ]}
+          />
         </div>
 
         <span className="text-xs text-[#5B6370] tabular-nums">{filteredFeed.length} reports</span>

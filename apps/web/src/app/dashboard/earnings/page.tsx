@@ -12,6 +12,7 @@ import {
 import { AppShell } from '@/components/layout/app-shell';
 import { apiClient } from '@/lib/api-client';
 import { TableSkeleton } from '@/components/ui/skeleton';
+import { Select } from '@/components/ui/select';
 
 export default function EarningsPage() {
   const [shifts, setShifts] = useState<any[]>([]);
@@ -136,37 +137,35 @@ export default function EarningsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div className="flex flex-wrap items-center gap-2.5">
           {/* Platform Filter */}
-          <div className="flex items-center gap-2 text-sm text-[#5B6370] bg-white border border-[#E1E4EA] px-3 py-2 rounded-lg h-10 flex-1 sm:flex-initial">
-            <Filter className="w-4 h-4 text-[#5B6370] shrink-0" aria-hidden="true" />
-            <select
-              value={platformFilter}
-              onChange={(e) => setPlatformFilter(e.target.value)}
-              className="bg-transparent text-[#22252A] font-medium focus:outline-none cursor-pointer text-sm w-full"
-              aria-label="Filter shifts by platform"
-            >
-              <option value="all">All platforms</option>
-              <option value="indrive">inDrive</option>
-              <option value="bykea">Bykea</option>
-              <option value="foodpanda">Foodpanda</option>
-              <option value="careem">Careem</option>
-              <option value="yango">Yango</option>
-            </select>
-          </div>
+          <Select
+            value={platformFilter}
+            onValueChange={setPlatformFilter}
+            icon={<Filter className="w-4 h-4 text-[#5B6370]" aria-hidden="true" />}
+            className="w-full sm:w-44"
+            aria-label="Filter shifts by platform"
+            options={[
+              { value: 'all', label: 'All platforms' },
+              { value: 'indrive', label: 'inDrive' },
+              { value: 'bykea', label: 'Bykea' },
+              { value: 'foodpanda', label: 'Foodpanda' },
+              { value: 'careem', label: 'Careem' },
+              { value: 'yango', label: 'Yango' },
+            ]}
+          />
 
           {/* Status Filter */}
-          <div className="flex items-center gap-2 text-sm text-[#5B6370] bg-white border border-[#E1E4EA] px-3 py-2 rounded-lg h-10 flex-1 sm:flex-initial">
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-transparent text-[#22252A] font-medium focus:outline-none cursor-pointer text-sm w-full"
-              aria-label="Filter shifts by audit status"
-            >
-              <option value="all">All statuses</option>
-              <option value="verified">Verified</option>
-              <option value="pending">Pending</option>
-              <option value="discrepancy">Discrepancy</option>
-            </select>
-          </div>
+          <Select
+            value={statusFilter}
+            onValueChange={setStatusFilter}
+            className="w-full sm:w-44"
+            aria-label="Filter shifts by audit status"
+            options={[
+              { value: 'all', label: 'All statuses' },
+              { value: 'verified', label: 'Verified' },
+              { value: 'pending', label: 'Pending' },
+              { value: 'discrepancy', label: 'Discrepancy' },
+            ]}
+          />
         </div>
 
         <div className="flex items-center gap-2.5">
@@ -339,18 +338,18 @@ export default function EarningsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Platform</label>
-                  <select
+                  <Select
                     value={platform}
-                    onChange={(e) => setPlatform(e.target.value)}
-                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
-                  >
-                    <option value="indrive">inDrive</option>
-                    <option value="bykea">Bykea</option>
-                    <option value="foodpanda">Foodpanda</option>
-                    <option value="careem">Careem</option>
-                    <option value="yango">Yango</option>
-                    <option value="cheetay">Cheetay</option>
-                  </select>
+                    onValueChange={setPlatform}
+                    options={[
+                      { value: 'indrive', label: 'inDrive' },
+                      { value: 'bykea', label: 'Bykea' },
+                      { value: 'foodpanda', label: 'Foodpanda' },
+                      { value: 'careem', label: 'Careem' },
+                      { value: 'yango', label: 'Yango' },
+                      { value: 'cheetay', label: 'Cheetay' },
+                    ]}
+                  />
                 </div>
 
                 <div>
