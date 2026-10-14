@@ -228,7 +228,7 @@ export default function WorkerDashboardPage() {
           {/* Visual Analytics Grid: Weekly Trends & Platform Breakdown */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             {/* Weekly Income Trends Chart */}
-            <div className="card-subtle p-6 lg:col-span-2">
+            <div className="card-subtle p-4 sm:p-6 lg:col-span-2 min-w-0 overflow-hidden">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-base font-semibold text-[#22252A] tracking-tight">Earnings trend</h2>
@@ -236,9 +236,9 @@ export default function WorkerDashboardPage() {
                 </div>
               </div>
 
-              <div className="h-64 w-full">
+              <div className="h-56 sm:h-64 w-full min-w-0">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={analytics?.dailyEarningsTrend || []}>
+                  <AreaChart data={analytics?.dailyEarningsTrend || []} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
                     <defs>
                       <linearGradient id="earningsGradient" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#1B4332" stopOpacity={0.12} />
@@ -258,7 +258,8 @@ export default function WorkerDashboardPage() {
                       fontSize={11}
                       tickLine={false}
                       axisLine={false}
-                      tickFormatter={(v) => `PKR ${v}`}
+                      width={48}
+                      tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(0)}k` : `${v}`}
                     />
                     <Tooltip content={<CustomTooltip />} />
                     <Area
@@ -277,7 +278,7 @@ export default function WorkerDashboardPage() {
             </div>
 
             {/* Platform Breakdown */}
-            <div className="card-subtle p-6">
+            <div className="card-subtle p-4 sm:p-6 min-w-0">
               <div className="mb-4">
                 <h2 className="text-base font-semibold text-[#22252A] tracking-tight">Platform distribution</h2>
                 <p className="text-xs text-[#5B6370]">Net earnings and deduction rates</p>
@@ -306,8 +307,8 @@ export default function WorkerDashboardPage() {
             </div>
           </div>
 
-          {/* Recent Shifts Table */}
-          <div className="card-subtle p-6">
+          {/* Recent Shifts Section */}
+          <div className="card-subtle p-4 sm:p-6 min-w-0">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="text-base font-semibold text-[#22252A] tracking-tight">Recent shifts</h2>
@@ -332,46 +333,88 @@ export default function WorkerDashboardPage() {
                 }}
               />
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead>
-                    <tr className="border-b border-[#E1E4EA] text-[#5B6370] text-xs font-medium">
-                      <th className="py-3 px-3.5 font-medium">Date</th>
-                      <th className="py-3 px-3.5 font-medium">Platform</th>
-                      <th className="py-3 px-3.5 text-right font-medium">Hours</th>
-                      <th className="py-3 px-3.5 text-right font-medium">Gross</th>
-                      <th className="py-3 px-3.5 text-right font-medium">Deductions</th>
-                      <th className="py-3 px-3.5 text-right font-medium">Net</th>
-                      <th className="py-3 px-3.5 text-center font-medium">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#E1E4EA]">
-                    {shifts.slice(0, 5).map((shift) => (
-                      <tr key={shift.id} className="hover:bg-[#F3F3F0]/60 transition-colors">
-                        <td className="py-3.5 px-3.5 font-medium text-[#22252A] tabular-nums">{shift.shiftDate}</td>
-                        <td className="py-3.5 px-3.5 capitalize text-[#5B6370]">{shift.platform}</td>
-                        <td className="py-3.5 px-3.5 text-right text-[#5B6370] tabular-nums">{shift.hoursWorked} hrs</td>
-                        <td className="py-3.5 px-3.5 text-right text-[#5B6370] tabular-nums">{formatPKR(shift.grossAmount)}</td>
-                        <td className="py-3.5 px-3.5 text-right text-[#DC2626] tabular-nums">-{formatPKR(shift.deductions)}</td>
-                        <td className="py-3.5 px-3.5 text-right font-semibold text-[#22252A] tabular-nums">{formatPKR(shift.netAmount)}</td>
-                        <td className="py-3.5 px-3.5 text-center">
-                          <span
-                            className={`inline-block px-2.5 py-0.5 rounded-md text-xs font-medium capitalize border ${
-                              shift.verificationStatus === 'verified'
-                                ? 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
-                                : shift.verificationStatus === 'discrepancy'
-                                ? 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/20'
-                                : 'bg-[#D97706]/10 text-[#D97706] border-[#D97706]/20'
-                            }`}
-                          >
-                            {shift.verificationStatus}
-                          </span>
-                        </td>
+              <>
+                {/* Desktop Data Table */}
+                <div className="hidden md:block overflow-x-auto min-w-0">
+                  <table className="w-full text-left text-sm">
+                    <thead>
+                      <tr className="border-b border-[#E1E4EA] text-[#5B6370] text-xs font-medium">
+                        <th className="py-3 px-3.5 font-medium">Date</th>
+                        <th className="py-3 px-3.5 font-medium">Platform</th>
+                        <th className="py-3 px-3.5 text-right font-medium">Hours</th>
+                        <th className="py-3 px-3.5 text-right font-medium">Gross</th>
+                        <th className="py-3 px-3.5 text-right font-medium">Deductions</th>
+                        <th className="py-3 px-3.5 text-right font-medium">Net</th>
+                        <th className="py-3 px-3.5 text-center font-medium">Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody className="divide-y divide-[#E1E4EA]">
+                      {shifts.slice(0, 5).map((shift) => (
+                        <tr key={shift.id} className="hover:bg-[#F3F3F0]/60 transition-colors">
+                          <td className="py-3.5 px-3.5 font-medium text-[#22252A] tabular-nums">{shift.shiftDate}</td>
+                          <td className="py-3.5 px-3.5 capitalize text-[#5B6370]">{shift.platform}</td>
+                          <td className="py-3.5 px-3.5 text-right text-[#5B6370] tabular-nums">{shift.hoursWorked} hrs</td>
+                          <td className="py-3.5 px-3.5 text-right text-[#5B6370] tabular-nums">{formatPKR(shift.grossAmount)}</td>
+                          <td className="py-3.5 px-3.5 text-right text-[#DC2626] tabular-nums">-{formatPKR(shift.deductions)}</td>
+                          <td className="py-3.5 px-3.5 text-right font-semibold text-[#22252A] tabular-nums">{formatPKR(shift.netAmount)}</td>
+                          <td className="py-3.5 px-3.5 text-center">
+                            <span
+                              className={`inline-block px-2.5 py-0.5 rounded-md text-xs font-medium capitalize border ${
+                                shift.verificationStatus === 'verified'
+                                  ? 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
+                                  : shift.verificationStatus === 'discrepancy'
+                                  ? 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/20'
+                                  : 'bg-[#D97706]/10 text-[#D97706] border-[#D97706]/20'
+                              }`}
+                            >
+                              {shift.verificationStatus}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile Stacked Record Cards (Clean, readable, no horizontal overflow) */}
+                <div className="block md:hidden divide-y divide-[#E1E4EA] -mx-4 sm:mx-0">
+                  {shifts.slice(0, 5).map((shift) => (
+                    <div key={shift.id} className="p-4 hover:bg-[#FAF9F5] transition-colors space-y-2.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-sm text-[#22252A] capitalize">{shift.platform}</span>
+                          <span className="text-xs text-[#5B6370]">&bull;</span>
+                          <span className="text-xs text-[#5B6370] tabular-nums">{shift.shiftDate}</span>
+                        </div>
+                        <span
+                          className={`px-2 py-0.5 rounded-md text-xs font-medium capitalize border ${
+                            shift.verificationStatus === 'verified'
+                              ? 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
+                              : shift.verificationStatus === 'discrepancy'
+                              ? 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/20'
+                              : 'bg-[#D97706]/10 text-[#D97706] border-[#D97706]/20'
+                          }`}
+                        >
+                          {shift.verificationStatus}
+                        </span>
+                      </div>
+
+                      <div className="flex items-baseline justify-between">
+                        <div>
+                          <div className="text-xs text-[#5B6370]">Net earnings</div>
+                          <div className="text-lg font-semibold text-[#22252A] tabular-nums">
+                            {formatPKR(shift.netAmount)}
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-xs text-[#5B6370]">{shift.hoursWorked} hrs</div>
+                          <div className="text-xs text-[#DC2626] tabular-nums">-{formatPKR(shift.deductions)} cut</div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
             )}
           </div>
         </>

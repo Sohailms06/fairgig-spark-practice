@@ -113,7 +113,7 @@ export default function AnomaliesPage() {
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Hours worked</label>
                   <input
@@ -121,7 +121,7 @@ export default function AnomaliesPage() {
                     step="0.5"
                     value={hoursWorked}
                     onChange={(e) => setHoursWorked(e.target.value)}
-                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                    className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
 
@@ -131,7 +131,7 @@ export default function AnomaliesPage() {
                     type="number"
                     value={grossAmount}
                     onChange={(e) => setGrossAmount(e.target.value)}
-                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                    className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
               </div>
@@ -142,7 +142,7 @@ export default function AnomaliesPage() {
                   type="number"
                   value={deductions}
                   onChange={(e) => setDeductions(e.target.value)}
-                  className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                  className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                 />
                 <div className="text-xs text-[#5B6370] mt-1.5 flex items-center justify-between">
                   <span>Deduction rate:</span>
@@ -156,7 +156,7 @@ export default function AnomaliesPage() {
                 type="submit"
                 disabled={isScanning}
                 aria-busy={isScanning}
-                className="focus-ring w-full py-2.5 px-4 bg-[#1B4332] text-white text-sm font-medium rounded-lg hover:bg-[#2D6A4F] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 transition-colors"
+                className="focus-ring w-full py-2.5 px-4 bg-[#1B4332] text-white text-sm font-medium rounded-lg hover:bg-[#2D6A4F] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 transition-colors min-h-[44px]"
               >
                 {isScanning ? (
                   <>

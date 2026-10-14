@@ -72,14 +72,14 @@ export default function RegisterPage() {
                 Full name
               </label>
               <div className="relative">
-                <User className="w-4 h-4 text-[#5B6370] absolute left-3 top-3" aria-hidden="true" />
+                <User className="w-4 h-4 text-[#5B6370] absolute left-3 top-3.5" aria-hidden="true" />
                 <input
                   type="text"
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Tariq Mehmood"
-                  className="focus-ring w-full pl-9 pr-3 py-2 text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
+                  className="focus-ring w-full pl-9 pr-3 py-2.5 text-base sm:text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
                 />
               </div>
             </div>
@@ -90,14 +90,14 @@ export default function RegisterPage() {
                   Email
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-[#5B6370] absolute left-3 top-3" aria-hidden="true" />
+                  <Mail className="w-4 h-4 text-[#5B6370] absolute left-3 top-3.5" aria-hidden="true" />
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="worker@fairgig.pk"
-                    className="focus-ring w-full pl-9 pr-3 py-2 text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
+                    className="focus-ring w-full pl-9 pr-3 py-2.5 text-base sm:text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
                   />
                 </div>
               </div>
@@ -107,13 +107,13 @@ export default function RegisterPage() {
                   Phone number
                 </label>
                 <div className="relative">
-                  <Phone className="w-4 h-4 text-[#5B6370] absolute left-3 top-3" aria-hidden="true" />
+                  <Phone className="w-4 h-4 text-[#5B6370] absolute left-3 top-3.5" aria-hidden="true" />
                   <input
                     type="tel"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="+92 300 1234567"
-                    className="focus-ring w-full pl-9 pr-3 py-2 text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
+                    className="focus-ring w-full pl-9 pr-3 py-2.5 text-base sm:text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
                   />
                 </div>
               </div>
@@ -125,11 +125,11 @@ export default function RegisterPage() {
                   City
                 </label>
                 <div className="relative">
-                  <MapPin className="w-4 h-4 text-[#5B6370] absolute left-3 top-3" aria-hidden="true" />
+                  <MapPin className="w-4 h-4 text-[#5B6370] absolute left-3 top-3.5" aria-hidden="true" />
                   <select
                     value={cityId}
                     onChange={(e) => setCityId(e.target.value)}
-                    className="focus-ring w-full pl-9 pr-3 py-2 text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
+                    className="focus-ring w-full pl-9 pr-3 py-2.5 text-base sm:text-sm min-h-[44px] border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
                   >
                     <option value="11111111-1111-1111-1111-111111111111">Lahore</option>
                     <option value="22222222-2222-2222-2222-222222222222">Karachi</option>
@@ -144,11 +144,11 @@ export default function RegisterPage() {
                   Primary platform
                 </label>
                 <div className="relative">
-                  <Truck className="w-4 h-4 text-[#5B6370] absolute left-3 top-3" aria-hidden="true" />
+                  <Truck className="w-4 h-4 text-[#5B6370] absolute left-3 top-3.5" aria-hidden="true" />
                   <select
                     value={primaryPlatform}
                     onChange={(e) => setPrimaryPlatform(e.target.value)}
-                    className="focus-ring w-full pl-9 pr-3 py-2 text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
+                    className="focus-ring w-full pl-9 pr-3 py-2.5 text-base sm:text-sm min-h-[44px] border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
                   >
                     <option value="indrive">inDrive</option>
                     <option value="bykea">Bykea</option>
@@ -167,14 +167,14 @@ export default function RegisterPage() {
                 Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-[#5B6370] absolute left-3 top-3" aria-hidden="true" />
+                <Lock className="w-4 h-4 text-[#5B6370] absolute left-3 top-3.5" aria-hidden="true" />
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Minimum 8 characters"
-                  className="focus-ring w-full pl-9 pr-3 py-2 text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
+                  className="focus-ring w-full pl-9 pr-3 py-2.5 text-base sm:text-sm min-h-[44px] border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
                 />
               </div>
             </div>
@@ -187,7 +187,7 @@ export default function RegisterPage() {
               type="submit"
               disabled={isSubmitting}
               aria-busy={isSubmitting}
-              className="focus-ring w-full py-2.5 px-4 bg-[#1B4332] hover:bg-[#2D6A4F] text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-50"
+              className="focus-ring w-full min-h-[44px] py-2.5 px-4 bg-[#1B4332] hover:bg-[#2D6A4F] text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>

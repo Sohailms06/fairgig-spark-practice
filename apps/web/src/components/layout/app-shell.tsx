@@ -29,7 +29,7 @@ export function AppShell({
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF9F5] flex overflow-x-hidden">
+    <div className="min-h-screen min-h-[100dvh] bg-[#FAF9F5] flex overflow-x-hidden w-full max-w-full">
       {/* Sidebar with Mobile Drawer capability */}
       <AppSidebar
         isMobileOpen={isMobileMenuOpen}
@@ -37,13 +37,13 @@ export function AppShell({
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 w-full overflow-x-hidden">
+      <div className="flex-1 flex flex-col min-w-0 w-full max-w-full overflow-x-hidden">
         <AppHeader
           title={title}
           subtitle={subtitle}
           onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
         />
-        <main className="flex-1 p-4 sm:p-6 overflow-y-auto max-w-7xl w-full mx-auto">
+        <main className="flex-1 px-4 py-4 sm:p-6 overflow-y-auto max-w-7xl w-full mx-auto min-w-0">
           {children}
         </main>
       </div>

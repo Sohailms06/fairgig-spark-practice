@@ -87,11 +87,11 @@ export default function PublicVerifyCertificatePage() {
             </div>
 
             {/* Certificate Details */}
-            <div className="space-y-4 text-sm">
-              <div className="grid grid-cols-2 gap-3 pb-3 border-b border-[#E1E4EA]">
+            <div className="space-y-4 text-sm min-w-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-3 border-b border-[#E1E4EA]">
                 <div>
                   <span className="text-xs font-medium text-[#5B6370]">Certificate number</span>
-                  <div className="font-mono font-semibold text-[#22252A] mt-0.5">
+                  <div className="font-mono font-semibold text-[#22252A] mt-0.5 break-all">
                     {verification.certificate?.certificateNumber}
                   </div>
                 </div>
@@ -104,7 +104,7 @@ export default function PublicVerifyCertificatePage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 pb-3 border-b border-[#E1E4EA]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-3 border-b border-[#E1E4EA]">
                 <div>
                   <span className="text-xs font-medium text-[#5B6370]">Certified period</span>
                   <div className="font-medium text-[#22252A] mt-0.5 tabular-nums">
@@ -121,7 +121,7 @@ export default function PublicVerifyCertificatePage() {
               </div>
 
               {/* Financial Verification Card */}
-              <div className="p-4 bg-[#FAF9F5] rounded-xl border border-[#E1E4EA] grid grid-cols-2 gap-3">
+              <div className="p-4 bg-[#FAF9F5] rounded-xl border border-[#E1E4EA] grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <span className="text-xs font-medium text-[#5B6370]">Net earnings</span>
                   <div className="text-xl font-semibold text-[#1B4332] tabular-nums mt-0.5">

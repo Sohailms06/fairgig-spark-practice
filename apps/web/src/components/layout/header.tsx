@@ -17,10 +17,10 @@ export function AppHeader({ title, subtitle, onOpenMobileMenu }: AppHeaderProps)
   return (
     <header className="h-14 px-4 sm:px-6 border-b border-[#E1E4EA] bg-white flex items-center justify-between sticky top-0 z-20">
       <div className="flex items-center gap-3">
-        {/* Mobile Hamburger Menu Toggle */}
+        {/* Mobile Hamburger Menu Toggle with 44px minimum touch target */}
         <button
           onClick={onOpenMobileMenu}
-          className="lg:hidden p-2 -ml-1 text-[#5B6370] hover:text-[#22252A] hover:bg-[#F3F3F0] rounded-lg focus-ring transition-colors"
+          className="lg:hidden w-11 h-11 -ml-2 text-[#5B6370] hover:text-[#22252A] hover:bg-[#F3F3F0] rounded-lg focus-ring transition-colors flex items-center justify-center"
           aria-label="Open navigation menu"
         >
           <Menu className="w-5 h-5" />

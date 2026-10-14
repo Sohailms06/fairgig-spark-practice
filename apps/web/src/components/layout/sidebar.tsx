@@ -90,11 +90,11 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
           </div>
         </div>
 
-        {/* Close Button on Mobile */}
+        {/* Close Button on Mobile with comfortable touch target */}
         {onMobileClose && (
           <button
             onClick={onMobileClose}
-            className="lg:hidden p-1.5 text-[#5B6370] hover:text-[#22252A] rounded-md focus-ring"
+            className="lg:hidden w-10 h-10 flex items-center justify-center text-[#5B6370] hover:text-[#22252A] rounded-lg focus-ring"
             aria-label="Close navigation menu"
           >
             <X className="w-5 h-5" />
@@ -110,7 +110,7 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
         <div className="grid grid-cols-3 gap-1 bg-[#F3F3F0] p-1 rounded-lg border border-[#E1E4EA]">
           <button
             onClick={() => switchDemoUser('worker')}
-            className={`btn-press px-2 py-1 text-xs rounded-md font-medium transition cursor-pointer text-center ${
+            className={`btn-press px-2 py-2 text-xs rounded-md font-medium transition cursor-pointer text-center min-h-[36px] flex items-center justify-center ${
               role === 'worker'
                 ? 'bg-white text-[#1B4332] shadow-2xs font-semibold'
                 : 'text-[#5B6370] hover:text-[#22252A]'
@@ -120,7 +120,7 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
           </button>
           <button
             onClick={() => switchDemoUser('advocate')}
-            className={`btn-press px-2 py-1 text-xs rounded-md font-medium transition cursor-pointer text-center ${
+            className={`btn-press px-2 py-2 text-xs rounded-md font-medium transition cursor-pointer text-center min-h-[36px] flex items-center justify-center ${
               role === 'advocate'
                 ? 'bg-white text-[#1B4332] shadow-2xs font-semibold'
                 : 'text-[#5B6370] hover:text-[#22252A]'
@@ -130,7 +130,7 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
           </button>
           <button
             onClick={() => switchDemoUser('verifier')}
-            className={`btn-press px-2 py-1 text-xs rounded-md font-medium transition cursor-pointer text-center ${
+            className={`btn-press px-2 py-2 text-xs rounded-md font-medium transition cursor-pointer text-center min-h-[36px] flex items-center justify-center ${
               role === 'verifier'
                 ? 'bg-white text-[#1B4332] shadow-2xs font-semibold'
                 : 'text-[#5B6370] hover:text-[#22252A]'
@@ -142,7 +142,7 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto" aria-label="Main Navigation">
+      <nav className="flex-1 px-3 py-3 space-y-1 overflow-y-auto" aria-label="Main Navigation">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -150,13 +150,13 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm transition ${
+              className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-sm min-h-[44px] transition ${
                 isActive
                   ? 'bg-[#F3F3F0] text-[#1B4332] font-semibold'
                   : 'text-[#5B6370] hover:bg-[#F3F3F0]/60 hover:text-[#22252A] font-medium'
               }`}
             >
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-3">
                 <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#1B4332]' : 'text-[#5B6370]'}`} />
                 <span className="truncate">{item.label}</span>
               </div>
@@ -209,7 +209,7 @@ export function AppSidebar({ isMobileOpen = false, onMobileClose }: AppSidebarPr
           />
           {/* Drawer Panel */}
           <aside
-            className="relative w-72 max-w-[80vw] bg-white h-full shadow-2xl flex flex-col z-10 animate-modal-enter"
+            className="relative w-72 max-w-[85vw] bg-white h-full shadow-2xl flex flex-col z-10 animate-modal-enter pb-[env(safe-area-inset-bottom)]"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation Drawer"

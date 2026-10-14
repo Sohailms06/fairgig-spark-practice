@@ -6,7 +6,7 @@ import { InstallPwaButton } from '@/components/pwa/install-button';
 
 export default function HomePage() {
   return (
-    <main className="max-w-5xl mx-auto px-6 py-16">
+    <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
       {/* Hero Section */}
       <header className="mb-14 pb-10 border-b border-[#E1E4EA]">
         <div className="flex flex-wrap items-center justify-between gap-6">
@@ -123,7 +123,7 @@ export default function HomePage() {
             <span className="w-2 h-2 rounded-full bg-[#2D6A4F]" />
             <span className="font-medium text-[#22252A]">FairGig Platform Active</span>
           </div>
-          <div className="flex items-center gap-4 text-xs font-mono">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-mono">
             {FAIRGIG_SERVICES.map((s) => (
               <span key={s.name} className="hover:text-[#22252A]">
                 {s.name}

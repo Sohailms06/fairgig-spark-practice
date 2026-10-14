@@ -45,7 +45,7 @@ export default function VerifierHistoryPage() {
       title="Audit History"
       subtitle="Verified shift submissions and audit decisions."
     >
-      <div className="card-subtle p-6">
+      <div className="card-subtle p-4 sm:p-6 min-w-0">
         <div className="mb-4">
           <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Audit records</h3>
           <p className="text-xs text-[#5B6370]">
@@ -53,7 +53,8 @@ export default function VerifierHistoryPage() {
           </p>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Desktop Table View */}
+        <div className="hidden lg:block overflow-x-auto min-w-0">
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="bg-[#FAF9F5] border-b border-[#E1E4EA] text-[#5B6370] text-xs font-medium">
@@ -96,6 +97,51 @@ export default function VerifierHistoryPage() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Stacked Cards View */}
+        <div className="block lg:hidden divide-y divide-[#E1E4EA]">
+          {auditLogs.map((log) => (
+            <div key={log.id} className="p-4 hover:bg-[#FAF9F5] transition-colors space-y-2.5">
+              <div className="flex items-center justify-between gap-2">
+                <div>
+                  <span className="font-semibold text-sm text-[#22252A]">{log.workerName}</span>
+                  <span className="text-xs text-[#5B6370] ml-2 capitalize">({log.platform})</span>
+                </div>
+                <span
+                  className={`px-2 py-0.5 rounded-md text-xs font-medium border ${
+                    log.status === 'verified'
+                      ? 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
+                      : 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/20'
+                  }`}
+                >
+                  {log.decision}
+                </span>
+              </div>
+
+              <div className="flex items-baseline justify-between pt-1">
+                <div>
+                  <span className="text-xs text-[#5B6370] block">Verified net</span>
+                  <span className="text-lg font-semibold text-[#1B4332] tabular-nums">
+                    PKR {log.verifiedNet.toLocaleString()}
+                  </span>
+                </div>
+                <div className="text-right text-xs text-[#5B6370] tabular-nums">
+                  Shift date: {log.shiftDate}
+                </div>
+              </div>
+
+              {log.notes && (
+                <div className="text-xs text-[#5B6370] bg-[#FAF9F5] p-2.5 rounded-lg border border-[#E1E4EA]">
+                  {log.notes}
+                </div>
+              )}
+
+              <div className="text-xs text-[#5B6370] pt-1">
+                Reviewed: {new Date(log.reviewedAt).toLocaleDateString()}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </AppShell>

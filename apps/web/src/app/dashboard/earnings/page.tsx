@@ -133,15 +133,15 @@ export default function EarningsPage() {
       subtitle="Log daily shifts, import statements, and track verification."
     >
       {/* Controls & Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+        <div className="flex flex-wrap items-center gap-2.5">
           {/* Platform Filter */}
-          <div className="flex items-center gap-2 text-sm text-[#5B6370] bg-white border border-[#E1E4EA] px-3 py-2 rounded-lg h-10">
-            <Filter className="w-4 h-4 text-[#5B6370]" aria-hidden="true" />
+          <div className="flex items-center gap-2 text-sm text-[#5B6370] bg-white border border-[#E1E4EA] px-3 py-2 rounded-lg h-10 flex-1 sm:flex-initial">
+            <Filter className="w-4 h-4 text-[#5B6370] shrink-0" aria-hidden="true" />
             <select
               value={platformFilter}
               onChange={(e) => setPlatformFilter(e.target.value)}
-              className="bg-transparent text-[#22252A] font-medium focus:outline-none cursor-pointer text-sm"
+              className="bg-transparent text-[#22252A] font-medium focus:outline-none cursor-pointer text-sm w-full"
               aria-label="Filter shifts by platform"
             >
               <option value="all">All platforms</option>
@@ -154,11 +154,11 @@ export default function EarningsPage() {
           </div>
 
           {/* Status Filter */}
-          <div className="flex items-center gap-2 text-sm text-[#5B6370] bg-white border border-[#E1E4EA] px-3 py-2 rounded-lg h-10">
+          <div className="flex items-center gap-2 text-sm text-[#5B6370] bg-white border border-[#E1E4EA] px-3 py-2 rounded-lg h-10 flex-1 sm:flex-initial">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-transparent text-[#22252A] font-medium focus:outline-none cursor-pointer text-sm"
+              className="bg-transparent text-[#22252A] font-medium focus:outline-none cursor-pointer text-sm w-full"
               aria-label="Filter shifts by audit status"
             >
               <option value="all">All statuses</option>
@@ -172,14 +172,14 @@ export default function EarningsPage() {
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => setIsCsvModalOpen(true)}
-            className="focus-ring inline-flex items-center gap-1.5 px-3.5 py-2 bg-white border border-[#E1E4EA] text-[#22252A] text-xs font-medium rounded-lg hover:bg-[#F3F3F0] transition-colors cursor-pointer h-10"
+            className="focus-ring flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 bg-white border border-[#E1E4EA] text-[#22252A] text-xs font-medium rounded-lg hover:bg-[#F3F3F0] transition-colors cursor-pointer h-10 min-h-[40px]"
           >
             <UploadCloud className="w-4 h-4 text-[#5B6370]" aria-hidden="true" />
             <span>Import CSV</span>
           </button>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="focus-ring inline-flex items-center gap-1.5 px-4 py-2 bg-[#1B4332] text-white text-xs font-medium rounded-lg hover:bg-[#2D6A4F] transition-colors cursor-pointer h-10"
+            className="focus-ring flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#1B4332] text-white text-xs font-medium rounded-lg hover:bg-[#2D6A4F] transition-colors cursor-pointer h-10 min-h-[40px]"
           >
             <PlusCircle className="w-4 h-4" aria-hidden="true" />
             <span>Log shift</span>
@@ -187,73 +187,131 @@ export default function EarningsPage() {
         </div>
       </div>
 
-      {/* Shifts Table */}
+      {/* Shifts Ledger */}
       {loading ? (
         <TableSkeleton rows={6} cols={6} />
       ) : (
-        <div className="card-subtle overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="bg-[#FAF9F5] border-b border-[#E1E4EA] text-[#5B6370] text-xs font-medium">
-                  <th className="py-3 px-4 font-medium">Date</th>
-                  <th className="py-3 px-4 font-medium">Platform</th>
-                  <th className="py-3 px-4 text-right font-medium">Hours</th>
-                  <th className="py-3 px-4 text-right font-medium">Trips</th>
-                  <th className="py-3 px-4 text-right font-medium">Gross</th>
-                  <th className="py-3 px-4 text-right font-medium">Deductions</th>
-                  <th className="py-3 px-4 text-right font-medium">Tips</th>
-                  <th className="py-3 px-4 text-right font-medium">Net</th>
-                  <th className="py-3 px-4 text-right font-medium">Rate</th>
-                  <th className="py-3 px-4 text-center font-medium">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#E1E4EA]">
-                {filteredShifts.length === 0 ? (
-                  <tr>
-                    <td colSpan={10} className="py-12 text-center text-[#5B6370]">
-                      <div className="max-w-xs mx-auto text-center space-y-1.5">
-                        <p className="font-semibold text-[#22252A] text-sm">No shifts found</p>
-                        <p className="text-xs text-[#5B6370]">Try clearing the platform or status filters.</p>
+        <div className="card-subtle overflow-hidden min-w-0">
+          {filteredShifts.length === 0 ? (
+            <div className="py-12 text-center text-[#5B6370]">
+              <div className="max-w-xs mx-auto text-center space-y-1.5">
+                <p className="font-semibold text-[#22252A] text-sm">No shifts found</p>
+                <p className="text-xs text-[#5B6370]">Try clearing the platform or status filters.</p>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Desktop Data Table */}
+              <div className="hidden lg:block overflow-x-auto min-w-0">
+                <table className="w-full text-left text-sm">
+                  <thead>
+                    <tr className="bg-[#FAF9F5] border-b border-[#E1E4EA] text-[#5B6370] text-xs font-medium">
+                      <th className="py-3 px-4 font-medium">Date</th>
+                      <th className="py-3 px-4 font-medium">Platform</th>
+                      <th className="py-3 px-4 text-right font-medium">Hours</th>
+                      <th className="py-3 px-4 text-right font-medium">Trips</th>
+                      <th className="py-3 px-4 text-right font-medium">Gross</th>
+                      <th className="py-3 px-4 text-right font-medium">Deductions</th>
+                      <th className="py-3 px-4 text-right font-medium">Tips</th>
+                      <th className="py-3 px-4 text-right font-medium">Net</th>
+                      <th className="py-3 px-4 text-right font-medium">Rate</th>
+                      <th className="py-3 px-4 text-center font-medium">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#E1E4EA]">
+                    {filteredShifts.map((shift) => {
+                      const rate = shift.hoursWorked > 0 ? (shift.netAmount / shift.hoursWorked).toFixed(0) : '0';
+                      return (
+                        <tr key={shift.id} className="hover:bg-[#F3F3F0]/60 transition-colors">
+                          <td className="py-3.5 px-4 font-medium text-[#22252A] tabular-nums">{shift.shiftDate}</td>
+                          <td className="py-3.5 px-4 capitalize text-[#5B6370]">{shift.platform}</td>
+                          <td className="py-3.5 px-4 text-right text-[#5B6370] tabular-nums">{shift.hoursWorked} hrs</td>
+                          <td className="py-3.5 px-4 text-right text-[#5B6370] tabular-nums">{shift.tripsCount || 1}</td>
+                          <td className="py-3.5 px-4 text-right text-[#5B6370] tabular-nums">PKR {shift.grossAmount.toLocaleString()}</td>
+                          <td className="py-3.5 px-4 text-right text-[#DC2626] tabular-nums">-PKR {shift.deductions.toLocaleString()}</td>
+                          <td className="py-3.5 px-4 text-right text-[#2D6A4F] tabular-nums">+PKR {shift.tipsAmount || 0}</td>
+                          <td className="py-3.5 px-4 text-right font-semibold text-[#22252A] tabular-nums">
+                            PKR {shift.netAmount.toLocaleString()}
+                          </td>
+                          <td className="py-3.5 px-4 text-right text-[#5B6370] tabular-nums">PKR {rate}/hr</td>
+                          <td className="py-3.5 px-4 text-center">
+                            <span
+                              className={`inline-block px-2.5 py-0.5 rounded-md text-xs font-medium capitalize border ${
+                                shift.verificationStatus === 'verified'
+                                  ? 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
+                                  : shift.verificationStatus === 'discrepancy'
+                                  ? 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/20'
+                                  : 'bg-[#D97706]/10 text-[#D97706] border-[#D97706]/20'
+                              }`}
+                            >
+                              {shift.verificationStatus}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Stacked Record Cards */}
+              <div className="block lg:hidden divide-y divide-[#E1E4EA]">
+                {filteredShifts.map((shift) => {
+                  const rate = shift.hoursWorked > 0 ? (shift.netAmount / shift.hoursWorked).toFixed(0) : '0';
+                  return (
+                    <div key={shift.id} className="p-4 hover:bg-[#FAF9F5] transition-colors space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-sm text-[#22252A] capitalize">{shift.platform}</span>
+                          <span className="text-xs text-[#5B6370]">&bull;</span>
+                          <span className="text-xs text-[#5B6370] tabular-nums">{shift.shiftDate}</span>
+                        </div>
+                        <span
+                          className={`px-2.5 py-0.5 rounded-md text-xs font-medium capitalize border ${
+                            shift.verificationStatus === 'verified'
+                              ? 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
+                              : shift.verificationStatus === 'discrepancy'
+                              ? 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/20'
+                              : 'bg-[#D97706]/10 text-[#D97706] border-[#D97706]/20'
+                          }`}
+                        >
+                          {shift.verificationStatus}
+                        </span>
                       </div>
-                    </td>
-                  </tr>
-                ) : (
-                  filteredShifts.map((shift) => {
-                    const rate = shift.hoursWorked > 0 ? (shift.netAmount / shift.hoursWorked).toFixed(0) : '0';
-                    return (
-                      <tr key={shift.id} className="hover:bg-[#F3F3F0]/60 transition-colors">
-                        <td className="py-3.5 px-4 font-medium text-[#22252A] tabular-nums">{shift.shiftDate}</td>
-                        <td className="py-3.5 px-4 capitalize text-[#5B6370]">{shift.platform}</td>
-                        <td className="py-3.5 px-4 text-right text-[#5B6370] tabular-nums">{shift.hoursWorked} hrs</td>
-                        <td className="py-3.5 px-4 text-right text-[#5B6370] tabular-nums">{shift.tripsCount || 1}</td>
-                        <td className="py-3.5 px-4 text-right text-[#5B6370] tabular-nums">PKR {shift.grossAmount.toLocaleString()}</td>
-                        <td className="py-3.5 px-4 text-right text-[#DC2626] tabular-nums">-PKR {shift.deductions.toLocaleString()}</td>
-                        <td className="py-3.5 px-4 text-right text-[#2D6A4F] tabular-nums">+PKR {shift.tipsAmount || 0}</td>
-                        <td className="py-3.5 px-4 text-right font-semibold text-[#22252A] tabular-nums">
-                          PKR {shift.netAmount.toLocaleString()}
-                        </td>
-                        <td className="py-3.5 px-4 text-right text-[#5B6370] tabular-nums">PKR {rate}/hr</td>
-                        <td className="py-3.5 px-4 text-center">
-                          <span
-                            className={`inline-block px-2.5 py-0.5 rounded-md text-xs font-medium capitalize border ${
-                              shift.verificationStatus === 'verified'
-                                ? 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
-                                : shift.verificationStatus === 'discrepancy'
-                                ? 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/20'
-                                : 'bg-[#D97706]/10 text-[#D97706] border-[#D97706]/20'
-                            }`}
-                          >
-                            {shift.verificationStatus}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
-              </tbody>
-            </table>
-          </div>
+
+                      <div className="flex items-baseline justify-between">
+                        <div>
+                          <div className="text-xs text-[#5B6370]">Net income</div>
+                          <div className="text-lg font-semibold text-[#22252A] tabular-nums">
+                            PKR {shift.netAmount.toLocaleString()}
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-medium text-[#22252A] tabular-nums">PKR {rate}/hr</div>
+                          <div className="text-xs text-[#5B6370]">{shift.hoursWorked} hrs &bull; {shift.tripsCount || 1} trips</div>
+                        </div>
+                      </div>
+
+                      <div className="pt-2 border-t border-[#E1E4EA] grid grid-cols-3 gap-2 text-xs">
+                        <div>
+                          <span className="text-[#5B6370] block">Gross</span>
+                          <span className="font-medium text-[#22252A] tabular-nums">PKR {shift.grossAmount.toLocaleString()}</span>
+                        </div>
+                        <div>
+                          <span className="text-[#5B6370] block">Deductions</span>
+                          <span className="font-medium text-[#DC2626] tabular-nums">-PKR {shift.deductions.toLocaleString()}</span>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-[#5B6370] block">Tips</span>
+                          <span className="font-medium text-[#2D6A4F] tabular-nums">+PKR {shift.tipsAmount || 0}</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
       )}
 
@@ -265,20 +323,20 @@ export default function EarningsPage() {
           aria-modal="true"
           aria-labelledby="manual-shift-title"
         >
-          <div className="bg-white rounded-xl border border-[#E1E4EA] max-w-md w-full p-6 shadow-sm">
+          <div className="bg-white rounded-xl border border-[#E1E4EA] max-w-md w-full p-4 sm:p-6 shadow-sm max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-[#E1E4EA] mb-4">
               <h2 id="manual-shift-title" className="text-base font-semibold text-[#22252A] tracking-tight">Log shift</h2>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1.5 text-[#5B6370] hover:text-[#22252A] rounded-md transition-colors focus-ring"
+                className="w-10 h-10 -mr-2 text-[#5B6370] hover:text-[#22252A] rounded-lg transition-colors focus-ring flex items-center justify-center"
                 aria-label="Close dialog"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleAddShift} className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Platform</label>
                   <select
@@ -420,7 +478,7 @@ export default function EarningsPage() {
           aria-modal="true"
           aria-labelledby="csv-modal-title"
         >
-          <div className="bg-white rounded-xl border border-[#E1E4EA] max-w-lg w-full p-6 shadow-sm">
+          <div className="bg-white rounded-xl border border-[#E1E4EA] max-w-lg w-full p-4 sm:p-6 shadow-sm max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-[#E1E4EA] mb-4">
               <div className="flex items-center gap-2">
                 <FileSpreadsheet className="w-4 h-4 text-[#2D6A4F]" aria-hidden="true" />
@@ -428,10 +486,10 @@ export default function EarningsPage() {
               </div>
               <button
                 onClick={() => setIsCsvModalOpen(false)}
-                className="p-1.5 text-[#5B6370] hover:text-[#22252A] rounded-md transition-colors focus-ring"
+                className="w-10 h-10 -mr-2 text-[#5B6370] hover:text-[#22252A] rounded-lg transition-colors focus-ring flex items-center justify-center"
                 aria-label="Close dialog"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 

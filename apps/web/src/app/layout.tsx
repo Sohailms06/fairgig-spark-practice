@@ -48,9 +48,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
       </head>
-      <body className="min-h-screen bg-[#FAF9F5] text-[#22252A] antialiased">
+      <body className="min-h-screen bg-[#FAF9F5] text-[#22252A] antialiased w-full max-w-full overflow-x-hidden">
         <AuthProvider>
           <PwaRegister />
           {children}

@@ -97,13 +97,14 @@ export default function CommissionsPage() {
       )}
 
       {/* Visual Recharts Bar Comparison: Average vs Median */}
-      <div className="card-subtle p-6 mb-8">
+      {/* Visual Recharts Bar Comparison: Average vs Median */}
+      <div className="card-subtle p-4 sm:p-6 mb-8 min-w-0 overflow-hidden">
         <div className="mb-4">
           <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Platform take-rate comparison</h3>
           <p className="text-xs text-[#5B6370]">Average vs. median commission percentage across platforms</p>
         </div>
 
-        <div className="h-64 w-full">
+        <div className="h-56 sm:h-64 w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={commissions} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#E1E4EA" vertical={false} />
@@ -132,13 +133,14 @@ export default function CommissionsPage() {
       </div>
 
       {/* Comprehensive Commission Table */}
-      <div className="card-subtle p-6">
+      <div className="card-subtle p-4 sm:p-6 min-w-0">
         <div className="mb-4">
           <h3 className="text-base font-semibold text-[#22252A] tracking-tight">Commission ledger</h3>
           <p className="text-xs text-[#5B6370]">Deduction ratios across delivery and rideshare platforms</p>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto min-w-0">
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="bg-[#FAF9F5] border-b border-[#E1E4EA] text-[#5B6370] text-xs font-medium">
@@ -176,6 +178,47 @@ export default function CommissionsPage() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Stacked Cards View */}
+        <div className="block md:hidden divide-y divide-[#E1E4EA]">
+          {commissions.map((c) => (
+            <div key={c.platform} className="p-4 hover:bg-[#FAF9F5] transition-colors space-y-2.5">
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-semibold text-sm text-[#22252A] capitalize">{c.platformName || c.platform}</span>
+                <span
+                  className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-md border ${
+                    c.trendDirection === 'increasing'
+                      ? 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/20'
+                      : 'bg-[#2D6A4F]/10 text-[#2D6A4F] border-[#2D6A4F]/20'
+                  }`}
+                >
+                  {c.trendDirection === 'increasing' ? (
+                    <TrendingUp className="w-3 h-3" aria-hidden="true" />
+                  ) : (
+                    <TrendingDown className="w-3 h-3" aria-hidden="true" />
+                  )}
+                  <span className="capitalize">{c.trendDirection}</span>
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 pt-1">
+                <div>
+                  <span className="text-xs text-[#5B6370] block">Average take-rate</span>
+                  <span className="text-lg font-semibold text-[#22252A] tabular-nums">{c.averageDeductionPercentage}%</span>
+                </div>
+                <div>
+                  <span className="text-xs text-[#5B6370] block">Median cut</span>
+                  <span className="text-lg font-semibold text-[#5B6370] tabular-nums">{c.medianDeductionPercentage}%</span>
+                </div>
+              </div>
+
+              <div className="text-xs text-[#5B6370] pt-1 border-t border-[#E1E4EA] flex items-center justify-between">
+                <span>{c.shiftCount} shifts sampled</span>
+                <span>{c.workerCount} drivers</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </AppShell>

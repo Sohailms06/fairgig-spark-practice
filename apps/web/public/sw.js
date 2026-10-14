@@ -11,7 +11,7 @@
  * - Only versioned, public static assets (icons, manifest, offline UI) are cached.
  */
 
-const CACHE_NAME = 'fairgig-pwa-v1';
+const CACHE_NAME = 'fairgig-pwa-v2';
 
 const STATIC_PRECACHE = [
   '/offline',

@@ -55,7 +55,7 @@ export default function CertificatesPage() {
             </h2>
 
             <form onSubmit={handleGenerate} className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Start date</label>
                   <input
@@ -63,7 +63,7 @@ export default function CertificatesPage() {
                     required
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                    className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
 
@@ -74,7 +74,7 @@ export default function CertificatesPage() {
                     required
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                    className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
               </div>
@@ -84,7 +84,7 @@ export default function CertificatesPage() {
                 <select
                   value={purpose}
                   onChange={(e) => setPurpose(e.target.value)}
-                  className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                  className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                 >
                   <option value="housing_rental">Housing / Apartment rental</option>
                   <option value="loan_application">Bank loan / Credit facility</option>
@@ -101,7 +101,7 @@ export default function CertificatesPage() {
                   value={recipientName}
                   onChange={(e) => setRecipientName(e.target.value)}
                   placeholder="e.g. Bank of Punjab"
-                  className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                  className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                 />
               </div>
 
@@ -113,7 +113,7 @@ export default function CertificatesPage() {
                 type="submit"
                 disabled={isGenerating}
                 aria-busy={isGenerating}
-                className="focus-ring w-full py-2.5 px-4 bg-[#1B4332] text-white text-sm font-medium rounded-lg hover:bg-[#2D6A4F] transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                className="focus-ring w-full py-2.5 px-4 bg-[#1B4332] text-white text-sm font-medium rounded-lg hover:bg-[#2D6A4F] transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 min-h-[44px]"
               >
                 {isGenerating ? (
                   <>
@@ -131,7 +131,7 @@ export default function CertificatesPage() {
         {/* Certificate Preview Card */}
         <div className="lg:col-span-2 space-y-6">
           {currentCert ? (
-            <div className="card-subtle p-6 bg-white border border-[#E1E4EA] relative animate-modal-enter">
+            <div className="card-subtle p-4 sm:p-6 bg-white border border-[#E1E4EA] relative animate-modal-enter min-w-0">
               {/* Certificate Header */}
               <div className="flex flex-wrap items-start justify-between gap-4 pb-4 border-b border-[#E1E4EA] mb-4">
                 <div>
@@ -144,7 +144,7 @@ export default function CertificatesPage() {
                   </div>
                 </div>
 
-                <div className="text-right">
+                <div className="text-left sm:text-right">
                   <span className="font-mono text-xs font-semibold text-[#22252A] bg-[#FAF9F5] border border-[#E1E4EA] px-2.5 py-1 rounded-md">
                     {currentCert.certificateNumber}
                   </span>
@@ -173,23 +173,23 @@ export default function CertificatesPage() {
               </div>
 
               {/* Cryptographic Signature & Verification URL */}
-              <div className="p-3.5 bg-white border border-[#E1E4EA] rounded-xl text-xs space-y-2 mb-5">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="font-medium text-[#22252A]">Ledger signature:</span>
-                  <span className="font-mono text-xs text-[#5B6370] truncate max-w-xs bg-[#FAF9F5] px-2 py-0.5 rounded border border-[#E1E4EA]">
+              <div className="p-3.5 bg-white border border-[#E1E4EA] rounded-xl text-xs space-y-2 mb-5 min-w-0">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                  <span className="font-medium text-[#22252A] shrink-0">Ledger signature:</span>
+                  <span className="font-mono text-xs text-[#5B6370] break-all bg-[#FAF9F5] px-2 py-0.5 rounded border border-[#E1E4EA]">
                     {currentCert.cryptographicSignature}
                   </span>
                 </div>
-                <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#E1E4EA]">
-                  <span className="font-medium text-[#22252A]">Verification link:</span>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pt-2 border-t border-[#E1E4EA]">
+                  <span className="font-medium text-[#22252A] shrink-0">Verification link:</span>
                   <a
                     href={currentCert.publicVerificationUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-xs text-[#2563EB] hover:underline flex items-center gap-1 font-mono"
+                    className="text-xs text-[#2563EB] hover:underline flex items-center gap-1 font-mono break-all"
                   >
-                    <span>Inspect verification</span>
-                    <ExternalLink className="w-3 h-3" aria-hidden="true" />
+                    <span className="break-all">{currentCert.publicVerificationUrl}</span>
+                    <ExternalLink className="w-3 h-3 shrink-0" aria-hidden="true" />
                   </a>
                 </div>
               </div>

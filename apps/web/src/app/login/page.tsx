@@ -105,7 +105,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="worker@fairgig.pk"
-                  className="focus-ring w-full pl-9 pr-3 py-2 text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
+                  className="focus-ring w-full pl-9 pr-3 py-2.5 text-base sm:text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
                 />
               </div>
             </div>
@@ -115,14 +115,14 @@ export default function LoginPage() {
                 Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-[#5B6370] absolute left-3 top-3" aria-hidden="true" />
+                <Lock className="w-4 h-4 text-[#5B6370] absolute left-3 top-3.5" aria-hidden="true" />
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="focus-ring w-full pl-9 pr-3 py-2 text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
+                  className="focus-ring w-full pl-9 pr-3 py-2.5 text-base sm:text-sm border border-[#E1E4EA] rounded-lg transition-colors bg-white text-[#22252A]"
                 />
               </div>
             </div>
@@ -131,7 +131,7 @@ export default function LoginPage() {
               type="submit"
               disabled={isSubmitting}
               aria-busy={isSubmitting}
-              className="focus-ring w-full py-2.5 px-4 bg-[#1B4332] hover:bg-[#2D6A4F] text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-50"
+              className="focus-ring w-full py-2.5 px-4 bg-[#1B4332] hover:bg-[#2D6A4F] text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-50 min-h-[44px]"
             >
               {isSubmitting ? (
                 <>

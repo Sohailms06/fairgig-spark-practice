@@ -195,15 +195,15 @@ export default function WorkerGrievancesPage() {
           aria-modal="true"
           aria-labelledby="grievance-modal-title"
         >
-          <div className="bg-white rounded-xl border border-[#E1E4EA] max-w-lg w-full p-6 shadow-sm">
+          <div className="bg-white rounded-xl border border-[#E1E4EA] max-w-md w-full p-4 sm:p-6 shadow-sm max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-[#E1E4EA] mb-4">
               <h2 id="grievance-modal-title" className="text-base font-semibold text-[#22252A] tracking-tight">File grievance</h2>
               <button
                 onClick={() => setIsSubmitModalOpen(false)}
-                className="p-1.5 text-[#5B6370] hover:text-[#22252A] rounded-md transition-colors focus-ring"
+                className="w-10 h-10 -mr-2 text-[#5B6370] hover:text-[#22252A] rounded-lg transition-colors focus-ring flex items-center justify-center"
                 aria-label="Close dialog"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
@@ -216,17 +216,17 @@ export default function WorkerGrievancesPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. Unexplained 25% surge fee deduction"
-                  className="focus-ring w-full text-sm p-2.5 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                  className="focus-ring w-full text-base sm:text-sm p-2.5 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Platform</label>
                   <select
                     value={platform}
                     onChange={(e) => setPlatform(e.target.value)}
-                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                    className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   >
                     <option value="careem">Careem</option>
                     <option value="indrive">inDrive</option>
@@ -241,7 +241,7 @@ export default function WorkerGrievancesPage() {
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                    className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   >
                     <option value="unexplained_deduction">Unexplained deduction</option>
                     <option value="fare_underpayment">Fare underpayment</option>
@@ -252,7 +252,7 @@ export default function WorkerGrievancesPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-medium text-[#5B6370] mb-1.5">Claimed underpayment (PKR)</label>
                   <input
@@ -261,7 +261,7 @@ export default function WorkerGrievancesPage() {
                     required
                     value={claimedLoss}
                     onChange={(e) => setClaimedLoss(e.target.value)}
-                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                    className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   />
                 </div>
 
@@ -270,7 +270,7 @@ export default function WorkerGrievancesPage() {
                   <select
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
-                    className="focus-ring w-full text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                    className="focus-ring w-full text-base sm:text-sm p-2 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                   >
                     <option value="medium">Medium</option>
                     <option value="high">High</option>

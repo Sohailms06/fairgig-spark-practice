@@ -132,65 +132,117 @@ export default function AdvocateDashboardPage() {
         {loading ? (
           <TableSkeleton rows={4} cols={7} />
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="bg-[#FAF9F5] border-b border-[#E1E4EA] text-[#5B6370] text-xs font-medium">
-                  <th className="py-3 px-4 font-medium">Platform</th>
-                  <th className="py-3 px-4 font-medium">City / Zone</th>
-                  <th className="py-3 px-4 text-center font-medium">Sample size</th>
-                  <th className="py-3 px-4 text-center font-medium">Privacy status</th>
-                  <th className="py-3 px-4 text-right font-medium">Avg hourly rate</th>
-                  <th className="py-3 px-4 text-right font-medium">Avg fee cut</th>
-                  <th className="py-3 px-4 text-right font-medium">Discrepancy rate</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#E1E4EA]">
-                {overview?.platformComparison?.map((c: any, idx: number) => (
-                  <tr key={idx} className="hover:bg-[#F3F3F0]/60 transition-colors">
-                    <td className="py-3.5 px-4 font-medium text-[#22252A] capitalize">{c.platform}</td>
-                    <td className="py-3.5 px-4 text-[#5B6370]">{c.cityName || 'Lahore'}</td>
-                    <td className="py-3.5 px-4 text-center font-medium text-[#22252A] tabular-nums">{c.workerSampleCount} workers</td>
-                    <td className="py-3.5 px-4 text-center">
-                      {c.isSuppressedForPrivacy ? (
-                        <span
-                          className="px-2 py-0.5 rounded-md text-xs font-medium bg-[#F3F3F0] text-[#5B6370] border border-[#E1E4EA]"
-                          title="Suppressed because sample size n < 5"
-                        >
-                          Suppressed (n &lt; 5)
-                        </span>
-                      ) : (
-                        <span className="px-2 py-0.5 rounded-md text-xs font-medium bg-[#2D6A4F]/10 text-[#2D6A4F] border border-[#2D6A4F]/20">
-                          Disclosed
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-3.5 px-4 text-right font-medium tabular-nums text-[#22252A]">
-                      {c.isSuppressedForPrivacy ? (
-                        <span className="text-[#5B6370] italic font-mono">&mdash;</span>
-                      ) : (
-                        `PKR ${c.averageHourlyRate?.toFixed(0)}/hr`
-                      )}
-                    </td>
-                    <td className="py-3.5 px-4 text-right font-medium tabular-nums text-[#22252A]">
-                      {c.isSuppressedForPrivacy ? (
-                        <span className="text-[#5B6370] italic font-mono">&mdash;</span>
-                      ) : (
-                        `${c.averageDeductionPercentage?.toFixed(1)}%`
-                      )}
-                    </td>
-                    <td className="py-3.5 px-4 text-right font-medium tabular-nums text-[#22252A]">
-                      {c.isSuppressedForPrivacy ? (
-                        <span className="text-[#5B6370] italic font-mono">&mdash;</span>
-                      ) : (
-                        `${(c.discrepancyRate * 100).toFixed(1)}%`
-                      )}
-                    </td>
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto min-w-0">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="bg-[#FAF9F5] border-b border-[#E1E4EA] text-[#5B6370] text-xs font-medium">
+                    <th className="py-3 px-4 font-medium">Platform</th>
+                    <th className="py-3 px-4 font-medium">City / Zone</th>
+                    <th className="py-3 px-4 text-center font-medium">Sample size</th>
+                    <th className="py-3 px-4 text-center font-medium">Privacy status</th>
+                    <th className="py-3 px-4 text-right font-medium">Avg hourly rate</th>
+                    <th className="py-3 px-4 text-right font-medium">Avg fee cut</th>
+                    <th className="py-3 px-4 text-right font-medium">Discrepancy rate</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-[#E1E4EA]">
+                  {overview?.platformComparison?.map((c: any, idx: number) => (
+                    <tr key={idx} className="hover:bg-[#F3F3F0]/60 transition-colors">
+                      <td className="py-3.5 px-4 font-medium text-[#22252A] capitalize">{c.platform}</td>
+                      <td className="py-3.5 px-4 text-[#5B6370]">{c.cityName || 'Lahore'}</td>
+                      <td className="py-3.5 px-4 text-center font-medium text-[#22252A] tabular-nums">{c.workerSampleCount} workers</td>
+                      <td className="py-3.5 px-4 text-center">
+                        {c.isSuppressedForPrivacy ? (
+                          <span
+                            className="px-2 py-0.5 rounded-md text-xs font-medium bg-[#F3F3F0] text-[#5B6370] border border-[#E1E4EA]"
+                            title="Suppressed because sample size n < 5"
+                          >
+                            Suppressed (n &lt; 5)
+                          </span>
+                        ) : (
+                          <span className="px-2 py-0.5 rounded-md text-xs font-medium bg-[#2D6A4F]/10 text-[#2D6A4F] border border-[#2D6A4F]/20">
+                            Disclosed
+                          </span>
+                        )}
+                      </td>
+                      <td className="py-3.5 px-4 text-right font-medium tabular-nums text-[#22252A]">
+                        {c.isSuppressedForPrivacy ? (
+                          <span className="text-[#5B6370] italic font-mono">&mdash;</span>
+                        ) : (
+                          `PKR ${c.averageHourlyRate?.toFixed(0)}/hr`
+                        )}
+                      </td>
+                      <td className="py-3.5 px-4 text-right font-medium tabular-nums text-[#22252A]">
+                        {c.isSuppressedForPrivacy ? (
+                          <span className="text-[#5B6370] italic font-mono">&mdash;</span>
+                        ) : (
+                          `${c.averageDeductionPercentage?.toFixed(1)}%`
+                        )}
+                      </td>
+                      <td className="py-3.5 px-4 text-right font-medium tabular-nums text-[#22252A]">
+                        {c.isSuppressedForPrivacy ? (
+                          <span className="text-[#5B6370] italic font-mono">&mdash;</span>
+                        ) : (
+                          `${(c.discrepancyRate * 100).toFixed(1)}%`
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Stacked Cards View */}
+            <div className="block md:hidden divide-y divide-[#E1E4EA]">
+              {overview?.platformComparison?.map((c: any, idx: number) => (
+                <div key={idx} className="p-4 hover:bg-[#FAF9F5] transition-colors space-y-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-sm text-[#22252A] capitalize">{c.platform}</span>
+                      <span className="text-xs text-[#5B6370]">&bull;</span>
+                      <span className="text-xs text-[#5B6370]">{c.cityName || 'Lahore'}</span>
+                    </div>
+                    {c.isSuppressedForPrivacy ? (
+                      <span className="px-2 py-0.5 rounded-md text-xs font-medium bg-[#F3F3F0] text-[#5B6370] border border-[#E1E4EA]">
+                        Suppressed (n &lt; 5)
+                      </span>
+                    ) : (
+                      <span className="px-2 py-0.5 rounded-md text-xs font-medium bg-[#2D6A4F]/10 text-[#2D6A4F] border border-[#2D6A4F]/20">
+                        Disclosed
+                      </span>
+                    )}
+                  </div>
+
+                  {c.isSuppressedForPrivacy ? (
+                    <div className="text-xs text-[#5B6370] italic py-1">
+                      Data suppressed for privacy ({c.workerSampleCount} workers &lt; 5 threshold)
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-3 gap-2 pt-1 text-xs">
+                      <div>
+                        <span className="text-[#5B6370] block">Hourly rate</span>
+                        <span className="font-semibold text-[#22252A] tabular-nums">PKR {c.averageHourlyRate?.toFixed(0)}/hr</span>
+                      </div>
+                      <div>
+                        <span className="text-[#5B6370] block">Avg cut</span>
+                        <span className="font-semibold text-[#D97706] tabular-nums">{c.averageDeductionPercentage?.toFixed(1)}%</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-[#5B6370] block">Discrepancy</span>
+                        <span className="font-semibold text-[#DC2626] tabular-nums">{(c.discrepancyRate * 100).toFixed(1)}%</span>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="text-xs text-[#5B6370] pt-1">
+                    Sample size: <span className="font-medium text-[#22252A] tabular-nums">{c.workerSampleCount} workers</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 

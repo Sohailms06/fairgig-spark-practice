@@ -154,7 +154,7 @@ export default function VerifierQueuePage() {
               </div>
 
               {/* Financial Comparison Grid */}
-              <div className="grid grid-cols-3 gap-3 p-4 bg-[#FAF9F5] rounded-xl border border-[#E1E4EA]">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-[#FAF9F5] rounded-xl border border-[#E1E4EA]">
                 <div>
                   <div className="text-xs font-medium text-[#5B6370]">Reported gross</div>
                   <div className="text-base font-semibold text-[#22252A] mt-0.5 tabular-nums">PKR {selectedItem.grossAmount}</div>
@@ -189,7 +189,7 @@ export default function VerifierQueuePage() {
               {/* Evidence Display Card */}
               <div>
                 <div className="text-xs font-medium text-[#5B6370] uppercase tracking-wider mb-2">Evidence inspection</div>
-                <div className="p-6 border border-dashed border-[#E1E4EA] rounded-xl bg-[#FAF9F5] text-center">
+                <div className="p-4 sm:p-6 border border-dashed border-[#E1E4EA] rounded-xl bg-[#FAF9F5] text-center">
                   <div className="w-10 h-10 rounded-lg bg-white border border-[#E1E4EA] flex items-center justify-center mx-auto mb-2 text-[#1B4332]">
                     <FileText className="w-5 h-5" aria-hidden="true" />
                   </div>
@@ -210,22 +210,22 @@ export default function VerifierQueuePage() {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="e.g. Screenshot timestamps match logged hours; deductions verified."
-                  className="focus-ring w-full text-sm p-2.5 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
+                  className="focus-ring w-full text-base sm:text-sm p-2.5 border border-[#E1E4EA] rounded-lg bg-white text-[#22252A]"
                 />
               </div>
 
               {/* Decision Actions Bar */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#E1E4EA]">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t border-[#E1E4EA]">
                 <div className="text-xs text-[#5B6370]">
                   Decisions are recorded in the audit log.
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                   <button
                     onClick={() => handleDecision('flag_discrepancy')}
                     disabled={isSubmitting}
                     aria-busy={isSubmitting}
-                    className="focus-ring px-3.5 py-2 bg-[#D97706] text-white rounded-lg text-xs font-medium hover:bg-[#B45309] transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    className="focus-ring px-3.5 py-2.5 bg-[#D97706] text-white rounded-lg text-xs font-medium hover:bg-[#B45309] transition-colors flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 min-h-[44px]"
                   >
                     <AlertTriangle className="w-3.5 h-3.5" aria-hidden="true" />
                     <span>Flag discrepancy</span>
@@ -234,7 +234,7 @@ export default function VerifierQueuePage() {
                     onClick={() => handleDecision('mark_unverifiable')}
                     disabled={isSubmitting}
                     aria-busy={isSubmitting}
-                    className="focus-ring px-3.5 py-2 border border-[#DC2626]/30 text-[#DC2626] rounded-lg text-xs font-medium hover:bg-[#DC2626]/5 transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    className="focus-ring px-3.5 py-2.5 border border-[#DC2626]/30 text-[#DC2626] rounded-lg text-xs font-medium hover:bg-[#DC2626]/5 transition-colors flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 min-h-[44px]"
                   >
                     <XCircle className="w-3.5 h-3.5" aria-hidden="true" />
                     <span>Unverifiable</span>
@@ -243,7 +243,7 @@ export default function VerifierQueuePage() {
                     onClick={() => handleDecision('approve')}
                     disabled={isSubmitting}
                     aria-busy={isSubmitting}
-                    className="focus-ring px-4 py-2 bg-[#1B4332] text-white rounded-lg text-xs font-medium hover:bg-[#2D6A4F] transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    className="focus-ring px-4 py-2.5 bg-[#1B4332] text-white rounded-lg text-xs font-medium hover:bg-[#2D6A4F] transition-colors flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 min-h-[44px]"
                   >
                     {isSubmitting ? (
                       <Loader2 className="w-3.5 h-3.5 animate-spin" />
