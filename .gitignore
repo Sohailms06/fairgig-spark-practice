@@ -47,6 +47,9 @@ wheels/
 *.key
 *.cert
 *.pfx
+*.db
+*.sqlite
+*.sqlite3
 
 # Logs
 logs
