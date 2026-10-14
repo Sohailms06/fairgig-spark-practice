@@ -1,0 +1,142 @@
+# ==============================================================================
+# FAIRGIG PLATFORM — RENDER BLUEPRINT DEPLOYMENT SPECIFICATION (render.yaml)
+# ==============================================================================
+# Production-ready infrastructure blueprint deploying all six FairGig backend
+# microservices on Render Web Services connecting to Supabase Cloud PostgreSQL.
+#
+# Selected Plan: free
+# Limitations of Free Plan on Render:
+# - Services spin down automatically after 15 minutes of inactivity (cold start ~30-50s).
+# - 512 MB RAM, 0.1 vCPU per service instance.
+# - 750 free instance hours shared monthly across all free services on an account.
+# ==============================================================================
+
+version: "1"
+
+# Shared Environment Variable Group for Centralized Credentials
+envVarGroups:
+  - name: fairgig-shared-secrets
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: FRONTEND_URL
+        sync: false
+
+services:
+  # ----------------------------------------------------------------------------
+  # 1. AUTHENTICATION SERVICE (Python FastAPI :8001)
+  # ----------------------------------------------------------------------------
+  - type: web
+    name: fairgig-auth
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r services/auth/requirements.txt
+    startCommand: uvicorn services.auth.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - fromGroup: fairgig-shared-secrets
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "15"
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: "30"
+      - key: PYTHON_VERSION
+        value: 3.11.9
+
+  # ----------------------------------------------------------------------------
+  # 2. EARNINGS & EVIDENCE SERVICE (Python FastAPI :8002)
+  # ----------------------------------------------------------------------------
+  - type: web
+    name: fairgig-earnings
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r services/earnings/requirements.txt
+    startCommand: uvicorn services.earnings.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - fromGroup: fairgig-shared-secrets
+      - key: SUPABASE_STORAGE_BUCKET_EVIDENCE
+        value: evidence-private
+      - key: PYTHON_VERSION
+        value: 3.11.9
+
+  # ----------------------------------------------------------------------------
+  # 3. ANOMALY DETECTION ENGINE (Python FastAPI :8003)
+  # ----------------------------------------------------------------------------
+  - type: web
+    name: fairgig-anomaly
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r services/anomaly/requirements.txt
+    startCommand: uvicorn services.anomaly.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - fromGroup: fairgig-shared-secrets
+      - key: PYTHON_VERSION
+        value: 3.11.9
+
+  # ----------------------------------------------------------------------------
+  # 4. WORKER & ADVOCATE ANALYTICS SERVICE (Python FastAPI :8004)
+  # ----------------------------------------------------------------------------
+  - type: web
+    name: fairgig-analytics
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r services/analytics/requirements.txt
+    startCommand: uvicorn services.analytics.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - fromGroup: fairgig-shared-secrets
+      - key: MIN_K_ANONYMITY_GROUP_SIZE
+        value: "5"
+      - key: PYTHON_VERSION
+        value: 3.11.9
+
+  # ----------------------------------------------------------------------------
+  # 5. GRIEVANCE & CLUSTERING SERVICE (Node.js Express :4001)
+  # ----------------------------------------------------------------------------
+  - type: web
+    name: fairgig-grievance
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build:contracts && npm run build:grievance
+    startCommand: node services/grievance/dist/index.js
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - fromGroup: fairgig-shared-secrets
+      - key: NODE_VERSION
+        value: 20.12.2
+
+  # ----------------------------------------------------------------------------
+  # 6. VERIFIABLE INCOME CERTIFICATE SERVICE (Node.js Express :4002)
+  # ----------------------------------------------------------------------------
+  - type: web
+    name: fairgig-certificate
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build:contracts && npm run build:certificate
+    startCommand: node services/certificate/dist/index.js
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - fromGroup: fairgig-shared-secrets
+      - key: NODE_VERSION
+        value: 20.12.2
